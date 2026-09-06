@@ -25,9 +25,17 @@ export function App() {
   const [showExitModal, setShowExitModal] = useState(false);
   const pendingTabRef = useRef<TabType | null>(null);
 
-  // Sync zoom
+  // Sync zoom / UI scale
   useEffect(() => {
-    (document.documentElement.style as any).zoom = `${currentZoom / 100}`;
+    // Clear buggy CSS zoom property
+    (document.documentElement.style as any).zoom = '';
+
+    const scaleFactor = currentZoom / 100;
+    document.documentElement.style.setProperty('--ui-scale', scaleFactor.toString());
+
+    const clampedScale = Math.min(1.3, Math.max(0.85, scaleFactor));
+    document.documentElement.style.setProperty('--ui-scale-clamped', clampedScale.toString());
+
     localStorage.setItem('omega_zoom', currentZoom.toString());
   }, [currentZoom]);
 
