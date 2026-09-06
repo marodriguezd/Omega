@@ -1,0 +1,9 @@
+packages:
+  - 'Bubble-Breathing'
+  - 'Hydrocicle'
+
+allowBuilds:
+  esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild

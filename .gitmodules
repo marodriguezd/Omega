@@ -1,0 +1,6 @@
+[submodule "Bubble-Breathing"]
+	path = Bubble-Breathing
+	url = https://github.com/marodriguezd/Bubble-Breathing.git
+[submodule "Hydrocicle"]
+	path = Hydrocicle
+	url = https://github.com/marodriguezd/Hydrocicle.git
