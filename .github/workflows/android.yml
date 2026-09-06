@@ -88,7 +88,7 @@ jobs:
             echo "title=Omega Android ${{ github.ref_name }}" >> $GITHUB_OUTPUT
           else
             echo "tag=latest" >> $GITHUB_OUTPUT
-            echo "title=Omega Android (Última versión)" >> $GITHUB_OUTPUT
+            echo "title=Omega Android (Latest Version)" >> $GITHUB_OUTPUT
           fi
 
       - name: Create or Update GitHub Release
@@ -97,25 +97,27 @@ jobs:
           tag_name: ${{ steps.release_info.outputs.tag }}
           name: ${{ steps.release_info.outputs.title }}
           body: |
-            ## 📱 Omega - Hub de Bienestar para Android
+            ## 📱 Omega - Wellness Hub for Android
             
-            Archivo APK compilado listo para descargar e instalar en tu teléfono o tableta Android.
+            Pre-compiled Android APK ready to download and install directly on your Android phone or tablet.
 
-            ### 📥 Descarga del APK
-            Descarga directamente el archivo adjunto:
+            ### 📥 Direct APK Download
+            Download the attached APK file directly:
             👉 **[Omega.apk](https://github.com/${{ github.repository }}/releases/download/${{ steps.release_info.outputs.tag }}/Omega.apk)**
             
-            ### 🚀 Instrucciones de instalación
-            1. Descarga `Omega.apk` en tu dispositivo Android.
-            2. Pulsa en el archivo descargado para instalarlo (si Android te pide permiso, activa "Permitir desde esta fuente").
-            3. ¡Abre Omega y disfruta de tu rutina combinada!
+            ### 🚀 Installation Instructions
+            1. Download `Omega.apk` to your Android device.
+            2. Tap the downloaded file to install it (if prompted by Android, enable "Allow from this source" for your browser).
+            3. Open Omega and enjoy your unified wellness routine!
 
-            ### ✨ Características
-            - **Bubble Breathing**: Ejercicios guiados de respiración profunda y apnea consciente (método Wim Hof).
-            - **HydroCycle**: Temporizador guiado de contraste calor-frío e inmersión en agua fría.
-            - **Dashboard Unificado**: Métricas combinadas, racha activa y objetivos de bienestar diarios.
-            - **Pantalla Activa (Keep Awake)**: La pantalla permanece encendida durante toda la sesión.
-            - **Navegación Móvil Integrada**: Barra inferior fluida y soporte para el botón Atrás nativo.
+            ### ✨ Features
+            - **Bubble Breathing**: Guided deep breathing and conscious breath-holding cycles (Wim Hof inspired).
+            - **HydroCycle**: Guided contrast therapy (hot/cold intervals) and cold water exposure timer.
+            - **Unified Wellness Dashboard**: Combined active streak, daily habits checklist, and aggregated metrics.
+            - **Screen Keep Awake**: Keeps your screen awake during breathing exercises and shower sessions.
+            - **Zoom & Interface Scaling**: Browser-like zoom control (80% to 220%, with 150% recommended preset) + pinch-to-zoom support.
+            - **Fluid Mobile Navigation**: Fixed bottom navigation bar with Android hardware back button handling.
+            - **Multilingual Support**: Fully translated into 7 languages (English, Spanish, French, German, Italian, Portuguese, and Simplified Chinese).
           files: build-output/Omega.apk
           draft: false
           prerelease: false
