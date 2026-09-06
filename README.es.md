@@ -51,7 +51,7 @@ Puedes descargar el archivo APK precompilado directamente desde GitHub Releases:
 - **Navegación Móvil Fluida**: Barra inferior fija (*BottomNav*) para alternar sin recargas entre el Hub, Bubble Breathing e HydroCycle.
 - **Pantalla Activa (*Keep Awake*)**: Mantiene la pantalla encendida automáticamente durante las fases de apnea y bajo la ducha para evitar bloqueos del dispositivo.
 - **Botón Atrás de Android**: Gestión nativa del botón y gesto de retroceso con modal de confirmación si hay un ejercicio en progreso.
-- **Diseño Glassmorphism**: Estética moderna tipo cristal con degradados animados y soporte completo para **Modo Oscuro** y **Modo Claro**.
+- **Zoom y Escala de la Interfaz**: Control de zoom idéntico al navegador (de 80% a 220%, con preajuste recomendado al 150%) + soporte para zoom gestual (pinch-to-zoom), recordando tu preferencia en cada inicio.
 - **Multilingüe (7 idiomas)**: Sincronizado en todo el hub en español, inglés, francés, alemán, italiano, portugués y chino simplificado.
 
 ---

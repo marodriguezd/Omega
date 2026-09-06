@@ -10,9 +10,11 @@ import {
   Moon, 
   Clock, 
   Activity,
-  Timer
+  Timer,
+  ZoomIn
 } from 'lucide-react';
 import { useOmegaStats, formatTimeSeconds } from '../hooks/useOmegaStats';
+import { ZoomModal } from './ZoomModal';
 
 interface DashboardProps {
   onNavigate: (tab: 'breathing' | 'hydro') => void;
@@ -21,6 +23,8 @@ interface DashboardProps {
   onLanguageChange: (lang: string) => void;
   currentTheme: string;
   onThemeToggle: () => void;
+  currentZoom: number;
+  onZoomChange: (zoom: number) => void;
 }
 
 const LANGUAGES = [
@@ -40,9 +44,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
   onLanguageChange,
   currentTheme,
   onThemeToggle,
+  currentZoom,
+  onZoomChange,
 }) => {
   const { stats } = useOmegaStats();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
+  const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
 
   const activeLang = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[0];
 
@@ -59,6 +66,16 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         <div className="hub-header-actions">
+          {/* Zoom selector button */}
+          <button
+            className="hub-icon-btn"
+            onClick={() => setIsZoomModalOpen(true)}
+            title={langDict.zoomLabel || 'Escala / Zoom'}
+            style={{ position: 'relative' }}
+          >
+            <ZoomIn size={18} />
+          </button>
+
           {/* Language selector */}
           <div className="lang-container" style={{ position: 'relative' }}>
             <button
@@ -210,6 +227,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
+      {/* Zoom / Scale Quick Card */}
+      <div className="zoom-quick-card" onClick={() => setIsZoomModalOpen(true)}>
+        <div className="zoom-quick-left">
+          <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
+            <ZoomIn size={18} />
+          </div>
+          <div>
+            <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
+              {langDict.zoomLabel || 'Escala / Zoom'}
+            </div>
+            <div style={{ fontSize: '0.74rem', color: 'var(--color-muted)' }}>
+              {currentZoom}% {currentZoom === 150 ? '★ Recomendado' : ''}
+            </div>
+          </div>
+        </div>
+        <div className="zoom-quick-badge">
+          {currentZoom}%
+        </div>
+      </div>
+
       {/* Aggregate Metrics */}
       <div className="metrics-grid">
         <div className="metric-box">
@@ -298,6 +335,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         )}
       </div>
+
+      {/* Zoom Configuration Modal */}
+      <ZoomModal
+        isOpen={isZoomModalOpen}
+        currentZoom={currentZoom}
+        onZoomChange={onZoomChange}
+        onClose={() => setIsZoomModalOpen(false)}
+        langDict={langDict}
+      />
     </div>
   );
 };

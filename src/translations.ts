@@ -33,6 +33,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "Tienes un ejercicio en curso. ¿Deseas cancelarlo y volver al Hub?",
     confirmExitBtn: "Salir",
     cancelBtn: "Continuar",
+    zoomLabel: "Escala / Zoom",
+    zoomDesc: "Ajusta el tamaño visual de la aplicación.",
+    zoomReset: "Restablecer",
+    zoomClose: "Listo",
   },
   en: {
     omegaTitle: "Omega",
@@ -66,6 +70,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "You have an ongoing session. Do you want to cancel and return to the Hub?",
     confirmExitBtn: "Leave",
     cancelBtn: "Continue",
+    zoomLabel: "Scale / Zoom",
+    zoomDesc: "Adjust the visual size of the application.",
+    zoomReset: "Reset",
+    zoomClose: "Done",
   },
   fr: {
     omegaTitle: "Omega",
@@ -99,6 +107,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "Un exercice est en cours. Voulez-vous annuler et revenir au Hub ?",
     confirmExitBtn: "Quitter",
     cancelBtn: "Continuer",
+    zoomLabel: "Échelle / Zoom",
+    zoomDesc: "Ajustez la taille visuelle de l'application.",
+    zoomReset: "Réinitialiser",
+    zoomClose: "Terminé",
   },
   de: {
     omegaTitle: "Omega",
@@ -132,6 +144,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "Eine Übung läuft derzeit. Möchtest du sie abbrechen und zum Hub zurückkehren?",
     confirmExitBtn: "Beenden",
     cancelBtn: "Fortsetzen",
+    zoomLabel: "Skalierung / Zoom",
+    zoomDesc: "Passe die visuelle Größe der App an.",
+    zoomReset: "Zurücksetzen",
+    zoomClose: "Fertig",
   },
   it: {
     omegaTitle: "Omega",
@@ -165,6 +181,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "C'è un esercizio in corso. Vuoi annullare e tornare all'Hub?",
     confirmExitBtn: "Esci",
     cancelBtn: "Continua",
+    zoomLabel: "Scala / Zoom",
+    zoomDesc: "Regola la dimensione visiva dell'applicazione.",
+    zoomReset: "Ripristina",
+    zoomClose: "Fatto",
   },
   pt: {
     omegaTitle: "Omega",
@@ -198,6 +218,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "Você tem um exercício em andamento. Deseja cancelar e voltar ao Hub?",
     confirmExitBtn: "Sair",
     cancelBtn: "Continuar",
+    zoomLabel: "Escala / Zoom",
+    zoomDesc: "Ajuste o tamanho visual do aplicativo.",
+    zoomReset: "Redefinir",
+    zoomClose: "Pronto",
   },
   zh: {
     omegaTitle: "Omega",
@@ -231,6 +255,10 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     confirmExitMsg: "当前练习仍在进行中，确定要取消并返回首页吗？",
     confirmExitBtn: "退出",
     cancelBtn: "继续",
+    zoomLabel: "缩放 / 大小",
+    zoomDesc: "调整应用程序的显示大小。",
+    zoomReset: "重置",
+    zoomClose: "完成",
   }
 };
 

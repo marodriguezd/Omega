@@ -18,8 +18,18 @@ export function App() {
   const [currentTheme, setCurrentTheme] = useState<string>(() => {
     return localStorage.getItem('omega_theme') || 'dark';
   });
+  const [currentZoom, setCurrentZoom] = useState<number>(() => {
+    const saved = localStorage.getItem('omega_zoom');
+    return saved ? Number(saved) : 100;
+  });
   const [showExitModal, setShowExitModal] = useState(false);
   const pendingTabRef = useRef<TabType | null>(null);
+
+  // Sync zoom
+  useEffect(() => {
+    (document.documentElement.style as any).zoom = `${currentZoom / 100}`;
+    localStorage.setItem('omega_zoom', currentZoom.toString());
+  }, [currentZoom]);
 
   // Initialize and merge translations
   useEffect(() => {
@@ -158,6 +168,8 @@ export function App() {
           onLanguageChange={handleLanguageChange}
           currentTheme={currentTheme}
           onThemeToggle={toggleTheme}
+          currentZoom={currentZoom}
+          onZoomChange={setCurrentZoom}
         />
       </div>
 

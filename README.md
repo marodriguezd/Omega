@@ -51,7 +51,7 @@ You can download the pre-compiled Android APK directly from GitHub Releases:
 - **Fluid Mobile Navigation**: Fixed bottom navigation bar (*BottomNav*) for zero-reload switching between the Hub, Bubble Breathing, and HydroCycle.
 - **Screen Keep Awake**: Keeps your mobile display active during breath-hold phases and shower sessions so your screen never turns off mid-exercise.
 - **Hardware Back Button Handling**: Native Android back gesture / button integration with an exit-confirmation modal when a session is in progress.
-- **Glassmorphic UI Design**: Elegant glass-like aesthetics with animated gradient backgrounds, supporting both **Dark Mode** and **Light Mode**.
+- **Zoom & Interface Scaling**: Browser-like zoom control (from 80% to 220%, with 150% recommended preset) + pinch-to-zoom support, persisting your preference across restarts.
 - **Multilingual Support (7 Languages)**: Synchronized across the entire hub in English, Spanish, French, German, Italian, Portuguese, and Simplified Chinese.
 
 ---

@@ -590,3 +590,178 @@ html[data-theme="light"] .nav-tab.active {
   border: 1px solid var(--color-glass-border);
   color: var(--color-text);
 }
+
+/* Zoom Modal & Controls */
+.zoom-modal-content {
+  max-width: 380px;
+  text-align: left;
+}
+
+.zoom-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+.zoom-modal-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(76, 161, 175, 0.2);
+  color: #4ca1af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.zoom-display-badge {
+  text-align: center;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-glass-border);
+  margin-bottom: 1.25rem;
+}
+
+.zoom-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.02em;
+}
+
+.zoom-stepper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.zoom-step-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--color-glass-white);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.zoom-step-btn:active:not(:disabled) {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.zoom-step-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.zoom-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #4ca1af;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(76, 161, 175, 0.5);
+  border: 2px solid #fff;
+}
+
+.zoom-presets {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.zoom-preset-btn {
+  padding: 0.55rem 0.2rem;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  position: relative;
+}
+
+.zoom-preset-btn.active {
+  background: #4ca1af;
+  border-color: #4ca1af;
+  color: white;
+  box-shadow: 0 4px 12px rgba(76, 161, 175, 0.4);
+}
+
+.zoom-preset-btn.recommended:not(.active) {
+  border-color: rgba(255, 157, 0, 0.5);
+  background: rgba(255, 157, 0, 0.1);
+}
+
+.zoom-preset-star {
+  color: #ff9d00;
+  font-size: 0.65rem;
+}
+
+.zoom-preset-btn.active .zoom-preset-star {
+  color: white;
+}
+
+/* Dashboard Zoom Quick Card */
+.zoom-quick-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 1.25rem;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 1.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.zoom-quick-card:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.zoom-quick-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.zoom-quick-badge {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 20px;
+  background: rgba(76, 161, 175, 0.2);
+  color: #4ca1af;
+  border: 1px solid rgba(76, 161, 175, 0.3);
+}
+
