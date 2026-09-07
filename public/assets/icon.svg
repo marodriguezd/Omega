@@ -1,30 +1,98 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3a7d7a"/>
-      <stop offset="100%" stop-color="#1e403f"/>
+    <!-- Background Gradient -->
+    <linearGradient id="omega-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#030712"/>
     </linearGradient>
-    <linearGradient id="bubble" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#e0f7f6" stop-opacity="0.2"/>
+
+    <!-- Energy Field / Ambient Glow -->
+    <radialGradient id="ambient-glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+      <stop offset="40%" stop-color="#818cf8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Omega Left (Breath / Cold / Air Flow) -->
+    <linearGradient id="omega-grad-left" x1="0%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="40%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="12" result="blur"/>
+
+    <!-- Omega Right (Heat / Contrast / Energy) -->
+    <linearGradient id="omega-grad-right" x1="100%" y1="100%" x2="50%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="45%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+
+    <!-- Omega Master Flow Gradient -->
+    <linearGradient id="omega-flow" x1="15%" y1="85%" x2="85%" y2="85%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="25%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="75%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <!-- Inner Core Droplet / Breath Pearl -->
+    <radialGradient id="core-glow" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="30%" stop-color="#67e8f9" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#6366f1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+    </radialGradient>
+
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
+
+    <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#000000" flood-opacity="0.65"/>
+    </filter>
   </defs>
 
-  <!-- Maskable background -->
-  <rect width="512" height="512" fill="url(#bg)"/>
-  
-  <!-- Hexagon outline (matches app aesthetic) -->
-  <polygon points="256,106 386,181 386,331 256,406 126,331 126,181" 
-           fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="16" stroke-linejoin="round"/>
-           
-  <!-- Inner breathing bubble with glow -->
-  <circle cx="256" cy="256" r="95" fill="url(#bubble)" filter="url(#glow)"/>
-  <circle cx="290" cy="220" r="25" fill="#ffffff" opacity="0.5" filter="url(#glow)"/>
+  <!-- Background Canvas -->
+  <rect width="512" height="512" rx="112" fill="url(#omega-bg)"/>
+  <rect width="512" height="512" rx="112" fill="url(#ambient-glow)"/>
+
+  <!-- Subtle Outer Hexagon Ring (Connecting Hub Roots) -->
+  <polygon points="256,70 417,163 417,349 256,442 95,349 95,163" 
+           fill="none" stroke="rgba(255, 255, 255, 0.06)" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- Main Omega Glyph Path -->
+  <!-- Left foot: 110,380 to 180,380 -> curve up to loop -> arch around 256,120 -> curve down -> right foot: 332,380 to 402,380 -->
+  <g filter="url(#soft-shadow)">
+    <!-- Outer Glow Underlay -->
+    <path d="M 108 382 L 182 382 C 218 382 208 306 186 266 C 162 222 176 138 256 138 C 336 138 350 222 326 266 C 304 306 294 382 330 382 L 404 382"
+          fill="none" stroke="url(#omega-flow)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"
+          filter="url(#glow)" opacity="0.55"/>
+
+    <!-- Main Crisp Ribbon -->
+    <path d="M 108 382 L 182 382 C 218 382 208 306 186 266 C 162 222 176 138 256 138 C 336 138 350 222 326 266 C 304 306 294 382 330 382 L 404 382"
+          fill="none" stroke="url(#omega-flow)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- Highlight Reflection on Apex -->
+    <path d="M 205 158 C 220 144 237 138 256 138 C 275 138 292 144 307 158"
+          fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.75"/>
+  </g>
+
+  <!-- Central Breath Core / Contrast Droplet -->
+  <g filter="url(#soft-shadow)">
+    <!-- Pulse Ring -->
+    <circle cx="256" cy="248" r="48" fill="none" stroke="rgba(56, 189, 248, 0.35)" stroke-width="3" stroke-dasharray="4 4"/>
+    
+    <!-- Luminous Energy Sphere -->
+    <circle cx="256" cy="248" r="34" fill="url(#core-glow)" filter="url(#glow)"/>
+    
+    <!-- Specular Highlight -->
+    <circle cx="246" cy="238" r="9" fill="#ffffff" opacity="0.85"/>
+    <circle cx="264" cy="256" r="4" fill="#ffffff" opacity="0.5"/>
+  </g>
 </svg>

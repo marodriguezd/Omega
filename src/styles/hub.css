@@ -3,6 +3,8 @@
 :root {
   --ui-scale: 1;
   --ui-scale-clamped: 1;
+  --bottom-nav-base-height: 58px;
+  --bottom-nav-height: calc(var(--bottom-nav-base-height) + env(safe-area-inset-bottom, 0px));
 }
 
 /* Dynamic root font-size scaling: drives all rem units smoothly */
@@ -20,9 +22,18 @@ body {
   padding: 0;
 }
 
-/* Master App Container: 100% viewport height flex column */
+#root {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Master App Container: flex column filling 100% viewport */
 .omega-app {
   width: 100vw;
+  height: 100%;
   height: 100dvh;
   position: relative;
   overflow: hidden;
@@ -30,15 +41,18 @@ body {
   flex-direction: column;
 }
 
-/* Main Viewport Area: fills everything between top and bottom nav */
+/* Main Viewport Area: strictly bounded above the bottom nav */
 .omega-view {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0; /* Crucial for nested scrollable children */
+  max-height: calc(100dvh - var(--bottom-nav-height));
+  height: calc(100dvh - var(--bottom-nav-height));
   width: 100%;
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 }
 
 .omega-view.hidden {
@@ -47,14 +61,19 @@ body {
 
 /* Sub-app container override: takes full view height, doesn't hardcode 100dvh */
 .omega-view .container {
-  flex: 1 !important;
+  flex: 1 1 auto !important;
   min-height: 0 !important;
+  max-height: 100% !important;
   height: 100% !important;
+  width: 100% !important;
   max-width: 480px !important;
   margin: 0 auto !important;
   display: flex !important;
   flex-direction: column !important;
   overflow: hidden !important;
+  box-sizing: border-box !important;
+  border-radius: 0 !important;
+  border-bottom: none !important;
 }
 
 /* Sub-app header override: convert from absolute collision layout to safe flex row */
@@ -62,11 +81,11 @@ body {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  padding: 0.6rem 0.85rem !important;
-  padding-top: calc(0.6rem + env(safe-area-inset-top, 0px)) !important;
+  padding: 0.5rem 0.85rem !important;
+  padding-top: calc(0.5rem + env(safe-area-inset-top, 0px)) !important;
   position: relative !important;
   flex-shrink: 0 !important;
-  min-height: calc(3.4rem * var(--ui-scale-clamped, 1)) !important;
+  min-height: calc(3.2rem * var(--ui-scale-clamped, 1)) !important;
   box-sizing: border-box !important;
 }
 
@@ -108,65 +127,159 @@ body {
   border: none !important;
 }
 
-/* Sub-app screens: flex scroll container that never clips or overlaps */
+/* Eliminate phantom flex pseudo-elements that cause overflow bugs in sub-apps */
+.omega-view .screen.active::before,
+.omega-view .screen.active::after {
+  display: none !important;
+  content: none !important;
+  margin: 0 !important;
+  flex: 0 0 0 !important;
+}
+
+/* Sub-app screens: flex container bounded strictly above the bottom bar */
 .omega-view .screen {
-  flex: 1 !important;
+  flex: 1 1 auto !important;
   min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
-  padding: 0.85rem 1rem 1.5rem !important;
+  padding: 0.5rem 1rem clamp(0.75rem, 2vh, 1.5rem) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
-  justify-content: flex-start !important;
-  gap: clamp(0.4rem, 2vh, 1.2rem) !important;
+  justify-content: space-between !important;
+  gap: clamp(0.25rem, 1.3vh, 0.75rem) !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }
 
-/* Hexagon responsive adaptation under zoom */
+/* Active exercise screens: single viewport fit, auto-balanced */
+.omega-view #exerciseScreen,
+.omega-view #retentionScreen,
+.omega-view #recoveryScreen {
+  justify-content: space-evenly !important;
+}
+
+/* Scrollable views: pad bottom so content never reaches behind or touches bottom nav */
+.omega-view #configScreen,
+.omega-view #statsScreen,
+.omega-view #resultsScreen {
+  justify-content: flex-start !important;
+  padding-bottom: clamp(1.5rem, 4vh, 2.5rem) !important;
+}
+
+/* Hexagon responsive adaptation under zoom & small viewport heights */
 .omega-view .hexagon-container {
-  margin: clamp(0.4rem, 1.5vh, 1.5rem) auto !important;
-  flex-shrink: 0 !important;
+  margin: clamp(0.2rem, 1vh, 0.8rem) auto !important;
+  flex-shrink: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .omega-view .hexagon {
-  max-width: min(9.375rem, 45vw) !important;
-  max-height: min(8.125rem, 28vh) !important;
-  width: clamp(6.5rem, 24vmin, 9.375rem) !important;
-  height: clamp(5.6rem, 21vmin, 8.125rem) !important;
+  max-width: min(8.5rem, 40vw) !important;
+  max-height: min(7.5rem, 24vh) !important;
+  width: clamp(5.2rem, 18vmin, 8.5rem) !important;
+  height: clamp(4.5rem, 15.6vmin, 7.5rem) !important;
+  flex-shrink: 1 !important;
 }
 
 .omega-view .breath-counter {
-  font-size: clamp(1.8rem, 7vmin, 3rem) !important;
+  font-size: clamp(1.5rem, 5.5vmin, 2.4rem) !important;
 }
 
 .omega-view .round-info {
-  font-size: clamp(0.85rem, 3.5vmin, 1.1rem) !important;
-  margin-bottom: 0.2rem !important;
+  font-size: clamp(0.82rem, 3.2vmin, 1.05rem) !important;
+  margin-bottom: 0.1rem !important;
+  flex-shrink: 0 !important;
 }
 
 .omega-view .instruction {
-  font-size: clamp(0.95rem, 4vmin, 1.25rem) !important;
-  margin-bottom: 0.2rem !important;
+  font-size: clamp(0.9rem, 3.8vmin, 1.2rem) !important;
+  margin-bottom: 0.1rem !important;
+  flex-shrink: 0 !important;
 }
 
 .omega-view .timer-display {
-  font-size: clamp(2rem, 8vmin, 3.2rem) !important;
+  font-size: clamp(1.8rem, 7vmin, 2.8rem) !important;
+  flex-shrink: 0 !important;
 }
 
-/* Dashboard View: fills available space and scrolls smoothly */
+/* Footers & Buttons in sub-apps */
+.omega-view .exercise-footer,
+.omega-view .timer-footer {
+  min-height: auto !important;
+  height: auto !important;
+  padding: clamp(0.25rem, 1vh, 0.6rem) 0 !important;
+  margin-top: auto !important;
+  flex-shrink: 0 !important;
+  gap: 0.35rem !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.omega-view .skip-button,
+.omega-view .start-button {
+  padding: clamp(0.55rem, 1.4vh, 0.85rem) clamp(1.2rem, 4vw, 2rem) !important;
+  font-size: clamp(0.85rem, calc(0.95rem * var(--ui-scale-clamped, 1)), 1.15rem) !important;
+  min-height: clamp(2.3rem, 4.8vh, 2.9rem) !important;
+}
+
+.omega-view .config-buttons {
+  margin-top: auto !important;
+  padding: 0.5rem 0 !important;
+  flex-shrink: 0 !important;
+  width: 100% !important;
+  gap: 0.5rem !important;
+}
+
+.omega-view .speed-selector,
+.omega-view .preset-selector {
+  margin: clamp(0.2rem, 0.8vh, 0.5rem) 0 !important;
+  gap: clamp(0.2rem, 1vw, 0.5rem) !important;
+  flex-shrink: 0 !important;
+}
+
+.omega-view .speed-btn,
+.omega-view .preset-btn {
+  padding: clamp(0.35rem, 1vh, 0.6rem) clamp(0.4rem, 1.2vw, 0.75rem) !important;
+  min-height: clamp(2rem, 4vh, 2.5rem) !important;
+}
+
+.omega-view .soundscape-grid {
+  gap: clamp(0.3rem, 1vh, 0.55rem) !important;
+  margin: 0.35rem 0 !important;
+}
+
+.omega-view .controls-panel {
+  margin-top: clamp(0.25rem, 1vh, 0.65rem) !important;
+  gap: clamp(0.4rem, 1.5vw, 0.85rem) !important;
+  flex-shrink: 0 !important;
+}
+
+.omega-view .control-btn {
+  width: clamp(2.6rem, 6vh, 3.4rem) !important;
+  height: clamp(2.6rem, 6vh, 3.4rem) !important;
+}
+
+/* Dashboard View: fills available space above bottom nav and scrolls smoothly */
 .hub-dashboard {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: 0;
+  max-height: 100%;
+  height: 100%;
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  padding: 0.85rem 1rem 1.75rem;
+  padding: 0.75rem 1rem clamp(1.5rem, 4vh, 2.5rem);
   color: var(--color-text);
   box-sizing: border-box;
 }
@@ -621,22 +734,22 @@ body {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  height: calc(56px + env(safe-area-inset-bottom, 0px));
+  height: var(--bottom-nav-height);
+  min-height: var(--bottom-nav-height);
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: rgba(15, 32, 39, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: #0b1318;
   border-top: 1px solid var(--color-glass-border);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: space-around;
-  z-index: 100;
+  z-index: 1000;
   box-sizing: border-box;
 }
 
 html[data-theme="light"] .bottom-nav {
-  background: rgba(224, 234, 252, 0.92);
+  background: #edf2f7;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
 }
 
