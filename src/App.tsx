@@ -61,6 +61,8 @@ export function App() {
       hCfg.theme = currentTheme;
       localStorage.setItem('hydrocicleConfig', JSON.stringify(hCfg));
     } catch (e) {}
+
+    window.dispatchEvent(new CustomEvent('omega-sync'));
   }, [currentTheme]);
 
   // Sync language
@@ -79,6 +81,24 @@ export function App() {
       hCfg.language = lang;
       localStorage.setItem('hydrocicleConfig', JSON.stringify(hCfg));
     } catch (e) {}
+
+    window.dispatchEvent(new CustomEvent('omega-sync'));
+  }, []);
+
+  // Listen for sync events from sub-apps
+  useEffect(() => {
+    const handleSubappSync = (e: any) => {
+      if (e.detail?.language) {
+        setCurrentLang(e.detail.language);
+      }
+      if (e.detail?.theme) {
+        setCurrentTheme(e.detail.theme);
+      }
+    };
+    window.addEventListener('subapp-sync', handleSubappSync);
+    return () => {
+      window.removeEventListener('subapp-sync', handleSubappSync);
+    };
   }, []);
 
   const toggleTheme = useCallback(() => {

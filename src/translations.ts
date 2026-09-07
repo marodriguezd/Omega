@@ -265,17 +265,23 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
 declare global {
   interface Window {
     translations?: Record<string, Record<string, string>>;
+    bubbleTranslations?: Record<string, Record<string, string>>;
+    hydroTranslations?: Record<string, Record<string, string>>;
   }
 }
 
 // Function to initialize and merge all translations safely
 export function initAllTranslations() {
   const current = window.translations || {};
+  const bubble = window.bubbleTranslations || {};
+  const hydro = window.hydroTranslations || {};
   const langs = ['es', 'en', 'fr', 'de', 'it', 'pt', 'zh'];
   const merged: Record<string, Record<string, string>> = {};
 
   langs.forEach(lang => {
     merged[lang] = {
+      ...(bubble[lang] || {}),
+      ...(hydro[lang] || {}),
       ...(current[lang] || {}),
       ...(HUB_TRANSLATIONS[lang] || HUB_TRANSLATIONS['es'])
     };
