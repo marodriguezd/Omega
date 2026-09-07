@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <clipPath id="circle-clip">
+      <circle cx="256" cy="256" r="256"/>
+    </clipPath>
+    <linearGradient id="omega-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#030712"/>
+    </linearGradient>
+    <radialGradient id="ambient-glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.22"/>
+      <stop offset="40%" stop-color="#818cf8" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="omega-flow" x1="15%" y1="85%" x2="85%" y2="85%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="25%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="75%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <radialGradient id="core-glow" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="30%" stop-color="#67e8f9" stop-opacity="0.8"/>
+      <stop offset="70%" stop-color="#6366f1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0.2"/>
+    </radialGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="14" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g clip-path="url(#circle-clip)">
+    <rect width="512" height="512" fill="url(#omega-bg)"/>
+    <rect width="512" height="512" fill="url(#ambient-glow)"/>
+    <path d="M 108 382 L 182 382 C 218 382 208 306 186 266 C 162 222 176 138 256 138 C 336 138 350 222 326 266 C 304 306 294 382 330 382 L 404 382"
+          fill="none" stroke="url(#omega-flow)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"
+          filter="url(#glow)" opacity="0.55"/>
+    <path d="M 108 382 L 182 382 C 218 382 208 306 186 266 C 162 222 176 138 256 138 C 336 138 350 222 326 266 C 304 306 294 382 330 382 L 404 382"
+          fill="none" stroke="url(#omega-flow)" stroke-width="36" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 205 158 C 220 144 237 138 256 138 C 275 138 292 144 307 158"
+          fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.75"/>
+    <circle cx="256" cy="248" r="34" fill="url(#core-glow)" filter="url(#glow)"/>
+    <circle cx="246" cy="238" r="9" fill="#ffffff" opacity="0.85"/>
+  </g>
+</svg>

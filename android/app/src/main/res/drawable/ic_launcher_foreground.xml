@@ -1,0 +1,67 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Ambient Radial Glow -->
+    <path
+        android:pathData="M54,18 A36,36 0 1 0 54,90 A36,36 0 1 0 54,18 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="54"
+                android:centerY="50"
+                android:gradientRadius="38"
+                android:type="radial">
+                <item android:color="#3338BDF8" android:offset="0.0" />
+                <item android:color="#000F172A" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Main Omega Ribbon with Gradient -->
+    <path
+        android:pathData="M23,80.5 L38.5,80.5 C46,80.5 43.8,64.5 39.2,56 C34.2,46.8 37.1,29.1 54,29.1 C70.9,29.1 73.8,46.8 68.8,56 C64.2,64.5 62,80.5 69.5,80.5 L85,80.5"
+        android:strokeWidth="7.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round">
+        <aapt:attr name="android:strokeColor">
+            <gradient
+                android:startX="23"
+                android:startY="80"
+                android:endX="85"
+                android:endY="80"
+                android:type="linear">
+                <item android:color="#0284C7" android:offset="0.0" />
+                <item android:color="#06B6D4" android:offset="0.25" />
+                <item android:color="#818CF8" android:offset="0.55" />
+                <item android:color="#F97316" android:offset="0.85" />
+                <item android:color="#F59E0B" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Highlight Reflection on Apex -->
+    <path
+        android:pathData="M43.5,33.3 C46.5,30.3 50.1,29.1 54,29.1 C57.9,29.1 61.5,30.3 64.5,33.3"
+        android:strokeColor="#80FFFFFF"
+        android:strokeWidth="1.8"
+        android:strokeLineCap="round" />
+
+    <!-- Central Breath & Contrast Core -->
+    <path
+        android:pathData="M54,45 A7.2,7.2 0 1 0 54,59.4 A7.2,7.2 0 1 0 54,45 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="52"
+                android:centerY="50"
+                android:gradientRadius="7.5"
+                android:type="radial">
+                <item android:color="#FFFFFF" android:offset="0.0" />
+                <item android:color="#67E8F9" android:offset="0.5" />
+                <item android:color="#6366F1" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>
