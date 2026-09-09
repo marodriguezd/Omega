@@ -71,13 +71,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
             className="hub-icon-btn"
             onClick={() => setIsZoomModalOpen(true)}
             title={langDict.zoomLabel || 'Escala / Zoom'}
-            style={{ position: 'relative' }}
           >
             <ZoomIn size={18} />
           </button>
 
           {/* Language selector */}
-          <div className="lang-container" style={{ position: 'relative' }}>
+          <div className="hub-lang-container">
             <button
               className="hub-icon-btn"
               onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}

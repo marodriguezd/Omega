@@ -33,7 +33,7 @@ export function App() {
     const scaleFactor = currentZoom / 100;
     document.documentElement.style.setProperty('--ui-scale', scaleFactor.toString());
 
-    const clampedScale = Math.min(1.3, Math.max(0.85, scaleFactor));
+    const clampedScale = Math.min(2.2, Math.max(0.8, scaleFactor));
     document.documentElement.style.setProperty('--ui-scale-clamped', clampedScale.toString());
 
     localStorage.setItem('omega_zoom', currentZoom.toString());
