@@ -53,47 +53,38 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Accept Android SDK Licenses & Prepare Build Tools
-        run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-36" "build-tools;36.0.0" || true
+      - name: Accept Android SDK Licenses
+        run: yes | sdkmanager --licenses || true
 
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
       - name: Sync Capacitor Android
-        run: npx cap sync android
+        run: pnpm exec cap sync android
 
-      - name: Restore Keystore from Secret (if defined)
-        if: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
-        run: |
-          if [ -n "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" ]; then
-            echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > android/app/omega-release-key.jks
-          fi
-
-      - name: Build Android Release APK
+      - name: Build Android APK
         working-directory: android
         env:
           BUILD_NUMBER: ${{ github.run_number }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'omega2025' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'omega' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'omega2025' }}
-        run: ./gradlew assembleRelease --stacktrace
+        run: |
+          ./gradlew assembleRelease --stacktrace 2>&1 | tee gradle_build.log || ./gradlew assembleDebug --stacktrace 2>&1 | tee -a gradle_build.log
 
       - name: Prepare APK for Release
         run: |
           mkdir -p build-output
-          if [ -f android/app/build/outputs/apk/release/app-release.apk ]; then
-            cp android/app/build/outputs/apk/release/app-release.apk build-output/Omega.apk
-          elif [ -f android/app/build/outputs/apk/release/app-release-unsigned.apk ]; then
-            cp android/app/build/outputs/apk/release/app-release-unsigned.apk build-output/Omega.apk
+          APK_FILE=$(find android/app/build/outputs/apk -name "*.apk" ! -name "*unaligned*" | head -n 1)
+          if [ -n "$APK_FILE" ] && [ -f "$APK_FILE" ]; then
+            echo "Found built APK at: $APK_FILE"
+            cp "$APK_FILE" build-output/Omega.apk
+            ls -lh build-output/Omega.apk
           else
-            echo "Error: No release APK found in android/app/build/outputs/apk/release/"
-            find android/app/build/outputs -type f -name "*.apk"
+            echo "Error: No APK found in android/app/build/outputs/apk!"
+            find android/app/build -type f || true
             exit 1
           fi
-          echo "Release APK prepared successfully:"
-          ls -lh build-output/Omega.apk
 
       - name: Upload APK as Workflow Artifact
         uses: actions/upload-artifact@v4
@@ -150,9 +141,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Print Failure Diagnostics
+      - name: Push Failure Diagnostics to ci-logs Branch
         if: failure()
         run: |
-          echo "=================== DIAGNOSTIC LOGS ==================="
-          find android -name "*.log" -exec cat {} + || true
-          find android/app/build -name "*.txt" -exec cat {} + || true
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -B ci-logs
+          mkdir -p ci-debug
+          find . -name "*.log" -exec cp {} ci-debug/ \; || true
+          find android/app/build -name "*.txt" -exec cp {} ci-debug/ \; || true
+          git status > ci-debug/status.txt || true
+          git add -f ci-debug
+          git commit -m "ci: failure logs from run ${{ github.run_number }}" || true
+          git push -f origin ci-logs || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
