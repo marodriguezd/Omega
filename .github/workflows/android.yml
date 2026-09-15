@@ -115,9 +115,9 @@ jobs:
           tag_name: ${{ steps.release_info.outputs.tag }}
           name: ${{ steps.release_info.outputs.title }}
           body: |
-            ## 🌌 Omega v1.1.0 — Unified Wellness Hub
+            ## 🌌 Omega v1.2.0 — Unified Wellness Hub (Wim Hof Orange Hexagons Edition)
             
-            Major release featuring a complete interface redesign inspired by **Android 17 / Material Design (Google I/O 2026)**, tactile glassmorphism, Wim Hof Method aesthetics, ultra-fluid 90Hz/120Hz GPU-accelerated performance, responsive desktop layout, and dual compilation for Android and PC.
+            Release featuring the faithfully restored iconic **orange hexagon geometry** and vibrant Wim Hof Method aesthetics across Bubble Breathing, alongside Android 17 glassmorphism, 90Hz/120Hz GPU performance, responsive desktop layout, and dual Android/PC build capability.
 
             ### 📥 Direct APK Download
             Download the attached pre-compiled APK directly:
@@ -126,16 +126,18 @@ jobs:
             ### 🚀 Installation Instructions
             1. Download `Omega.apk` on your Android device.
             2. Tap the downloaded file to install (enable "Allow from this source" if prompted).
-            3. Open Omega and enjoy the ultra-smooth unified wellness experience!
+            3. Open Omega and enjoy the restored Wim Hof breathing experience!
 
-            ### ✨ What's New in v1.1.0
-            - 🎨 **Android 17 & Glassmorphism Design System**: Squircles, frosted glass with subtle border illumination, and organic glacier/volcanic basalt palette.
-            - ⚡ **90Hz / 120Hz (ProMotion) High-Refresh Optimization**: Pure GPU layer composition (`transform`, `opacity`, `will-change`), zero layout thrashing, and drift-free delta timers.
-            - 🖥️ **Adaptive Responsive Experience**: Ergonomic Bottom Navigation Bar on mobile (<768px) with 4-edge safe-areas; dynamic **Navigation Rail / Sidebar** and multi-column grid on desktop/PC (≥768px).
-            - 💻 **Cross-Platform PC & Electron Support**: Pre-configured Electron desktop integration (`npm run electron:dev`, `npm run electron:build`).
-            - 🌬️ **Bubble Breathing**: Rhythmic guided Wim Hof breathing with organic animated sphere, retention, and recovery phases.
-            - ❄️ **HydroCycle**: Cold/hot contrast shower interval timer with ambient soundscapes (ocean, rain, white noise).
-            - 🔒 **Native Services Universal Bridge**: Fault-tolerant Keep-Awake cascade (Electron IPC, Capacitor, Web WakeLock) and tactile haptics abstraction.
+            ### ✨ What's New in v1.2.0
+            - 🔶 **Restored Original Orange Hexagons**: Canonical 6-sided polygon clip-path geometry restored in Bubble Breathing exercise, retention, and recovery screens.
+            - 🔥 **Wim Hof Warm Amber/Orange Palette**: Dynamic gradient styling (`#ff9d00` / `#ff6b00`) with last-breath golden pulse and dedicated phase glows.
+            - 🎨 **Android 17 & Glassmorphism Design System**: Tactile frosted glass, luminous borders, and continuous squircles.
+            - ⚡ **90Hz / 120Hz (ProMotion) High-Refresh Optimization**: Pure GPU hardware layer composition (`transform`, `will-change`), zero layout thrashing, and drift-free delta timers.
+            - 🖥️ **Adaptive Responsive Experience**: Bottom Navigation on mobile (<768px); dynamic Navigation Rail and multi-column grid on desktop (≥768px).
+            - 💻 **Cross-Platform PC & Electron Support**: Pre-configured Electron desktop packaging (`npm run electron:build`).
+            - 🌬️ **Bubble Breathing**: Rhythmic guided Wim Hof breathing with restored geometry, apnea timer, and recovery phase.
+            - ❄️ **HydroCycle**: Hot/cold contrast shower interval timer with ambient soundscapes.
+            - 🔒 **Native Services Universal Bridge**: Fault-tolerant Keep-Awake cascade (Electron IPC, Capacitor, Web WakeLock) and tactile haptics.
           files: build-output/Omega.apk
           draft: false
           prerelease: false
