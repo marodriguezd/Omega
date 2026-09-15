@@ -53,9 +53,6 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Accept Android SDK Licenses
-        run: yes | sdkmanager --licenses || true
-
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
@@ -69,22 +66,14 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'omega2025' }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'omega' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'omega2025' }}
-        run: |
-          ./gradlew assembleRelease --stacktrace 2>&1 | tee gradle_build.log || ./gradlew assembleDebug --stacktrace 2>&1 | tee -a gradle_build.log
+        run: ./gradlew assembleDebug --stacktrace 2>&1 | tee gradle_build.log
 
       - name: Prepare APK for Release
         run: |
           mkdir -p build-output
-          APK_FILE=$(find android/app/build/outputs/apk -name "*.apk" ! -name "*unaligned*" | head -n 1)
-          if [ -n "$APK_FILE" ] && [ -f "$APK_FILE" ]; then
-            echo "Found built APK at: $APK_FILE"
-            cp "$APK_FILE" build-output/Omega.apk
-            ls -lh build-output/Omega.apk
-          else
-            echo "Error: No APK found in android/app/build/outputs/apk!"
-            find android/app/build -type f || true
-            exit 1
-          fi
+          cp android/app/build/outputs/apk/debug/app-debug.apk build-output/Omega.apk
+          echo "Release APK prepared successfully:"
+          ls -lh build-output/Omega.apk
 
       - name: Upload APK as Workflow Artifact
         uses: actions/upload-artifact@v4
