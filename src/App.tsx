@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { initAllTranslations, HUB_TRANSLATIONS } from './translations';
 import { BottomNav, TabType } from './components/BottomNav';
+import { NavigationRail } from './components/NavigationRail';
 import { Dashboard } from './components/Dashboard';
 import { ExitConfirmModal } from './components/ExitConfirmModal';
 import { enableKeepAwake, disableKeepAwake, registerBackButtonHandler } from './services/nativeService';
@@ -9,6 +10,8 @@ import BubbleBreathingApp from '../Bubble-Breathing/src/App';
 import HydrocicleApp from '../Hydrocicle/src/App';
 
 import './styles/hub.css';
+import './styles/responsive.css';
+import './styles/animations.css';
 
 export function App() {
   const [activeTab, setActiveTab] = useState<TabType>('hub');
@@ -20,8 +23,14 @@ export function App() {
   });
   const [currentZoom, setCurrentZoom] = useState<number>(() => {
     const saved = localStorage.getItem('omega_zoom');
-    return saved ? Number(saved) : 100;
+    if (!saved) return 100;
+    const parsed = Number(saved);
+    return Number.isFinite(parsed) ? Math.min(220, Math.max(80, parsed)) : 100;
   });
+  const handleZoomChange = (newZoom: number) => {
+    const clamped = Math.min(220, Math.max(80, newZoom));
+    setCurrentZoom(clamped);
+  };
   const [showExitModal, setShowExitModal] = useState(false);
   const pendingTabRef = useRef<TabType | null>(null);
 
@@ -85,6 +94,24 @@ export function App() {
     window.dispatchEvent(new CustomEvent('omega-sync'));
   }, []);
 
+  // Session state event tracker from sub-apps
+  const sessionStatesRef = useRef<{ bubble: boolean; hydro: boolean }>({
+    bubble: false,
+    hydro: false,
+  });
+
+  useEffect(() => {
+    const handleSessionState = (e: any) => {
+      if (e.detail?.app === 'bubble' || e.detail?.app === 'hydro') {
+        sessionStatesRef.current[e.detail.app as 'bubble' | 'hydro'] = Boolean(e.detail.active);
+      }
+    };
+    window.addEventListener('omega-session-state', handleSessionState as EventListener);
+    return () => {
+      window.removeEventListener('omega-session-state', handleSessionState as EventListener);
+    };
+  }, []);
+
   // Listen for sync events from sub-apps
   useEffect(() => {
     const handleSubappSync = (e: any) => {
@@ -93,6 +120,9 @@ export function App() {
       }
       if (e.detail?.theme) {
         setCurrentTheme(e.detail.theme);
+      }
+      if (e.detail?.type) {
+        window.dispatchEvent(new CustomEvent('omega-sync'));
       }
     };
     window.addEventListener('subapp-sync', handleSubappSync);
@@ -105,14 +135,20 @@ export function App() {
     setCurrentTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
-  // Check if a sub-app is in an active session (by inspecting DOM or active screens)
+  // Check if a sub-app is in an active session (by inspecting event bus and scoped DOM screens)
   const isSessionActive = useCallback((): boolean => {
     if (activeTab === 'breathing') {
-      const activeScreen = document.querySelector('#exerciseScreen, #retentionScreen, #recoveryScreen');
+      if (sessionStatesRef.current.bubble) return true;
+      const activeScreen = document.querySelector(
+        '.view-bubble #exerciseScreen.active, .view-bubble #exerciseScreen, .view-bubble #retentionScreen, .view-bubble #recoveryScreen, #exerciseScreen.active, #exerciseScreen, #retentionScreen, #recoveryScreen'
+      );
       return !!activeScreen;
     }
     if (activeTab === 'hydro') {
-      const showerScreen = document.querySelector('.shower-screen');
+      if (sessionStatesRef.current.hydro) return true;
+      const showerScreen = document.querySelector(
+        '.view-hydro #exerciseScreen.active, .view-hydro #exerciseScreen, .view-hydro .shower-screen, #exerciseScreen.active, .shower-screen'
+      );
       return !!showerScreen;
     }
     return false;
@@ -187,29 +223,50 @@ export function App() {
 
   return (
     <div className="omega-app">
-      {/* Tab: Hub / Dashboard */}
-      <div className={`omega-view ${activeTab === 'hub' ? '' : 'hidden'}`}>
-        <Dashboard
-          onNavigate={(tab) => setActiveTab(tab)}
-          langDict={langDict}
-          currentLang={currentLang}
-          onLanguageChange={handleLanguageChange}
-          currentTheme={currentTheme}
-          onThemeToggle={toggleTheme}
-          currentZoom={currentZoom}
-          onZoomChange={setCurrentZoom}
-        />
-      </div>
+      {/* Desktop Navigation Rail (>=768px) */}
+      <NavigationRail
+        activeTab={activeTab}
+        onSelectTab={handleSelectTab}
+        langDict={langDict}
+        currentTheme={currentTheme}
+        onThemeToggle={toggleTheme}
+      />
 
-      {/* Tab: Bubble-Breathing */}
-      <div className={`omega-view view-bubble ${activeTab === 'breathing' ? '' : 'hidden'}`}>
-        <BubbleBreathingApp />
-      </div>
+      {/* View Container with GPU-accelerated Cross-Fade */}
+      <main className="omega-views-container">
+        {/* Tab: Hub / Dashboard */}
+        <div 
+          className={`omega-view view-hub ${activeTab === 'hub' ? 'active' : 'hidden'}`}
+          aria-hidden={activeTab !== 'hub'}
+        >
+          <Dashboard
+            onNavigate={(tab) => setActiveTab(tab)}
+            langDict={langDict}
+            currentLang={currentLang}
+            onLanguageChange={handleLanguageChange}
+            currentTheme={currentTheme}
+            onThemeToggle={toggleTheme}
+            currentZoom={currentZoom}
+            onZoomChange={handleZoomChange}
+          />
+        </div>
 
-      {/* Tab: Hydrocicle */}
-      <div className={`omega-view view-hydro ${activeTab === 'hydro' ? '' : 'hidden'}`}>
-        <HydrocicleApp />
-      </div>
+        {/* Tab: Bubble-Breathing */}
+        <div 
+          className={`omega-view view-bubble ${activeTab === 'breathing' ? 'active' : 'hidden'}`}
+          aria-hidden={activeTab !== 'breathing'}
+        >
+          <BubbleBreathingApp />
+        </div>
+
+        {/* Tab: Hydrocicle */}
+        <div 
+          className={`omega-view view-hydro ${activeTab === 'hydro' ? 'active' : 'hidden'}`}
+          aria-hidden={activeTab !== 'hydro'}
+        >
+          <HydrocicleApp />
+        </div>
+      </main>
 
       {/* Bottom Navigation */}
       <BottomNav

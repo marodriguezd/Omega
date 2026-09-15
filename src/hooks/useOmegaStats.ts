@@ -163,7 +163,13 @@ export function useOmegaStats() {
   useEffect(() => {
     loadStats();
     window.addEventListener('storage', loadStats);
-    return () => window.removeEventListener('storage', loadStats);
+    window.addEventListener('omega-sync', loadStats);
+    window.addEventListener('subapp-sync', loadStats);
+    return () => {
+      window.removeEventListener('storage', loadStats);
+      window.removeEventListener('omega-sync', loadStats);
+      window.removeEventListener('subapp-sync', loadStats);
+    };
   }, [loadStats]);
 
   return { stats, refreshStats: loadStats };

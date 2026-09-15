@@ -1,4 +1,5 @@
 import React from 'react';
+import { useModalAnimation } from '../hooks/useModalAnimation';
 
 interface ExitConfirmModalProps {
   isOpen: boolean;
@@ -13,12 +14,22 @@ export const ExitConfirmModal: React.FC<ExitConfirmModalProps> = ({
   onCancel,
   langDict,
 }) => {
-  if (!isOpen) return null;
+  const { mounted, active } = useModalAnimation(isOpen, 200);
+
+  if (!mounted) return null;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h3 className="modal-title">{langDict.confirmExitTitle || '¿Salir de la sesión?'}</h3>
+    <div 
+      className={`modal-overlay ${active ? 'open active' : 'closing'}`}
+      onClick={onCancel}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="exit-modal-title"
+    >
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <h3 id="exit-modal-title" className="modal-title">
+          {langDict.confirmExitTitle || '¿Salir de la sesión?'}
+        </h3>
         <p className="modal-desc">
           {langDict.confirmExitMsg || 'Tienes un ejercicio en curso. Si sales ahora, se cancelará el progreso actual.'}
         </p>

@@ -1,0 +1,302 @@
+/**
+ * Omega 90Hz/120Hz GPU Performance & Transition System (Feature F3 & F4)
+ * Hardware-accelerated animations, view transitions, and modal lifecycles
+ */
+
+/* Hardware Compositor Layer Promotion */
+.gpu-layer {
+  will-change: transform, opacity;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.gpu-transform {
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.gpu-accelerated {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  perspective: 1000px;
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   1. High Refresh Rate Keyframes (90Hz / 120Hz)
+   ========================================================================== */
+
+/* HydroCycle shower pulsing keyframes */
+@keyframes hydroSpherePulse {
+  0%, 100% {
+    transform: scale(1.0) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes hydroHaloPulse {
+  0%, 100% {
+    transform: scale(1.0) translate3d(0, 0, 0);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.15) translate3d(0, 0, 0);
+    opacity: 0.85;
+  }
+}
+
+/* Modal enter/exit GPU keyframes */
+@keyframes omegaModalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+@keyframes omegaModalOut {
+  from {
+    opacity: 1;
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.94) translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes omegaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes omegaFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Flame streak animation with 3D translation */
+@keyframes flameBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.1) translate3d(0, 0, 0);
+  }
+}
+
+/* Submodule screen entry transition */
+@keyframes viewScreenEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 6px, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Bottom navigation active indicator transition */
+@keyframes tabIndicatorEnter {
+  from {
+    opacity: 0;
+    transform: scaleX(0.4);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+/* ==========================================================================
+   2. Zero-Reflow Progress Bar Primitives
+   ========================================================================== */
+.gpu-progress-bar {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.gpu-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: left center;
+  transform: scaleX(0) translate3d(0, 0, 0);
+  will-change: transform;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ==========================================================================
+   3. Tab & View Transitions
+   ========================================================================== */
+.omega-views-container {
+  flex: 1 1 auto;
+  position: relative;
+  width: 100%;
+  min-height: 0;
+  max-height: calc(100dvh - var(--bottom-nav-height));
+  height: calc(100dvh - var(--bottom-nav-height));
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.omega-view {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.985) translate3d(0, 6px, 0);
+  transition: opacity 220ms cubic-bezier(0.2, 0, 0, 1),
+              transform 220ms cubic-bezier(0.2, 0, 0, 1),
+              visibility 220ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: opacity, transform;
+  z-index: 1;
+}
+
+.omega-view.active,
+.omega-view:not(.hidden) {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: scale(1) translate3d(0, 0, 0);
+  transition: opacity 220ms cubic-bezier(0.2, 0, 0, 1),
+              transform 220ms cubic-bezier(0.2, 0, 0, 1);
+  z-index: 2;
+}
+
+.omega-view.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: scale(0.985) translate3d(0, 6px, 0) !important;
+  z-index: 1;
+}
+
+.omega-view .screen {
+  animation: viewScreenEnter 220ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  will-change: opacity, transform;
+}
+
+/* ==========================================================================
+   4. Modal Lifecycle Transitions (Enter / Exit)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 200ms cubic-bezier(0.2, 0, 0, 1),
+              visibility 200ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: opacity;
+}
+
+.modal-overlay.open,
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-overlay.closing {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: var(--color-bg-mid);
+  border: 1px solid var(--color-glass-border);
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  color: var(--color-text);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: scale(0.92) translate3d(0, 12px, 0);
+  transition: opacity 200ms cubic-bezier(0.2, 0, 0, 1),
+              transform 200ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, opacity;
+}
+
+.modal-overlay.open .modal-content,
+.modal-overlay.active .modal-content {
+  opacity: 1;
+  transform: scale(1) translate3d(0, 0, 0);
+}
+
+.modal-overlay.closing .modal-content {
+  opacity: 0;
+  transform: scale(0.94) translate3d(0, 8px, 0);
+}
+
+.nav-tab-indicator {
+  animation: tabIndicatorEnter 180ms cubic-bezier(0.2, 0, 0, 1);
+  will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   5. Accessibility: Respect Reduced Motion Preference
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .omega-view,
+  .modal-overlay,
+  .modal-content,
+  .nav-tab-indicator,
+  .omega-view .screen,
+  .streak-flame,
+  .breathing-sphere.pulsing,
+  .hexagon.pulsing {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

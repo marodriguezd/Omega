@@ -68,7 +68,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
         <div className="hub-header-actions">
           {/* Zoom selector button */}
           <button
-            className="hub-icon-btn"
+            className="hub-icon-btn zoom-btn"
             onClick={() => setIsZoomModalOpen(true)}
             title={langDict.zoomLabel || 'Escala / Zoom'}
           >
@@ -78,7 +78,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Language selector */}
           <div className="hub-lang-container">
             <button
-              className="hub-icon-btn"
+              className="hub-icon-btn lang-btn"
               onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
               title={langDict.langIndicator || 'Idioma'}
             >
@@ -112,7 +112,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
           {/* Theme toggle */}
           <button
-            className="hub-icon-btn"
+            className="hub-icon-btn theme-toggle-btn"
             onClick={onThemeToggle}
             title="Cambiar tema"
           >
@@ -121,8 +121,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </header>
 
-      {/* Active Streak Banner */}
-      <div className="glass-card streak-card">
+      {/* Dashboard Cards Multi-Column Grid */}
+      <div className="dashboard-grid hub-cards-grid">
+        {/* Primary Focus Column */}
+        <div className="dashboard-col dashboard-col-primary">
+          {/* Active Streak Banner */}
+          <div className="glass-card streak-card">
         <div className="streak-info">
           <div className="streak-flame">🔥</div>
           <div className="streak-text">
@@ -225,9 +229,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
           </div>
         </div>
       </div>
+        </div>
 
-      {/* Zoom / Scale Quick Card */}
-      <div className="zoom-quick-card" onClick={() => setIsZoomModalOpen(true)}>
+        {/* Secondary Metrics & History Column */}
+        <div className="dashboard-col dashboard-col-secondary">
+          {/* Zoom / Scale Quick Card */}
+          <div className="zoom-quick-card" onClick={() => setIsZoomModalOpen(true)}>
         <div className="zoom-quick-left">
           <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
             <ZoomIn size={18} />
@@ -333,6 +340,9 @@ export const Dashboard: React.FC<DashboardProps> = ({
             ))}
           </div>
         )}
+      </div>
+
+        </div>
       </div>
 
       {/* Zoom Configuration Modal */}

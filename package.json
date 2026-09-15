@@ -1,20 +1,27 @@
 {
   "name": "omega",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "test": "node tests/runner.js",
     "cap:sync": "cap sync android",
-    "cap:open": "cap open android"
+    "cap:open": "cap open android",
+    "electron:dev": "concurrently \"vite\" \"electron .\"",
+    "electron:build": "tsc -b && vite build && electron-builder",
+    "electron:pack": "tsc -b && vite build && electron-builder --dir",
+    "electron:preview": "tsc -b && vite build && electron ."
   },
   "dependencies": {
     "@capacitor-community/keep-awake": "^8.0.1",
     "@capacitor/android": "^8.5.1",
     "@capacitor/app": "^8.1.1",
     "@capacitor/core": "^8.5.1",
+    "@capacitor/haptics": "^8.0.2",
     "lucide-react": "^1.24.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

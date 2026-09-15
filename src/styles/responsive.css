@@ -1,0 +1,286 @@
+/* ==========================================================================
+   Omega Responsive & Adaptive Layout (<768px Mobile vs >=768px Desktop Rail)
+   Authoritative source: ORIGINAL_REQUEST.md R3 & PROJECT.md F6
+   ========================================================================== */
+
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+  --desktop-breakpoint: 768px;
+  --rail-nav-width: 80px;
+}
+
+/* --------------------------------------------------------------------------
+   Mobile Default Mode (< 768px)
+   -------------------------------------------------------------------------- */
+.navigation-rail,
+.desktop-nav-rail {
+  display: none !important;
+}
+
+.bottom-nav {
+  display: flex !important;
+}
+
+.dashboard-grid,
+.hub-cards-grid,
+.dashboard-grid.hub-cards-grid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+.dashboard-col {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Desktop Adaptive Mode (>= 768px)
+   -------------------------------------------------------------------------- */
+@media (min-width: 768px) {
+  .omega-app {
+    flex-direction: row !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    padding-left: env(safe-area-inset-left, 0px) !important;
+    padding-right: env(safe-area-inset-right, 0px) !important;
+  }
+
+  /* Bottom navigation hidden on desktop */
+  .bottom-nav {
+    display: none !important;
+  }
+
+  /* NavigationRail visible on desktop */
+  .navigation-rail,
+  .desktop-nav-rail {
+    display: flex !important;
+    flex-direction: column !important;
+    width: var(--rail-nav-width, 80px) !important;
+    min-width: var(--rail-nav-width, 80px) !important;
+    height: 100% !important;
+    height: 100dvh !important;
+    flex-shrink: 0 !important;
+    background: var(--omega-bg-surface, rgba(16, 26, 38, 0.72)) !important;
+    backdrop-filter: var(--omega-glass-blur, blur(16px)) !important;
+    -webkit-backdrop-filter: var(--omega-glass-blur, blur(16px)) !important;
+    border-right: 1px solid var(--omega-border-glass, rgba(255, 255, 255, 0.12)) !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35) !important;
+    padding: calc(0.85rem + env(safe-area-inset-top, 0px)) 0.5rem calc(0.85rem + env(safe-area-inset-bottom, 0px)) calc(0.5rem + env(safe-area-inset-left, 0px)) !important;
+    box-sizing: border-box !important;
+    z-index: 1000 !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  html[data-theme="light"] .navigation-rail,
+  html[data-theme="light"] .desktop-nav-rail {
+    background: rgba(237, 242, 247, 0.85) !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.06) !important;
+  }
+
+  .rail-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1.25rem;
+  }
+
+  .rail-logo-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--omega-radius-squircle-sm, 12px);
+    background: linear-gradient(135deg, #4ca1af, #3498db);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #0a0e13;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+
+  .rail-logo-badge:hover {
+    transform: scale(1.06);
+  }
+
+  .rail-nav,
+  .nav-rail-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    flex: 1;
+    justify-content: center;
+  }
+
+  .rail-tab,
+  .nav-rail-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    min-height: 48px;
+    border-radius: var(--omega-radius-squircle-md, 16px);
+    background: transparent;
+    border: none;
+    color: var(--color-muted, #8b9bb4);
+    cursor: pointer;
+    padding: 0.45rem 0.2rem;
+    gap: 0.25rem;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s ease,
+                color 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .rail-tab:hover,
+  .nav-rail-item:hover {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--color-text, #f0f6fc);
+  }
+
+  .rail-tab:active,
+  .nav-rail-item:active {
+    transform: scale(0.92);
+  }
+
+  .rail-tab.active,
+  .nav-rail-item.active {
+    background: rgba(255, 255, 255, 0.09);
+    color: #fff;
+  }
+
+  .rail-tab.active.tab-hub,
+  .nav-rail-item.active.tab-hub {
+    color: #6366f1;
+  }
+
+  .rail-tab.active.tab-breathing,
+  .nav-rail-item.active.tab-breathing {
+    color: var(--omega-primary-cyan, #00f0ff);
+  }
+
+  .rail-tab.active.tab-hydro,
+  .nav-rail-item.active.tab-hydro {
+    color: #3498db;
+  }
+
+  html[data-theme="light"] .rail-tab.active,
+  html[data-theme="light"] .nav-rail-item.active {
+    color: #2c3e50;
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .rail-indicator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 24px;
+    border-radius: 0 3px 3px 0;
+    background: currentColor;
+    box-shadow: 0 0 10px currentColor;
+  }
+
+  .rail-tab-label,
+  .nav-rail-label {
+    font-size: 0.68rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .rail-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .rail-action-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--omega-radius-squircle-sm, 12px);
+    background: var(--color-glass-white, rgba(255, 255, 255, 0.05));
+    border: 1px solid var(--color-glass-border, rgba(255, 255, 255, 0.12));
+    color: var(--color-text, #f0f6fc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.15s ease;
+    box-sizing: border-box;
+  }
+
+  .omega-views-container {
+    flex: 1 1 auto !important;
+    width: calc(100% - var(--rail-nav-width, 80px)) !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+  }
+
+  /* Relax 480px mobile constraint to 1440px desktop bounding box */
+  .omega-view .container,
+  .hub-dashboard {
+    max-width: 1440px !important;
+    width: 100% !important;
+    padding: 1.5rem clamp(1.5rem, 3vw, 3rem) !important;
+    margin: 0 auto !important;
+  }
+
+  /* Multi-column grid for dashboard */
+  .dashboard-grid.hub-cards-grid,
+  .hub-cards-grid,
+  .dashboard-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 1.5rem !important;
+    align-items: start !important;
+    width: 100% !important;
+  }
+
+  .dashboard-col {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* Ultra-wide display bounding (>= 1440px) */
+@media (min-width: 1440px) {
+  .hub-dashboard,
+  .omega-view .container {
+    max-width: 1440px !important;
+  }
+}

@@ -109,27 +109,27 @@ jobs:
           tag_name: ${{ steps.release_info.outputs.tag }}
           name: ${{ steps.release_info.outputs.title }}
           body: |
-            ## 📱 Omega - Wellness Hub for Android
+            ## 🌌 Omega v1.1.0 — Unified Wellness Hub
             
-            Pre-compiled Android APK ready to download and install directly on your Android phone or tablet.
+            Major release featuring a complete interface redesign inspired by **Android 17 / Material Design (Google I/O 2026)**, tactile glassmorphism, Wim Hof Method aesthetics, ultra-fluid 90Hz/120Hz GPU-accelerated performance, responsive desktop layout, and dual compilation for Android and PC.
 
             ### 📥 Direct APK Download
-            Download the attached APK file directly:
+            Download the attached pre-compiled APK directly:
             👉 **[Omega.apk](https://github.com/${{ github.repository }}/releases/download/${{ steps.release_info.outputs.tag }}/Omega.apk)**
             
             ### 🚀 Installation Instructions
-            1. Download `Omega.apk` to your Android device.
-            2. Tap the downloaded file to install it (if prompted by Android, enable "Allow from this source" for your browser).
-            3. Open Omega and enjoy your unified wellness routine!
+            1. Download `Omega.apk` on your Android device.
+            2. Tap the downloaded file to install (enable "Allow from this source" if prompted).
+            3. Open Omega and enjoy the ultra-smooth unified wellness experience!
 
-            ### ✨ Features
-            - **Bubble Breathing**: Guided deep breathing and conscious breath-holding cycles (Wim Hof inspired).
-            - **HydroCycle**: Guided contrast therapy (hot/cold intervals) and cold water exposure timer.
-            - **Unified Wellness Dashboard**: Combined active streak, daily habits checklist, and aggregated metrics.
-            - **Screen Keep Awake**: Keeps your screen awake during breathing exercises and shower sessions.
-            - **Zoom & Interface Scaling**: Browser-like zoom control (80% to 220%, with 150% recommended preset) + pinch-to-zoom support.
-            - **Fluid Mobile Navigation**: Fixed bottom navigation bar with Android hardware back button handling.
-            - **Multilingual Support**: Fully translated into 7 languages (English, Spanish, French, German, Italian, Portuguese, and Simplified Chinese).
+            ### ✨ What's New in v1.1.0
+            - 🎨 **Android 17 & Glassmorphism Design System**: Squircles, frosted glass with subtle border illumination, and organic glacier/volcanic basalt palette.
+            - ⚡ **90Hz / 120Hz (ProMotion) High-Refresh Optimization**: Pure GPU layer composition (`transform`, `opacity`, `will-change`), zero layout thrashing, and drift-free delta timers.
+            - 🖥️ **Adaptive Responsive Experience**: Ergonomic Bottom Navigation Bar on mobile (<768px) with 4-edge safe-areas; dynamic **Navigation Rail / Sidebar** and multi-column grid on desktop/PC (≥768px).
+            - 💻 **Cross-Platform PC & Electron Support**: Pre-configured Electron desktop integration (`npm run electron:dev`, `npm run electron:build`).
+            - 🌬️ **Bubble Breathing**: Rhythmic guided Wim Hof breathing with organic animated sphere, retention, and recovery phases.
+            - ❄️ **HydroCycle**: Cold/hot contrast shower interval timer with ambient soundscapes (ocean, rain, white noise).
+            - 🔒 **Native Services Universal Bridge**: Fault-tolerant Keep-Awake cascade (Electron IPC, Capacitor, Web WakeLock) and tactile haptics abstraction.
           files: build-output/Omega.apk
           draft: false
           prerelease: false

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Minus, Plus, RotateCcw, ZoomIn } from 'lucide-react';
+import { useModalAnimation } from '../hooks/useModalAnimation';
 
 interface ZoomModalProps {
   isOpen: boolean;
@@ -18,7 +19,9 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
   onClose,
   langDict,
 }) => {
-  if (!isOpen) return null;
+  const { mounted, active } = useModalAnimation(isOpen, 200);
+
+  if (!mounted) return null;
 
   const handleDecrement = () => {
     const next = Math.max(80, currentZoom - 10);
@@ -31,7 +34,13 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div 
+      className={`modal-overlay ${active ? 'open active' : 'closing'}`} 
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="zoom-modal-title"
+    >
       <div className="modal-content zoom-modal-content" onClick={e => e.stopPropagation()}>
         <div className="zoom-modal-header">
           <div className="zoom-modal-icon-badge">
@@ -107,7 +116,7 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
             <RotateCcw size={16} />
             <span>{langDict.zoomReset || '100%'}</span>
           </button>
-          <button className="modal-btn primary" onClick={onClose} style={{ background: '#4ca1af' }}>
+          <button className="modal-btn primary" onClick={onClose}>
             {langDict.zoomClose || 'Listo'}
           </button>
         </div>

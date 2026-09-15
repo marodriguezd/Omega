@@ -1,0 +1,266 @@
+/**
+ * Omega Unified Design Tokens
+ * Language: Android 17 / Material Expressive + Wim Hof Method Aesthetic
+ * Specification: Milestone 1 (R1)
+ */
+
+/* ============================================================================
+   Light Mode Adaptation (Glacial Arctic Daylight)
+   Higher specificity: html[data-theme="light"] (0,1,1) > :root (0,1,0)
+   ============================================================================ */
+html[data-theme="light"],
+[data-theme="light"] {
+  /* Surfaces */
+  --omega-bg-base: #edf4f9;
+  --omega-bg-surface: rgba(255, 255, 255, 0.85);
+  --omega-bg-surface-1: #ffffff;
+  --omega-bg-surface-2: #f4f8fb;
+  --omega-bg-surface-3: #e5edf3;
+  --omega-bg-surface-translucent: rgba(255, 255, 255, 0.78);
+  --omega-bg-surface-elevated: rgba(255, 255, 255, 0.92);
+
+  /* Wim Hof Chromatic Accents (Calibrated for AAA Contrast on Light) */
+  --omega-primary-cyan: #008cb0;
+  --omega-glacier-neon: #008cb0;
+  --omega-glacier-300: #0099b8;
+  --omega-glacier-400: #007a99;
+  --omega-glacier-500: #00607a;
+  --omega-glacier-deep: #0066cc;
+  --omega-glacier-glow: rgba(0, 140, 176, 0.20);
+
+  --omega-primary-water: #0070d6;
+  --omega-water-pure: #0070d6;
+  --omega-cold-blue: #0099ff;
+  --omega-water-light: #0099ff;
+  --omega-water-abyss: #004499;
+  --omega-water-glow: rgba(0, 112, 214, 0.20);
+
+  --omega-warm-amber: #e66a00;
+  --omega-fire-amber: #e66a00;
+  --omega-fire-gold: #f57c00;
+  --omega-fire-crimson: #d32f2f;
+  --omega-fire-glow: rgba(230, 106, 0, 0.20);
+
+  --omega-success-green: #1b8744;
+  --omega-success-emerald: #107c41;
+  --omega-success-glow: rgba(27, 135, 68, 0.20);
+
+  --omega-danger-red: #d32f2f;
+  --omega-danger-crimson: #c62828;
+  --omega-danger-glow: rgba(211, 47, 47, 0.20);
+
+  /* Neutral Typography (Dark slate on light ice) */
+  --omega-text-primary: #0d1821;
+  --omega-text-secondary: #455a6a;
+  --omega-text-tertiary: #758a99;
+  --omega-text-muted: rgba(13, 24, 33, 0.55);
+  --omega-divider: rgba(10, 30, 50, 0.08);
+
+  /* Glassmorphism on Light */
+  --omega-bg-glass: rgba(255, 255, 255, 0.65);
+  --omega-glass-fill: rgba(255, 255, 255, 0.65);
+  --omega-glass-fill-elevated: rgba(255, 255, 255, 0.88);
+  --omega-glass-fill-subtle: rgba(255, 255, 255, 0.40);
+
+  --omega-border-glass: rgba(10, 30, 50, 0.08);
+  --omega-glass-border: rgba(10, 30, 50, 0.08);
+  --omega-glass-border-subtle: rgba(10, 30, 50, 0.04);
+  --omega-glass-border-top: rgba(255, 255, 255, 0.95);
+
+  --omega-border-luminous: rgba(0, 140, 176, 0.30);
+  --omega-border-luminous-cyan: rgba(0, 140, 176, 0.30);
+  --omega-border-luminous-amber: rgba(230, 106, 0, 0.30);
+  --omega-border-luminous-green: rgba(27, 135, 68, 0.30);
+
+  --omega-glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
+  --omega-glass-shadow: 0 8px 24px 0 rgba(10, 30, 50, 0.06);
+  --omega-glass-shadow-elevated: 0 16px 36px -6px rgba(10, 30, 50, 0.12);
+
+  /* Backward Compatibility Aliases in Light Theme */
+  --color-primary: var(--omega-primary-cyan);
+  --color-secondary: var(--omega-primary-water);
+  --color-accent: var(--omega-warm-amber);
+  --color-success: var(--omega-success-green);
+  --color-danger: var(--omega-danger-crimson);
+  --color-text: var(--omega-text-primary);
+  --color-muted: var(--omega-text-secondary);
+  --color-border: var(--omega-border-glass);
+
+  --color-glass-white: var(--omega-bg-glass);
+  --color-glass-border: var(--omega-border-glass);
+  --color-glass-shadow: var(--omega-glass-shadow);
+
+  --color-bg-start: #edf4f9;
+  --color-bg-mid: #ffffff;
+  --color-bg-end: #f4f8fb;
+
+  --color-dropdown-bg: rgba(255, 255, 255, 0.98);
+  --color-dropdown-shadow: var(--omega-glass-shadow-elevated);
+  --color-dropdown-option-hover: rgba(0, 140, 176, 0.08);
+  --color-dropdown-option-active: rgba(0, 140, 176, 0.15);
+  --color-dropdown-scrollbar-track: rgba(0, 0, 0, 0.05);
+  --color-dropdown-scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --color-dropdown-scrollbar-thumb-hover: rgba(0, 140, 176, 0.5);
+}
+
+/* ============================================================================
+   Authoritative Base Tokens (:root - Dark Mode Default)
+   ============================================================================ */
+:root {
+  /* ==========================================================================
+     1. Wim Hof Method Chromatic Spectrum (Dark Mode Default)
+     ========================================================================== */
+
+  /* Deep Volcanic Basalt & Obsidian (Backgrounds & Structural Foundations) */
+  --omega-bg-base: #0a0e13;
+  --omega-bg-surface: rgba(16, 26, 38, 0.72);
+  --omega-bg-surface-1: #101720;
+  --omega-bg-surface-2: #16222f;
+  --omega-bg-surface-3: #1e2e3e;
+  --omega-bg-surface-translucent: rgba(16, 26, 38, 0.72);
+  --omega-bg-surface-elevated: rgba(22, 34, 50, 0.82);
+
+  /* Wim Hof Glacier Cyan Spectrum (Primary / Apnea / Cold Water / Inhale) */
+  --omega-primary-cyan: #00f0ff;
+  --omega-glacier-neon: #00f0ff;
+  --omega-glacier-300: #80deea;
+  --omega-glacier-400: #26c6da;
+  --omega-glacier-500: #00bcd4;
+  --omega-glacier-deep: #0088ff;
+  --omega-glacier-glow: rgba(0, 240, 255, 0.35);
+
+  /* Wim Hof Deep Water & Cold Stream Spectrum (HydroCycle Cold Phase / Fluid Accents) */
+  --omega-primary-water: #0088ff;
+  --omega-water-pure: #0088ff;
+  --omega-cold-blue: #00d2ff;
+  --omega-water-light: #00d2ff;
+  --omega-water-abyss: #004499;
+  --omega-water-glow: rgba(0, 136, 255, 0.30);
+
+  /* Wim Hof Primal Fire Spectrum (Hot Phase / Daily Streak / Metabolic Heat) */
+  --omega-warm-amber: #ff7a00;
+  --omega-fire-amber: #ff7a00;
+  --omega-fire-gold: #ff9d00;
+  --omega-fire-crimson: #ff5722;
+  --omega-fire-glow: rgba(255, 122, 0, 0.35);
+
+  /* Alpine Recovery Green (Recovery Phase / Success / Streaks Completed) */
+  --omega-success-green: #2ecc71;
+  --omega-success-emerald: #00e676;
+  --omega-success-glow: rgba(46, 204, 113, 0.30);
+
+  /* Alert / Emergency / Exit Danger */
+  --omega-danger-red: #ff4d4f;
+  --omega-danger-crimson: #e74c3c;
+  --omega-danger-glow: rgba(255, 77, 79, 0.30);
+
+  /* Neutral Typography & Separators (Dark Base) */
+  --omega-text-primary: #f0f6fc;
+  --omega-text-secondary: #8b9bb4;
+  --omega-text-tertiary: #55687d;
+  --omega-text-muted: rgba(240, 246, 252, 0.55);
+  --omega-divider: rgba(255, 255, 255, 0.08);
+
+  /* ==========================================================================
+     2. Android 17 Frosted Glassmorphism (Dark Theme)
+     ========================================================================== */
+  --omega-glass-blur: blur(16px);
+  --omega-glass-blur-deep: blur(24px) saturate(180%);
+  --omega-bg-glass: rgba(255, 255, 255, 0.05);
+  --omega-glass-fill: rgba(255, 255, 255, 0.05);
+  --omega-glass-fill-elevated: rgba(255, 255, 255, 0.08);
+  --omega-glass-fill-subtle: rgba(255, 255, 255, 0.03);
+
+  --omega-border-glass: rgba(255, 255, 255, 0.12);
+  --omega-glass-border: rgba(255, 255, 255, 0.12);
+  --omega-glass-border-subtle: rgba(255, 255, 255, 0.06);
+  --omega-glass-border-top: rgba(255, 255, 255, 0.22);
+
+  --omega-border-luminous: rgba(0, 240, 255, 0.25);
+  --omega-border-luminous-cyan: rgba(0, 240, 255, 0.25);
+  --omega-border-luminous-amber: rgba(255, 122, 0, 0.25);
+  --omega-border-luminous-green: rgba(46, 204, 113, 0.25);
+
+  --omega-glass-specular: inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+  --omega-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --omega-glass-shadow-elevated: 0 16px 40px -8px rgba(0, 0, 0, 0.65);
+  --omega-glass-shadow-glow-cyan: 0 0 25px rgba(0, 240, 255, 0.22);
+  --omega-glass-shadow-glow-amber: 0 0 25px rgba(255, 122, 0, 0.22);
+
+  /* ==========================================================================
+     3. Continuous Squircle Curvature Tokens (Android 17 / Material Expressive)
+     ========================================================================== */
+  --omega-radius-squircle-sm: 12px;
+  --omega-radius-squircle-md: 20px;
+  --omega-radius-squircle-lg: 28px;
+  --omega-radius-xs: 8px;
+  --omega-radius-sm: 12px;
+  --omega-radius-md: 20px;
+  --omega-radius-lg: 28px;
+  --omega-radius-xl: 36px;
+  --omega-radius-pill: 9999px;
+  --omega-radius-bubble: 50%;
+
+  /* ==========================================================================
+     4. Typography & Dimension Scaling Engine
+     ========================================================================== */
+  --omega-font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --omega-font-weight-normal: 400;
+  --omega-font-weight-medium: 500;
+  --omega-font-weight-semibold: 600;
+  --omega-font-weight-bold: 700;
+
+  /* UI Scale (Applied strictly to root html font-size, NEVER multiplied in rems) */
+  --ui-scale: 1;
+  --ui-scale-clamped: 1;
+
+  /* Layout Boundaries */
+  --omega-app-max-width-mobile: 480px;
+  --omega-app-max-width-desktop: 1200px;
+  --bottom-nav-base-height: 58px;
+  --bottom-nav-height: calc(var(--bottom-nav-base-height) + env(safe-area-inset-bottom, 0px));
+  --rail-nav-width: 80px;
+
+  /* ==========================================================================
+     5. GPU Motion & Timing Engine (90Hz / 120Hz Hardware Accelerated)
+     ========================================================================== */
+  --omega-duration-instant: 100ms;
+  --omega-duration-fast: 200ms;
+  --omega-duration-normal: 300ms;
+  --omega-duration-slow: 500ms;
+  --omega-duration-breath: 2000ms;
+
+  --omega-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --omega-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --omega-ease-decelerate: cubic-bezier(0.0, 0, 0.2, 1);
+  --omega-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --omega-ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ==========================================================================
+     6. Backward Compatibility Aliases (Maps legacy sub-app vars to Wim Hof)
+     ========================================================================== */
+  --color-primary: var(--omega-primary-cyan);
+  --color-secondary: var(--omega-primary-water);
+  --color-accent: var(--omega-warm-amber);
+  --color-success: var(--omega-success-green);
+  --color-danger: var(--omega-danger-crimson);
+  --color-text: var(--omega-text-primary);
+  --color-muted: var(--omega-text-secondary);
+  --color-border: var(--omega-border-glass);
+
+  --color-glass-white: var(--omega-bg-glass);
+  --color-glass-border: var(--omega-border-glass);
+  --color-glass-shadow: var(--omega-glass-shadow);
+
+  --color-bg-start: var(--omega-bg-base);
+  --color-bg-mid: #101720;
+  --color-bg-end: #16222f;
+
+  --color-dropdown-bg: rgba(16, 26, 38, 0.95);
+  --color-dropdown-shadow: var(--omega-glass-shadow-elevated);
+  --color-dropdown-option-hover: rgba(255, 255, 255, 0.08);
+  --color-dropdown-option-active: rgba(0, 240, 255, 0.15);
+  --color-dropdown-scrollbar-track: rgba(255, 255, 255, 0.05);
+  --color-dropdown-scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --color-dropdown-scrollbar-thumb-hover: rgba(0, 240, 255, 0.4);
+}

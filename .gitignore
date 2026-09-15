@@ -35,3 +35,6 @@ android/local.properties
 android/app/release/
 *.apk
 *.aab
+
+# Teamwork Multi-Agent Internal Directory
+.agents/
