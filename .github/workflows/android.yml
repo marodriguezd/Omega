@@ -53,6 +53,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
+      - name: Accept Android SDK Licenses & Prepare Build Tools
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-36" "build-tools;36.0.0" || true
+
       - name: Grant execute permission for gradlew
         run: chmod +x android/gradlew
 
@@ -144,3 +149,10 @@ jobs:
           make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Print Failure Diagnostics
+        if: failure()
+        run: |
+          echo "=================== DIAGNOSTIC LOGS ==================="
+          find android -name "*.log" -exec cat {} + || true
+          find android/app/build -name "*.txt" -exec cat {} + || true
