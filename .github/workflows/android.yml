@@ -1,6 +1,8 @@
+# Workflow for building and releasing Omega Android APK
 name: Build & Release Android APK
 
 on:
+
   push:
     branches: [ main ]
     tags:
@@ -197,5 +199,3 @@ EOF
           git push -f origin ci-logs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-test: Wed Sep 16 12:32:21 UTC 2026
