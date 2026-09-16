@@ -164,6 +164,7 @@ EOF
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git checkout -B ci-status
           mkdir -p ci-status-info
           echo "STATUS=SUCCESS" > ci-status-info/build_status.txt
@@ -173,7 +174,7 @@ EOF
           cp *.log ci-status-info/ 2>/dev/null || true
           git add -f ci-status-info
           git commit -m "ci: success confirmation from run ${{ github.run_number }} [skip ci]" || true
-          git push -f origin ci-status || true
+          git push -f origin ci-status
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -182,6 +183,7 @@ EOF
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           git checkout -B ci-logs
           mkdir -p ci-debug
           echo "FAILED_ACTION=$GITHUB_ACTION" > ci-debug/failed_step.txt
@@ -192,6 +194,7 @@ EOF
           git status > ci-debug/status.txt || true
           git add -f ci-debug
           git commit -m "ci: failure logs from run ${{ github.run_number }}" || true
-          git push -f origin ci-logs || true
+          git push -f origin ci-logs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
