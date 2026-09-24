@@ -25,6 +25,7 @@ jobs:
       - name: Checkout repository and submodules
         uses: actions/checkout@v4
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           submodules: recursive
           fetch-depth: 0
 
@@ -43,9 +44,11 @@ jobs:
         run: pnpm install --dangerously-allow-all-builds 2>&1 | tee pnpm_install.log
 
       - name: Build Web Application
+        id: build_web
         run: pnpm run build 2>&1 | tee pnpm_build.log
 
       - name: Run Test Suite
+        id: test
         run: pnpm run test 2>&1 | tee test_suite.log
 
       - name: Setup Java JDK 21
@@ -66,9 +69,11 @@ jobs:
         run: chmod +x android/gradlew 2>&1 | tee chmod_gradlew.log
 
       - name: Sync Capacitor Android
+        id: cap_sync
         run: pnpm exec cap sync android 2>&1 | tee cap_sync.log
 
       - name: Build Android APK
+        id: build_apk
         working-directory: android
         env:
           BUILD_NUMBER: ${{ github.run_number }}
@@ -79,6 +84,7 @@ jobs:
           ./gradlew assembleRelease --stacktrace 2>&1 | tee gradle_build.log || ./gradlew assembleDebug --stacktrace 2>&1 | tee -a gradle_build.log
 
       - name: Prepare APK for Release
+        id: prepare_apk
         run: |
           mkdir -p build-output
           APK_FILE=$(find android/app/build/outputs/apk -name "*release*.apk" ! -name "*unaligned*" | head -n 1)
@@ -103,6 +109,7 @@ jobs:
           if-no-files-found: error
 
       - name: Create or Update GitHub Release
+        id: release
         continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -124,26 +131,26 @@ jobs:
           echo "Target release title: $RELEASE_TITLE"
 
           cat << 'EOF' > release_notes.md
-## 🌌 Omega $RELEASE_TAG — Unified Wellness Hub (Wim Hof Sacred Geometry & 432Hz Zen Audio)
+          ## 🌌 Omega $RELEASE_TAG — Unified Wellness Hub (Wim Hof Sacred Geometry & 432Hz Zen Audio)
 
-Release featuring the iconic **rounded hexagon geometry** (`BreathingSphere`), 432Hz harmonic Web Audio synthesizer (singing bowls, breath chimes), monotonic anti-drift timers, and unified contrast shower controls.
+          Release featuring the iconic **rounded hexagon geometry** (`BreathingSphere`), 432Hz harmonic Web Audio synthesizer (singing bowls, breath chimes), monotonic anti-drift timers, and unified contrast shower controls.
 
-### 📥 Direct APK Download
-Download the attached pre-compiled APK directly:
-👉 **[Omega.apk](https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/Omega.apk)**
+          ### 📥 Direct APK Download
+          Download the attached pre-compiled APK directly:
+          👉 **[Omega.apk](https://github.com/${{ github.repository }}/releases/download/$RELEASE_TAG/Omega.apk)**
 
-### 🚀 Installation Instructions
-1. Download `Omega.apk` on your Android device.
-2. Tap the downloaded file to install (enable "Allow from this source" if prompted).
-3. Open Omega and enjoy the Wim Hof breathing and contrast shower experience!
+          ### 🚀 Installation Instructions
+          1. Download `Omega.apk` on your Android device.
+          2. Tap the downloaded file to install (enable "Allow from this source" if prompted).
+          3. Open Omega and enjoy the Wim Hof breathing and contrast shower experience!
 
-### ✨ What's New in $RELEASE_TAG
-- 🔷 **Wim Hof Sacred Geometry**: Rounded hexagon SVG (`R=86, cr=14`) with glassmorphism sheen, outer pulsating halos, and continuous perimeter progress ring (`pathLength="100"`).
-- 🎵 **432Hz Zen Harmonic Audio**: Web Audio synthesizer featuring Tibetan singing bowls, smooth breath bells, and native tactile haptics.
-- ⏱️ **Monotonic Drift-Free Timers**: Robust timeline state machine fixing retention and recovery skips, immune to background throttling.
-- 🚿 **HydroCycle Unified Controls**: Streamlined contrast shower dock and integrated hexagon progress ring.
-- 🔄 **Bidirectional Hub Sync & Auto-Pause**: Dynamic metrics updates and auto-pause on modal/back button exit.
-EOF
+          ### ✨ What's New in $RELEASE_TAG
+          - 🔷 **Wim Hof Sacred Geometry**: Rounded hexagon SVG (`R=86, cr=14`) with glassmorphism sheen, outer pulsating halos, and continuous perimeter progress ring (`pathLength="100"`).
+          - 🎵 **432Hz Zen Harmonic Audio**: Web Audio synthesizer featuring Tibetan singing bowls, smooth breath bells, and native tactile haptics.
+          - ⏱️ **Monotonic Drift-Free Timers**: Robust timeline state machine fixing retention and recovery skips, immune to background throttling.
+          - 🚿 **HydroCycle Unified Controls**: Streamlined contrast shower dock and integrated hexagon progress ring.
+          - 🔄 **Bidirectional Hub Sync & Auto-Pause**: Dynamic metrics updates and auto-pause on modal/back button exit.
+          EOF
           sed -i "s|\$RELEASE_TAG|$RELEASE_TAG|g" release_notes.md
 
           echo "Checking if release $RELEASE_TAG exists..."
@@ -163,60 +170,42 @@ EOF
           fi
           echo "GitHub Release step completed!"
 
-      - name: Push Success Confirmation to ci-status Branch
-        if: success()
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Report pipeline telemetry to feedback branch
+        if: always()
         run: |
-          mkdir -p /tmp/ci-status-info
-          echo "STATUS=SUCCESS" > /tmp/ci-status-info/build_status.txt
-          echo "RUN_NUMBER=${{ github.run_number }}" >> /tmp/ci-status-info/build_status.txt
-          echo "COMMIT=${{ github.sha }}" >> /tmp/ci-status-info/build_status.txt
-          echo "REF=${{ github.ref }}" >> /tmp/ci-status-info/build_status.txt
-          echo "COMPLETED_AT=$(date -u)" >> /tmp/ci-status-info/build_status.txt
-          if [ -f build-output/Omega.apk ]; then
-            echo "APK_SIZE=$(ls -lh build-output/Omega.apk | awk '{print $5}')" >> /tmp/ci-status-info/build_status.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          APK_GEN="false"
+          APK_SZ="none"
+          if [ -f "build-output/Omega.apk" ]; then
+            APK_GEN="true"
+            APK_SZ=$(ls -lh build-output/Omega.apk | awk '{print $5}')
           fi
-          cp *.log /tmp/ci-status-info/ 2>/dev/null || true
-          cd /tmp
-          rm -rf ci-repo
-          git clone --depth 1 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ci-repo || (mkdir ci-repo && cd ci-repo && git init && git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git)
-          cd ci-repo
-          git checkout -B ci-status
-          git rm -rf . 2>/dev/null || true
-          cp -r /tmp/ci-status-info ./
-          git add ci-status-info
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "ci: success confirmation from run ${{ github.run_number }} [skip ci]" || true
-          git push -f origin HEAD:refs/heads/ci-status || echo "Push to ci-status skipped"
-
-      - name: Push Failure Diagnostics to ci-logs Branch
-        if: failure()
-        continue-on-error: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mkdir -p /tmp/ci-debug
-          echo "STATUS=FAILURE" > /tmp/ci-debug/build_status.txt
-          echo "FAILED_ACTION=$GITHUB_ACTION" >> /tmp/ci-debug/build_status.txt
-          echo "RUN_NUMBER=${{ github.run_number }}" >> /tmp/ci-debug/build_status.txt
-          echo "COMMIT=${{ github.sha }}" >> /tmp/ci-debug/build_status.txt
-          echo "REF=${{ github.ref }}" >> /tmp/ci-debug/build_status.txt
-          echo "FAILED_AT=$(date -u)" >> /tmp/ci-debug/build_status.txt
-          cp *.log /tmp/ci-debug/ 2>/dev/null || true
-          cp android/*.log /tmp/ci-debug/ 2>/dev/null || true
-          find android/app/build -name "*.txt" -exec cp {} /tmp/ci-debug/ \; 2>/dev/null || true
-          cd /tmp
-          rm -rf ci-repo
-          git clone --depth 1 https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git ci-repo || (mkdir ci-repo && cd ci-repo && git init && git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git)
-          cd ci-repo
-          git checkout -B ci-logs
-          git rm -rf . 2>/dev/null || true
-          cp -r /tmp/ci-debug ./
-          git add ci-debug
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -m "ci: failure logs from run ${{ github.run_number }} [skip ci]" || true
-          git push -f origin HEAD:refs/heads/ci-logs || echo "Push to ci-logs skipped"
+          git fetch origin ci-feedback:refs/remotes/origin/ci-feedback 2>/dev/null || true
+          git checkout -B ci-feedback refs/remotes/origin/ci-feedback 2>/dev/null || git checkout -B ci-feedback
+          mkdir -p logs
+          echo "JOB_STATUS=${{ job.status }}" > logs/verify.txt
+          echo "BUILD_WEB_OUTCOME=${{ steps.build_web.outcome }}" >> logs/verify.txt
+          echo "TEST_OUTCOME=${{ steps.test.outcome }}" >> logs/verify.txt
+          echo "CAP_SYNC_OUTCOME=${{ steps.cap_sync.outcome }}" >> logs/verify.txt
+          echo "BUILD_APK_OUTCOME=${{ steps.build_apk.outcome }}" >> logs/verify.txt
+          echo "PREPARE_APK_OUTCOME=${{ steps.prepare_apk.outcome }}" >> logs/verify.txt
+          echo "RELEASE_OUTCOME=${{ steps.release.outcome }}" >> logs/verify.txt
+          echo "APK_GENERATED=$APK_GEN" >> logs/verify.txt
+          echo "APK_SIZE=$APK_SZ" >> logs/verify.txt
+          echo "SHA=${{ github.sha }}" >> logs/verify.txt
+          echo "REF=${{ github.ref }}" >> logs/verify.txt
+          echo "DATE=$(date -u)" >> logs/verify.txt
+          cp *.log logs/ 2>/dev/null || true
+          cp android/*.log logs/ 2>/dev/null || true
+          find android/app/build -name "*.txt" -exec cp {} logs/ \; 2>/dev/null || true
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            cp logs/verify.txt logs/tag_release_verify.txt
+            git add -f logs/
+            git commit -m "ci: release report for ${{ github.ref }} (${{ github.sha }}) [skip ci]" || true
+            git push -f origin HEAD:refs/heads/ci-release 2>&1 || true
+          else
+            git add -f logs/
+            git commit -m "ci: complete build report for ${{ github.ref }} (${{ github.sha }}) [skip ci]" || true
+          fi
+          git push -f origin HEAD:refs/heads/ci-feedback 2>&1 || echo "ci-feedback push skipped"
