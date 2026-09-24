@@ -1,0 +1,174 @@
+$ node tests/runner.js
+
+================================================================
+       OMEGA COMPREHENSIVE 4-TIER E2E TEST SUITE RUNNER         
+================================================================
+Environment: Node v22.23.2 | Target: Omega Platform
+Project Root: /home/runner/work/Omega/Omega
+
+
+▶ Executing Tier 1: Feature Coverage (R1-R4)...
+  ✖ [FAIL] T1.R1.1: Wim Hof palette tokens must be defined with exact hex color specifications
+     └─ Expected token "--omega-bg-base" to be declared in tokens.css or hub.css
+  ✖ [FAIL] T1.R1.2: Continuous squircle border-radius tokens must match Android 17 specifications
+     └─ Expected squircle token "--omega-radius-squircle-sm" to be declared
+  ✖ [FAIL] T1.R1.3: Frosted glassmorphism tokens and luminous borders must be declared
+     └─ Expected "--omega-glass-blur" token to be defined
+  ✖ [FAIL] T1.R1.4: Unified UI controls (buttons, modals, switches) must apply design tokens and glassmorphism
+     └─ Frosted glass elements must implement backdrop-filter blur
+  ✔ [PASS] T1.R1.5: Breathing sphere geometry must be organic and circular, eliminating sharp polygons (0ms)
+  ✖ [FAIL] T1.R2.1: Key animated elements must restrict mutations to GPU-accelerated transform, opacity, and will-change
+     └─ Animated visual elements must declare will-change: transform or opacity to promote to GPU compositor layers
+  ✔ [PASS] T1.R2.2: Header and session progress bars must eliminate layout thrashing by avoiding width animations (0ms)
+  ✔ [PASS] T1.R2.3: Golden glow and pulsating animations must avoid expensive box-shadow keyframes (0ms)
+  ✔ [PASS] T1.R2.4: CSS transition and animation syntax must be valid without invalid combinations (0ms)
+  ✖ [FAIL] T1.R2.5: High-precision timer loops must calculate elapsed time using timestamp deltas to prevent drift
+     └─ Apnea retention and shower timers must incorporate timestamp delta reconciliation
+  ✖ [FAIL] T1.R3.1: Mobile navigation shell (<768px) must render BottomNav with safe-area insets and touch targets >=44px
+     └─ BottomNav.tsx must exist
+  ✖ [FAIL] T1.R3.2: Desktop layout (>=768px) must incorporate Navigation Rail / Sidebar
+     └─ Desktop navigation rail component or >=768px media query must be implemented
+  ✖ [FAIL] T1.R3.3: Dashboard layout on viewports >=768px must utilize multi-column grid without 480px artificial clamping
+     └─ Stylesheet must define multi-column dashboard grid or relaxed max-width in >=768px media query
+  ✖ [FAIL] T1.R3.4: Safe-area insets must be comprehensively handled for all 4 edges (top, bottom, left, right)
+     └─ CSS must handle env(safe-area-inset-top) for status bar / camera punch hole
+  ✖ [FAIL] T1.R3.5: Navigation items must expose active tab indicators and accessible labels across layouts
+     └─ Navigation items must provide aria-label for accessibility
+  ✖ [FAIL] T1.R4.1: vite.config.ts must declare base: "./" for Electron file:// packaging compatibility
+     └─ vite.config.ts must set base: "./" so asset paths resolve relatively in Electron packaged bundles
+  ✖ [FAIL] T1.R4.2: capacitor.config.ts must be configured for Capacitor 8 Android deployment
+     └─ capacitor.config.ts must set appId to "com.marodriguezd.omega"
+  ✖ [FAIL] T1.R4.3: Electron desktop environment must be scaffolded with packaging scripts and IPC entries
+     └─ package.json must contain "electron:dev" script for PC desktop development
+  ✖ [FAIL] T1.R4.4: KeepAwake native service must cascade cleanly through Electron IPC, Capacitor, and Web WakeLock
+     └─ nativeService.ts must support Electron IPC for KeepAwake / powerSaveBlocker
+  ✖ [FAIL] T1.R4.5: Haptics abstraction must route to Capacitor on mobile, Web vibrate on browser, and no-op on Electron
+     └─ nativeService.ts must export triggerHaptic abstraction function
+
+▶ Executing Tier 2: Boundary & Corner Cases (R1-R4)...
+  ✔ [PASS] T2.R1.1: Extreme UI Zoom Scaling Clamp must strictly bound scale factor between 0.8 and 2.2 (2ms)
+  ✔ [PASS] T2.R1.2: Volcanic basalt background and primary text must achieve WCAG 2.1 AAA contrast ratio (>= 7.0:1) (0ms)
+  ✔ [PASS] T2.R1.3: Rapid high-frequency theme toggling must maintain DOM and LocalStorage state consistency (1ms)
+  ✖ [FAIL] T2.R1.4: Critical CSS custom property declarations must support fallback values
+     └─ Dynamic root font size must provide 1 as fallback for --ui-scale
+  ✖ [FAIL] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg
+     └─ Small squircle radius must be greater than 0px
+  ✔ [PASS] T2.R2.1: Frame budget verification across high-refresh rates (60Hz, 90Hz, 120Hz, 144Hz) (1ms)
+  ✔ [PASS] T2.R2.2: Apnea retention long-duration drift simulation proves timestamp delta eliminates cumulative lag (0ms)
+  ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (1ms)
+  ✔ [PASS] T2.R2.4: Zero and negative duration timer boundary inputs must be safely clamped (0ms)
+  ✔ [PASS] T2.R2.5: Dynamic typography clamp must remain bounded between 13px and 16px at extreme viewports (0ms)
+  ✔ [PASS] T2.R3.1: Exact breakpoint boundary evaluation (767px mobile vs 768px desktop) (0ms)
+  ✔ [PASS] T2.R3.2: Ultra-wide display viewports (2560px, 3840px, 7680px) must maintain balanced content width constraints (0ms)
+  ✔ [PASS] T2.R3.3: Compact mobile viewport (320px width) must fit all 3 navigation tabs without overflow (0ms)
+  ✔ [PASS] T2.R3.4: Safe area insets boundary: dynamic calculation with 0px vs 60px notch (0ms)
+  ✔ [PASS] T2.R3.5: Rapid window resize oscillation across 768px boundary maintains clean state transition (0ms)
+  ✔ [PASS] T2.R4.1: KeepAwake native failure gracefully falls back to Web Wake Lock API (1ms)
+  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
+  ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
+  ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (15ms)
+
+▶ Executing Tier 3: Cross-Feature Combinations...
+  ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (2ms)
+  ✔ [PASS] T3.C2: Tab switching attempt while HydroCycle contrast shower is active prompts ExitConfirmModal (0ms)
+  ✔ [PASS] T3.C3: Zoom scaling interacts harmoniously with squircle tokens and responsive layouts (0ms)
+  ✔ [PASS] T3.C4: Bi-directional settings synchronization (theme and language) between Hub and sub-apps (0ms)
+  ✔ [PASS] T3.C5: Android back button handler intercepts active exercise session and keeps KeepAwake engaged (0ms)
+  ✔ [PASS] T3.C6: Multi-window storage events synchronize streak and checklist metrics dynamically (0ms)
+
+▶ Executing Tier 4: Real-World Application Scenarios...
+  ✔ [PASS] T4.S1: Complete Wim Hof Breathing Session Journey (Config -> Rhythm -> Retention -> Recovery -> Stats) (1ms)
+  ✔ [PASS] T4.S2: Complete HydroCycle Contrast Shower Journey with Routine Checklist 100% Completion (0ms)
+  ✔ [PASS] T4.S3: Desktop Wide-Screen Session (>=768px) with Multi-Column Dashboard and Navigation Rail (0ms)
+  ✔ [PASS] T4.S4: Mobile Commuter Session with Safe-Area insets, screen wake lock, and accidental exit protection (0ms)
+  ✔ [PASS] T4.S5: International Multi-Device Customization Journey (Language, Theme, Zoom scaling) (0ms)
+
+================================================================
+                      TEST EXECUTION SUMMARY                    
+================================================================
+Tier                                    | Total | Pass | Fail | Milestones
+----------------------------------------+-------+------+------+-----------
+Tier 1: Feature Coverage (R1-R4)        |    20 |    4 |   16 | M1, M2, M3, M4
+Tier 2: Boundary & Corner Cases (R1-R4) |    20 |   18 |    2 | M1, M2, M3, M4
+Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
+Tier 4: Real-World Application Scenarios |     5 |    5 |    0 | End-to-End User Journeys
+----------------------------------------+-------+------+------+-----------
+Total Tests: 51 | Passed: 33 | Pending Implementation: 18
+Suite Execution Time: 0.54s
+================================================================
+
+Pending Implementation Milestones / Discovered Defects:
+1. [Tier 1: Feature Coverage (R1-R4)] T1.R1.1: Wim Hof palette tokens must be defined with exact hex color specifications
+   File: tests/tier1-features/r1-design-tokens.test.js
+   Issue: Expected token "--omega-bg-base" to be declared in tokens.css or hub.css
+
+2. [Tier 1: Feature Coverage (R1-R4)] T1.R1.2: Continuous squircle border-radius tokens must match Android 17 specifications
+   File: tests/tier1-features/r1-design-tokens.test.js
+   Issue: Expected squircle token "--omega-radius-squircle-sm" to be declared
+
+3. [Tier 1: Feature Coverage (R1-R4)] T1.R1.3: Frosted glassmorphism tokens and luminous borders must be declared
+   File: tests/tier1-features/r1-design-tokens.test.js
+   Issue: Expected "--omega-glass-blur" token to be defined
+
+4. [Tier 1: Feature Coverage (R1-R4)] T1.R1.4: Unified UI controls (buttons, modals, switches) must apply design tokens and glassmorphism
+   File: tests/tier1-features/r1-design-tokens.test.js
+   Issue: Frosted glass elements must implement backdrop-filter blur
+
+5. [Tier 1: Feature Coverage (R1-R4)] T1.R2.1: Key animated elements must restrict mutations to GPU-accelerated transform, opacity, and will-change
+   File: tests/tier1-features/r2-gpu-performance.test.js
+   Issue: Animated visual elements must declare will-change: transform or opacity to promote to GPU compositor layers
+
+6. [Tier 1: Feature Coverage (R1-R4)] T1.R2.5: High-precision timer loops must calculate elapsed time using timestamp deltas to prevent drift
+   File: tests/tier1-features/r2-gpu-performance.test.js
+   Issue: Apnea retention and shower timers must incorporate timestamp delta reconciliation
+
+7. [Tier 1: Feature Coverage (R1-R4)] T1.R3.1: Mobile navigation shell (<768px) must render BottomNav with safe-area insets and touch targets >=44px
+   File: tests/tier1-features/r3-adaptive-layout.test.js
+   Issue: BottomNav.tsx must exist
+
+8. [Tier 1: Feature Coverage (R1-R4)] T1.R3.2: Desktop layout (>=768px) must incorporate Navigation Rail / Sidebar
+   File: tests/tier1-features/r3-adaptive-layout.test.js
+   Issue: Desktop navigation rail component or >=768px media query must be implemented
+
+9. [Tier 1: Feature Coverage (R1-R4)] T1.R3.3: Dashboard layout on viewports >=768px must utilize multi-column grid without 480px artificial clamping
+   File: tests/tier1-features/r3-adaptive-layout.test.js
+   Issue: Stylesheet must define multi-column dashboard grid or relaxed max-width in >=768px media query
+
+10. [Tier 1: Feature Coverage (R1-R4)] T1.R3.4: Safe-area insets must be comprehensively handled for all 4 edges (top, bottom, left, right)
+   File: tests/tier1-features/r3-adaptive-layout.test.js
+   Issue: CSS must handle env(safe-area-inset-top) for status bar / camera punch hole
+
+11. [Tier 1: Feature Coverage (R1-R4)] T1.R3.5: Navigation items must expose active tab indicators and accessible labels across layouts
+   File: tests/tier1-features/r3-adaptive-layout.test.js
+   Issue: Navigation items must provide aria-label for accessibility
+
+12. [Tier 1: Feature Coverage (R1-R4)] T1.R4.1: vite.config.ts must declare base: "./" for Electron file:// packaging compatibility
+   File: tests/tier1-features/r4-multiplatform.test.js
+   Issue: vite.config.ts must set base: "./" so asset paths resolve relatively in Electron packaged bundles
+
+13. [Tier 1: Feature Coverage (R1-R4)] T1.R4.2: capacitor.config.ts must be configured for Capacitor 8 Android deployment
+   File: tests/tier1-features/r4-multiplatform.test.js
+   Issue: capacitor.config.ts must set appId to "com.marodriguezd.omega"
+
+14. [Tier 1: Feature Coverage (R1-R4)] T1.R4.3: Electron desktop environment must be scaffolded with packaging scripts and IPC entries
+   File: tests/tier1-features/r4-multiplatform.test.js
+   Issue: package.json must contain "electron:dev" script for PC desktop development
+
+15. [Tier 1: Feature Coverage (R1-R4)] T1.R4.4: KeepAwake native service must cascade cleanly through Electron IPC, Capacitor, and Web WakeLock
+   File: tests/tier1-features/r4-multiplatform.test.js
+   Issue: nativeService.ts must support Electron IPC for KeepAwake / powerSaveBlocker
+
+16. [Tier 1: Feature Coverage (R1-R4)] T1.R4.5: Haptics abstraction must route to Capacitor on mobile, Web vibrate on browser, and no-op on Electron
+   File: tests/tier1-features/r4-multiplatform.test.js
+   Issue: nativeService.ts must export triggerHaptic abstraction function
+
+17. [Tier 2: Boundary & Corner Cases (R1-R4)] T2.R1.4: Critical CSS custom property declarations must support fallback values
+   File: tests/tier2-boundaries/r1-design-boundaries.test.js
+   Issue: Dynamic root font size must provide 1 as fallback for --ui-scale
+
+18. [Tier 2: Boundary & Corner Cases (R1-R4)] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg
+   File: tests/tier2-boundaries/r1-design-boundaries.test.js
+   Issue: Small squircle radius must be greater than 0px
+
+[ELIFECYCLE] Test failed. See above for more details.

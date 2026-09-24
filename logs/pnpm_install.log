@@ -1,0 +1,40 @@
+Scope: all 3 workspace projects
+? Verifying lockfile against supply-chain policies (535 entries)...
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +447
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 447, reused 0, downloaded 0, added 0
+Progress: resolved 447, reused 0, downloaded 42, added 0
+✓ Lockfile passes supply-chain policies (535 entries in 2.6s)
+Progress: resolved 447, reused 0, downloaded 62, added 0
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 447, reused 0, downloaded 447, added 60
+Progress: resolved 447, reused 0, downloaded 447, added 447, done
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+
+dependencies:
++ @capacitor-community/keep-awake 8.0.1
++ @capacitor/android 8.5.1
++ @capacitor/app 8.1.1
++ @capacitor/core 8.5.1
++ @capacitor/haptics 8.0.2
++ lucide-react 1.41.0
++ react 19.2.8
++ react-dom 19.2.8
+
+devDependencies:
++ @capacitor/cli 8.5.1
++ @types/node 22.20.1
++ @types/react 19.2.18
++ @types/react-dom 19.2.7
++ @vitejs/plugin-react 5.2.0
++ typescript 5.8.3
++ vite 6.4.3
+
+Done in 5.9s using pnpm v11.27.1
