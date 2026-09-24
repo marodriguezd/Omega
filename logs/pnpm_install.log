@@ -5,14 +5,15 @@ Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +447
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Progress: resolved 447, reused 0, downloaded 0, added 0
-Progress: resolved 447, reused 0, downloaded 2, added 0
-✓ Lockfile passes supply-chain policies (535 entries in 3.2s)
+Progress: resolved 447, reused 0, downloaded 1, added 0
+✓ Lockfile passes supply-chain policies (535 entries in 3.9s)
+Progress: resolved 447, reused 0, downloaded 55, added 0
 Progress: resolved 447, reused 0, downloaded 59, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 447, reused 0, downloaded 113, added 4
-Progress: resolved 447, reused 0, downloaded 333, added 20
+Progress: resolved 447, reused 0, downloaded 154, added 8
+Progress: resolved 447, reused 0, downloaded 379, added 27
 Progress: resolved 447, reused 0, downloaded 447, added 447, done
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
@@ -38,4 +39,4 @@ devDependencies:
 + typescript 5.8.3
 + vite 6.4.3
 
-Done in 7.3s using pnpm v11.27.1
+Done in 9.2s using pnpm v11.27.1
