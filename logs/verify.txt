@@ -8,5 +8,5 @@ RELEASE_OUTCOME=skipped
 APK_GENERATED=true
 APK_SIZE=31M
 SHA=d35dc7803a2f7ddc8bef3215c2cf8d3708ef2ad3
-REF=refs/tags/v1.3.0
-DATE=Thu Sep 24 09:02:42 UTC 2026
+REF=refs/heads/main
+DATE=Thu Sep 24 09:03:21 UTC 2026
