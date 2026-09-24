@@ -160,6 +160,7 @@ export function App() {
 
     if (isSessionActive()) {
       pendingTabRef.current = targetTab;
+      window.dispatchEvent(new CustomEvent('omega-pause-session', { detail: { pause: true } }));
       setShowExitModal(true);
       return;
     }
@@ -180,6 +181,7 @@ export function App() {
 
   const handleCancelExit = useCallback(() => {
     setShowExitModal(false);
+    window.dispatchEvent(new CustomEvent('omega-pause-session', { detail: { pause: false } }));
     pendingTabRef.current = null;
   }, []);
 
@@ -203,6 +205,7 @@ export function App() {
       if (activeTab !== 'hub') {
         if (isSessionActive()) {
           pendingTabRef.current = 'hub';
+          window.dispatchEvent(new CustomEvent('omega-pause-session', { detail: { pause: true } }));
           setShowExitModal(true);
           return true;
         }

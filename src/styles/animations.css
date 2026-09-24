@@ -52,6 +52,26 @@
   }
 }
 
+/* Wim Hof Sacred Geometry Rounded Hexagon Halo Pulse */
+@keyframes wimHofHaloPulse {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1.0) translate3d(0, 0, 0);
+    transform-origin: 100px 100px;
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.08) translate3d(0, 0, 0);
+    transform-origin: 100px 100px;
+  }
+}
+
+.pulsing .wimhof-halo-ring,
+.last-breath .wimhof-halo-ring {
+  animation: wimHofHaloPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+}
+
 /* Modal enter/exit GPU keyframes */
 @keyframes omegaModalIn {
   from {

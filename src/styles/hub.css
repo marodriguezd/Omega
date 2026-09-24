@@ -258,12 +258,25 @@ body {
   width: 100% !important;
   height: 100% !important;
   aspect-ratio: 1 / 1 !important;
-  border-radius: 50% !important;
+  border-radius: var(--omega-radius-bubble, 50%) !important;
   clip-path: none !important;
   -webkit-clip-path: none !important;
   max-width: 90vw !important;
   max-height: 40vh !important;
   flex-shrink: 1 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.omega-view .breathing-sphere::before,
+.omega-view .hexagon::before,
+.omega-view .breathing-sphere::after,
+.omega-view .hexagon::after {
+  display: none !important;
 }
 
 .omega-view .breath-counter {
