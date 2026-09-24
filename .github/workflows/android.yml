@@ -81,6 +81,9 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS || 'omega' }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'omega2025' }}
         run: |
+          for i in 1 2 3; do
+            ./gradlew --version && break || (echo "Gradle wrapper retry $i..." && sleep 5)
+          done
           ./gradlew assembleRelease --stacktrace 2>&1 | tee gradle_build.log || ./gradlew assembleDebug --stacktrace 2>&1 | tee -a gradle_build.log
 
       - name: Prepare APK for Release
