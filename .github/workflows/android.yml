@@ -102,11 +102,14 @@ jobs:
           fi
 
       - name: Upload APK as Workflow Artifact
+        id: upload_apk
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: Omega-Android-APK
           path: build-output/Omega.apk
-          if-no-files-found: error
+          retention-days: 14
+          if-no-files-found: warn
 
       - name: Create or Update GitHub Release
         id: release
@@ -130,7 +133,7 @@ jobs:
           echo "Target release tag: $RELEASE_TAG"
           echo "Target release title: $RELEASE_TITLE"
 
-          cat << 'EOF' > release_notes.md
+          cat << 'EOF' > /tmp/release_notes.md
           ## 🌌 Omega $RELEASE_TAG — Unified Wellness Hub (Wim Hof Sacred Geometry & 432Hz Zen Audio)
 
           Release featuring the iconic **rounded hexagon geometry** (`BreathingSphere`), 432Hz harmonic Web Audio synthesizer (singing bowls, breath chimes), monotonic anti-drift timers, and unified contrast shower controls.
@@ -151,23 +154,18 @@ jobs:
           - 🚿 **HydroCycle Unified Controls**: Streamlined contrast shower dock and integrated hexagon progress ring.
           - 🔄 **Bidirectional Hub Sync & Auto-Pause**: Dynamic metrics updates and auto-pause on modal/back button exit.
           EOF
-          sed -i "s|\$RELEASE_TAG|$RELEASE_TAG|g" release_notes.md
+          sed -i "s|\$RELEASE_TAG|$RELEASE_TAG|g" /tmp/release_notes.md
 
-          echo "Checking if release $RELEASE_TAG exists..."
-          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            echo "Release $RELEASE_TAG already exists. Uploading/overwriting APK..."
-            gh release upload "$RELEASE_TAG" build-output/Omega.apk --clobber 2>&1 | tee release_upload.log || true
-            gh release edit "$RELEASE_TAG" --title "$RELEASE_TITLE" --notes-file release_notes.md 2>&1 | tee -a release_upload.log || true
-          else
-            echo "Creating new release $RELEASE_TAG..."
-            gh release create "$RELEASE_TAG" build-output/Omega.apk \
-              --title "$RELEASE_TITLE" \
-              --notes-file release_notes.md \
-              2>&1 | tee release_upload.log || {
-                echo "Create failed, attempting clobber upload..."
-                gh release upload "$RELEASE_TAG" build-output/Omega.apk --clobber 2>&1 | tee -a release_upload.log || true
-              }
-          fi
+          echo "Publishing release $RELEASE_TAG..."
+          gh release delete "$RELEASE_TAG" --yes 2>/dev/null || true
+
+          gh release create "$RELEASE_TAG" build-output/Omega.apk \
+            --title "$RELEASE_TITLE" \
+            --notes-file /tmp/release_notes.md \
+            2>&1 | tee /tmp/release.log || {
+              echo "Create fallback, attempting clobber upload..."
+              gh release upload "$RELEASE_TAG" build-output/Omega.apk --clobber 2>&1 | tee -a /tmp/release.log || true
+            }
           echo "GitHub Release step completed!"
 
       - name: Report pipeline telemetry to feedback branch
@@ -190,6 +188,7 @@ jobs:
           echo "CAP_SYNC_OUTCOME=${{ steps.cap_sync.outcome }}" >> logs/verify.txt
           echo "BUILD_APK_OUTCOME=${{ steps.build_apk.outcome }}" >> logs/verify.txt
           echo "PREPARE_APK_OUTCOME=${{ steps.prepare_apk.outcome }}" >> logs/verify.txt
+          echo "UPLOAD_APK_OUTCOME=${{ steps.upload_apk.outcome }}" >> logs/verify.txt
           echo "RELEASE_OUTCOME=${{ steps.release.outcome }}" >> logs/verify.txt
           echo "APK_GENERATED=$APK_GEN" >> logs/verify.txt
           echo "APK_SIZE=$APK_SZ" >> logs/verify.txt
@@ -197,6 +196,7 @@ jobs:
           echo "REF=${{ github.ref }}" >> logs/verify.txt
           echo "DATE=$(date -u)" >> logs/verify.txt
           cp *.log logs/ 2>/dev/null || true
+          cp /tmp/release.log logs/release.log 2>/dev/null || true
           cp android/*.log logs/ 2>/dev/null || true
           find android/app/build -name "*.txt" -exec cp {} logs/ \; 2>/dev/null || true
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
