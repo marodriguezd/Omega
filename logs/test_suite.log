@@ -3,7 +3,7 @@ $ node tests/runner.js
 ================================================================
        OMEGA COMPREHENSIVE 4-TIER E2E TEST SUITE RUNNER         
 ================================================================
-Environment: Node v22.23.2 | Target: Omega Platform
+Environment: Node v22.23.3 | Target: Omega Platform
 Project Root: /home/runner/work/Omega/Omega
 
 
@@ -54,8 +54,8 @@ Project Root: /home/runner/work/Omega/Omega
   ✖ [FAIL] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg
      └─ Small squircle radius must be greater than 0px
   ✔ [PASS] T2.R2.1: Frame budget verification across high-refresh rates (60Hz, 90Hz, 120Hz, 144Hz) (1ms)
-  ✔ [PASS] T2.R2.2: Apnea retention long-duration drift simulation proves timestamp delta eliminates cumulative lag (0ms)
-  ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (2ms)
+  ✔ [PASS] T2.R2.2: Apnea retention long-duration drift simulation proves timestamp delta eliminates cumulative lag (1ms)
+  ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (3ms)
   ✔ [PASS] T2.R2.4: Zero and negative duration timer boundary inputs must be safely clamped (0ms)
   ✔ [PASS] T2.R2.5: Dynamic typography clamp must remain bounded between 13px and 16px at extreme viewports (0ms)
   ✔ [PASS] T2.R3.1: Exact breakpoint boundary evaluation (767px mobile vs 768px desktop) (1ms)
@@ -64,10 +64,10 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T2.R3.4: Safe area insets boundary: dynamic calculation with 0px vs 60px notch (0ms)
   ✔ [PASS] T2.R3.5: Rapid window resize oscillation across 768px boundary maintains clean state transition (0ms)
   ✔ [PASS] T2.R4.1: KeepAwake native failure gracefully falls back to Web Wake Lock API (1ms)
-  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
+  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (1ms)
   ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
   ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
-  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (20ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (29ms)
 
 ▶ Executing Tier 3: Cross-Feature Combinations...
   ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (3ms)
@@ -83,6 +83,11 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T4.S3: Desktop Wide-Screen Session (>=768px) with Multi-Column Dashboard and Navigation Rail (0ms)
   ✔ [PASS] T4.S4: Mobile Commuter Session with Safe-Area insets, screen wake lock, and accidental exit protection (0ms)
   ✔ [PASS] T4.S5: International Multi-Device Customization Journey (Language, Theme, Zoom scaling) (0ms)
+  ✔ [PASS] T4.S6: 20-Day Cold Shower Challenge schedule and progression (1ms)
+  ✔ [PASS] T4.S7: Apnea push-up test session recording and retention tracking (0ms)
+  ✔ [PASS] T4.S8: Wim Hof Hexagonal badges evaluation and unlock conditions (0ms)
+  ✔ [PASS] T4.S9: 100% Offline-First JSON backup export and import round-trip (0ms)
+  ✔ [PASS] T4.S10: Bi-directional backward compatibility with legacy storage keys (0ms)
 
 ================================================================
                       TEST EXECUTION SUMMARY                    
@@ -92,10 +97,10 @@ Tier                                    | Total | Pass | Fail | Milestones
 Tier 1: Feature Coverage (R1-R4)        |    20 |    4 |   16 | M1, M2, M3, M4
 Tier 2: Boundary & Corner Cases (R1-R4) |    20 |   18 |    2 | M1, M2, M3, M4
 Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
-Tier 4: Real-World Application Scenarios |     5 |    5 |    0 | End-to-End User Journeys
+Tier 4: Real-World Application Scenarios |    10 |   10 |    0 | End-to-End User Journeys
 ----------------------------------------+-------+------+------+-----------
-Total Tests: 51 | Passed: 33 | Pending Implementation: 18
-Suite Execution Time: 0.66s
+Total Tests: 56 | Passed: 38 | Pending Implementation: 18
+Suite Execution Time: 0.79s
 ================================================================
 
 Pending Implementation Milestones / Discovered Defects:

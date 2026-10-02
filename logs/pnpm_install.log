@@ -1,20 +1,18 @@
 Scope: all 3 workspace projects
+[WARN] The settings in Bubble-Breathing/pnpm-workspace.yaml do not apply, because Bubble-Breathing is a project of this workspace. pnpm reads settings only from the pnpm-workspace.yaml at the workspace root. Move the settings there, or add "!Bubble-Breathing" to the root's "packages" to keep that project a separate workspace.
 ? Verifying lockfile against supply-chain policies (535 entries)...
 Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +447
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 447, reused 0, downloaded 0, added 0
-Progress: resolved 447, reused 0, downloaded 1, added 0
-✓ Lockfile passes supply-chain policies (535 entries in 3.9s)
-Progress: resolved 447, reused 0, downloaded 55, added 0
-Progress: resolved 447, reused 0, downloaded 59, added 0
+Progress: resolved 447, reused 64, downloaded 0, added 0
+Progress: resolved 447, reused 215, downloaded 0, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 447, reused 0, downloaded 154, added 8
-Progress: resolved 447, reused 0, downloaded 379, added 27
-Progress: resolved 447, reused 0, downloaded 447, added 447, done
+✓ Lockfile passes supply-chain policies (535 entries in 3.3s)
+Progress: resolved 447, reused 447, downloaded 0, added 22
+Progress: resolved 447, reused 447, downloaded 0, added 447, done
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.25.12/node_modules/esbuild postinstall: Done
@@ -39,4 +37,4 @@ devDependencies:
 + typescript 5.8.3
 + vite 6.4.3
 
-Done in 9.2s using pnpm v11.27.1
+Done in 5s using pnpm v11.28.3
