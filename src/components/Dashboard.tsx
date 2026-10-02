@@ -14,11 +14,13 @@ import {
   ZoomIn,
   Award,
   TrendingUp,
-  Snowflake
+  Snowflake,
+  Info
 } from 'lucide-react';
 import { useOmegaStats, formatTimeSeconds } from '../hooks/useOmegaStats';
 import { ZoomModal } from './ZoomModal';
 import { PushUpModal } from './PushUpModal';
+import { AboutModal } from './AboutModal';
 import { TabType } from './BottomNav';
 
 interface DashboardProps {
@@ -56,6 +58,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
   const [isPushUpModalOpen, setIsPushUpModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
   const activeLang = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[0];
 
@@ -79,6 +82,15 @@ export const Dashboard: React.FC<DashboardProps> = ({
             title={langDict.zoomLabel || 'Escala / Zoom'}
           >
             <ZoomIn size={18} />
+          </button>
+
+          {/* About Modal button */}
+          <button
+            className="hub-icon-btn about-btn"
+            onClick={() => setIsAboutModalOpen(true)}
+            title={langDict.aboutBtnTitle || 'Acerca de Omega'}
+          >
+            <Info size={18} />
           </button>
 
           {/* Language selector */}
@@ -398,6 +410,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
       <PushUpModal
         isOpen={isPushUpModalOpen}
         onClose={() => setIsPushUpModalOpen(false)}
+        langDict={langDict}
+      />
+
+      {/* About Omega Modal */}
+      <AboutModal
+        isOpen={isAboutModalOpen}
+        onClose={() => setIsAboutModalOpen(false)}
         langDict={langDict}
       />
     </div>
