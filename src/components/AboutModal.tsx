@@ -182,12 +182,15 @@ export const AboutModal: React.FC<AboutModalProps> = ({
           </div>
 
           {/* Open source license & author */}
-          <div style={{ textAlign: 'center', fontSize: '0.76rem', color: 'var(--color-muted, #94a3b8)', marginTop: '0.25rem' }}>
-            <p style={{ margin: '0 0 0.25rem' }}>
+          <div style={{ textAlign: 'center', fontSize: '0.74rem', color: 'var(--color-muted, #94a3b8)', marginTop: '0.25rem' }}>
+            <p style={{ margin: '0 0 0.35rem' }}>
               Licencia MIT • Código Abierto
             </p>
-            <p style={{ margin: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
+            <p style={{ margin: '0 0 0.35rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
               Creado con <Heart size={13} color="#e74c3c" fill="#e74c3c" /> para la comunidad de biohacking y respiración consciente.
+            </p>
+            <p style={{ margin: 0, fontSize: '0.68rem', opacity: 0.75, lineHeight: 1.35 }}>
+              Proyecto independiente sin afiliación con Innerfire B.V. ni Wim Hof. Práctica bajo tu propia responsabilidad; nunca realices hiperventilación o retenciones dentro del agua ni de pie.
             </p>
           </div>
         </div>

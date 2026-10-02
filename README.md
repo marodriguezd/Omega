@@ -1,8 +1,8 @@
-# 🌌 Omega - Wim Hof Method Suite & Vitality Hub for Android
+# 🌌 Omega - Conscious Breathwork & Cold Adaptation Hub
 
 <div align="center">
   <img src="public/assets/icon.svg" alt="Omega Logo" width="128" height="128">
-  <h3>Complete Wim Hof Breathwork, Cold Exposure & Vitality Suite for Android</h3>
+  <h3>Open Source Conscious Breathwork, Cold Exposure & Vitality Suite for Android</h3>
 
   [![Build & Release Android APK](https://github.com/marodriguezd/Omega/actions/workflows/android.yml/badge.svg)](https://github.com/marodriguezd/Omega/actions/workflows/android.yml)
   [![Latest Release](https://img.shields.io/github/v/release/marodriguezd/Omega?color=4ca1af&label=Android%20APK)](https://github.com/marodriguezd/Omega/releases/latest)
@@ -10,7 +10,7 @@
   [![Made With](https://img.shields.io/badge/Made%20With-React%2019%20%2B%20Vite%20%2B%20TS-61DAFB?logo=react&logoColor=white)](https://react.dev/)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-  [Overview](#-overview) • [Download APK](#-download--install-on-android) • [Features](#-features) • [5-Tab Architecture](#-5-tab-suite-architecture) • [Development](#-local-development) • [License](#-license)
+  [Overview](#-overview) • [Download APK](#-download--install-on-android) • [Features](#-features) • [5-Tab Architecture](#-5-tab-suite-architecture) • [Legal & Trademarks](#%EF%B8%8F-legal-notice--trademark-disclaimer) • [License](#-license)
 
   **[🇪🇸 Leer en Español](README.es.md)**
 </div>
@@ -19,19 +19,19 @@
 
 ## 🌟 Overview
 
-**Omega v1.0** is a 100% Free & Open Source native Android app and unified wellness hub built with **Capacitor 8**, **React 19**, and **Vite**. Inspired by the **Wim Hof Method**, Omega delivers a privacy-first, zero-telemetry experience combining guided conscious breathwork, progressive cold exposure, retention push-up challenges, and gamified progress tracking.
+**Omega v1.0** is an independent, 100% Free & Open Source native Android app and vitality hub built with **Capacitor 8**, **React 19**, and **Vite**. Omega provides a privacy-first, zero-telemetry environment combining rhythmic deep breathing, breath retention apnea, progressive cold exposure routines, retention push-up endurance challenges, and gamified progress tracking.
 
-1. 🌬️ **[Bubble Breathing](https://github.com/marodriguezd/Bubble-Breathing)**: Guided rhythmic deep breathing, empty lung retention stopwatch, and recovery breathing with sacred rounded hexagon geometry.
-2. ❄️ **[HydroCycle](https://github.com/marodriguezd/Hydrocicle)**: Immersive contrast therapy (hot/cold intervals), free cold shower timer, and ice plunge assistant.
-3. 🧊 **20-Day Cold Shower Challenge**: 4 progressive weeks (15s to 60s) with 432Hz Tibetan singing bowl cues.
-4. 💪 **Apnea Push-Up Test**: Wim Hof retention push-up counter and retention stopwatch.
-5. 📊 **Vitality & Progress Screen**: 28-day activity heatmap, 10 unlockable hexagonal badges, and offline JSON backup/restore.
+1. 🌬️ **[Bubble Breathing](https://github.com/marodriguezd/Bubble-Breathing)**: Guided rhythmic deep breathing, empty-lung retention stopwatch, and 15s recovery breath hold with organic rounded hexagon geometry.
+2. ❄️ **[HydroCycle](https://github.com/marodriguezd/Hydrocicle)**: Immersive contrast therapy (hot/cold intervals), unguided cold shower stopwatch, and ice plunge timer.
+3. 🧊 **20-Day Cold Shower Challenge**: 4 progressive weeks (15s, 30s, 45s, 60s) with 432Hz Tibetan singing bowl cues and daily verification.
+4. 💪 **Apnea Push-Up Test**: Measure muscular endurance and breath retention capacity on empty lungs with tap-to-count logging.
+5. 📊 **Vitality & Progress Screen**: 28-day activity heatmap, 10 collectible hexagonal achievement badges, and offline JSON backup/restore.
 
 ---
 
 ## 📱 Download & Install on Android
 
-You can download the pre-compiled Android APK directly from GitHub Releases:
+Download the pre-compiled Android APK directly from GitHub Releases:
 
 👉 **[Download Omega.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/latest/download/Omega.apk)**
 
@@ -45,22 +45,22 @@ You can download the pre-compiled Android APK directly from GitHub Releases:
 
 ## ✨ Features
 
-- **Wim Hof Sacred Geometry & Audio**:
-  - 🔷 **Rounded Hexagon Geometry**: Custom SVG (`R=86, cr=14`) breathing sphere with continuous perimeter ring (`pathLength="100"`), glassmorphism sheen, and outer halos.
-  - 🎵 **432Hz Harmonic Synthesizer**: Web Audio engine featuring Tibetan singing bowls, meditation bells, and native tactile vibration cues.
+- **Harmonic Geometry & 432Hz Soundscapes**:
+  - 🔷 **Rounded Hexagon Geometry**: Custom SVG (`R=86, cr=14`) breathing guide with continuous perimeter ring (`pathLength="100"`), glassmorphism sheen, and breathing halos.
+  - 🎵 **432Hz Synthesizer**: Algorithmic Web Audio synthesizer generating authentic Tibetan singing bowls, meditation bells, and native tactile vibration cues without external audio samples.
 - **20-Day Cold Shower Adaptation Challenge**:
-  - 4 progressive weeks (15s, 30s, 45s, 60s) with daily calendar verification.
-  - Visual guidance for the **Horse Stance** (*Kiba Dachi*) to warm the core without shivering.
-- **Apnea Push-Up Challenge**:
-  - Built-in retention timer and tap counter to measure physical endurance on empty lungs.
-- **Gamified Progress & Badges**:
-  - 28-day vitality heatmap and 10 collectible hexagonal badges (First Breath, Fire Week, Ice Master, etc.).
+  - 4 progressive weeks (15s, 30s, 45s, 60s) with daily calendar logging.
+  - Guided **Horse Stance** (*Kiba Dachi*) reference to generate metabolic warmth naturally.
+- **Apnea Push-Up Endurance Test**:
+  - Precision stopwatch with delta timestamps to eliminate background throttling and drift.
+- **Gamified Achievements & Badges**:
+  - 28-day vitality heatmap and 10 unlockable hexagonal badges (First Breath, Fire Week, Ice Master, etc.).
 - **Privacy & Offline First**:
   - 100% offline. Zero telemetry, no cloud accounts, no ads, and full JSON backup export/import.
-- **Fluid Multi-Layout Navigation**:
+- **Fluid Responsive Shell**:
   - Fixed 5-tab bottom navigation on mobile (`<768px`) and Navigation Rail on tablets/desktop (`>=768px`).
-  - Screen Keep-Awake prevents mobile display sleep during retention and showers.
-  - Hardware back-button interceptor with accidental exit protection.
+  - Native Screen Keep-Awake prevents display sleep during breath holds and cold showers.
+  - Hardware back-button interceptor with session exit confirmation modal.
 - **Multilingual Support (7 Languages)**:
   - English, Spanish, French, German, Italian, Portuguese, and Simplified Chinese.
 
@@ -78,6 +78,14 @@ You can download the pre-compiled Android APK directly from GitHub Releases:
 
 ---
 
+## ⚖️ Legal Notice & Trademark Disclaimer
+
+- **Independent Project**: Omega is an independent open-source project and is **not affiliated, associated, authorized, endorsed by, or in any way officially connected** with Wim Hof, Innerfire B.V., or any of their subsidiaries or affiliates.
+- **Nominative Fair Use**: Any references to the "Wim Hof Method", "Wim Hof", or related terminology are used solely for descriptive, informational, and historical nominative fair use purposes to describe traditional breathwork and cold exposure techniques.
+- **Health & Safety Advisory**: Deep breathing with retention and extreme cold exposure induce powerful physiological effects. Never practice breath retention or hyperventilation in water, while driving, standing up, or operating machinery. Consult a physician prior to practicing if you have cardiovascular conditions, epilepsy, or are pregnant.
+
+---
+
 ## 🛠️ Architecture & Tech Stack
 
 - **Monorepo Structure**: Managed with **PNPM Workspaces** and **Git Submodules**, synchronizing `Bubble-Breathing` and `Hydrocicle`.
@@ -91,33 +99,14 @@ You can download the pre-compiled Android APK directly from GitHub Releases:
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v20+)
 - [pnpm](https://pnpm.io/) (v10+)
-- [Android Studio](https://developer.android.com/studio) (optional, for native debugging)
 
-### Clone with Submodules
+### Clone & Run
 ```bash
 git clone --recursive https://github.com/marodriguezd/Omega.git
 cd Omega
-```
-
-### Install Dependencies
-```bash
 pnpm install --dangerously-allow-all-builds
-```
-
-### Run Tests
-```bash
 pnpm test
-```
-
-### Web Development Server
-```bash
 pnpm dev
-```
-
-### Build & Sync with Android
-```bash
-pnpm run build
-pnpm exec cap sync android
 ```
 
 ---
