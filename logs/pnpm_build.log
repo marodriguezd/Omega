@@ -10,4 +10,4 @@ computing gzip size...
 [2mdist/[22m[2massets/[22m[36mweb-V5DFMO6j.js     [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
 [2mdist/[22m[2massets/[22m[36mweb-CKMi7Ifr.js     [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
 [2mdist/[22m[2massets/[22m[36mindex-DXOPiRAe.js   [39m[1m[2m387.49 kB[22m[1m[22m[2m │ gzip: 114.51 kB[22m
-[32m✓ built in 4.54s[39m
+[32m✓ built in 4.50s[39m

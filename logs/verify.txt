@@ -9,5 +9,5 @@ RELEASE_OUTCOME=success
 APK_GENERATED=true
 APK_SIZE=31M
 SHA=7c2053f8b55c772aac172af1266cb1fcebe8420e
-REF=refs/heads/main
-DATE=Fri Oct  2 23:42:01 UTC 2026
+REF=refs/tags/v1.4.0
+DATE=Fri Oct  2 23:42:19 UTC 2026
