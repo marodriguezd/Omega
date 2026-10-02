@@ -11,13 +11,18 @@ import {
   Clock, 
   Activity,
   Timer,
-  ZoomIn
+  ZoomIn,
+  Award,
+  TrendingUp,
+  Snowflake
 } from 'lucide-react';
 import { useOmegaStats, formatTimeSeconds } from '../hooks/useOmegaStats';
 import { ZoomModal } from './ZoomModal';
+import { PushUpModal } from './PushUpModal';
+import { TabType } from './BottomNav';
 
 interface DashboardProps {
-  onNavigate: (tab: 'breathing' | 'hydro') => void;
+  onNavigate: (tab: TabType) => void;
   langDict: Record<string, string>;
   currentLang: string;
   onLanguageChange: (lang: string) => void;
@@ -50,6 +55,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const { stats } = useOmegaStats();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
   const [isZoomModalOpen, setIsZoomModalOpen] = useState(false);
+  const [isPushUpModalOpen, setIsPushUpModalOpen] = useState(false);
 
   const activeLang = LANGUAGES.find(l => l.code === currentLang) || LANGUAGES[0];
 
@@ -228,6 +234,40 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <ChevronRight size={14} />
           </div>
         </div>
+
+        <div className="quick-card" style={{ borderColor: 'rgba(255, 122, 0, 0.4)' }} onClick={() => onNavigate('challenges')}>
+          <div className="quick-card-top">
+            <div className="quick-card-icon" style={{ background: 'rgba(255, 122, 0, 0.2)', color: 'var(--omega-warm-amber, #ff7a00)' }}>
+              <Award size={22} />
+            </div>
+            <ChevronRight size={18} color="var(--color-muted)" />
+          </div>
+          <div>
+            <h4>{langDict.challengeTitle || 'Reto de 20 Días'}</h4>
+            <p>{langDict.challengeSubtitle || '4 semanas de adaptación progresiva al agua fría.'}</p>
+          </div>
+          <div className="quick-card-action">
+            <span style={{ color: 'var(--omega-warm-amber, #ff7a00)' }}>Ver Reto</span>
+            <ChevronRight size={14} />
+          </div>
+        </div>
+
+        <div className="quick-card" style={{ borderColor: 'rgba(255, 157, 0, 0.4)' }} onClick={() => setIsPushUpModalOpen(true)}>
+          <div className="quick-card-top">
+            <div className="quick-card-icon" style={{ background: 'rgba(255, 157, 0, 0.2)', color: '#ff9d00' }}>
+              <Flame size={22} />
+            </div>
+            <ChevronRight size={18} color="var(--color-muted)" />
+          </div>
+          <div>
+            <h4>{langDict.pushUpTitle || 'Test de Flexiones'}</h4>
+            <p>{langDict.pushUpDesc || 'Flexiones en apnea sin aire en los pulmones.'}</p>
+          </div>
+          <div className="quick-card-action">
+            <span style={{ color: '#ff9d00' }}>Hacer Test</span>
+            <ChevronRight size={14} />
+          </div>
+        </div>
       </div>
         </div>
 
@@ -351,6 +391,13 @@ export const Dashboard: React.FC<DashboardProps> = ({
         currentZoom={currentZoom}
         onZoomChange={onZoomChange}
         onClose={() => setIsZoomModalOpen(false)}
+        langDict={langDict}
+      />
+
+      {/* Push-Up Challenge Modal */}
+      <PushUpModal
+        isOpen={isPushUpModalOpen}
+        onClose={() => setIsPushUpModalOpen(false)}
         langDict={langDict}
       />
     </div>

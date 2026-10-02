@@ -234,9 +234,11 @@ body {
 /* Scrollable views: pad bottom so content never reaches behind or touches bottom nav */
 .omega-view #configScreen,
 .omega-view #statsScreen,
-.omega-view #resultsScreen {
+.omega-view #resultsScreen,
+.omega-view.view-challenges .screen,
+.omega-view.view-progress .screen {
   justify-content: flex-start !important;
-  padding-bottom: clamp(1.5rem, 4vh, 2.5rem) !important;
+  padding-bottom: clamp(2rem, 5vh, 3.5rem) !important;
 }
 
 /* Hexagon responsive adaptation under zoom */
@@ -1071,6 +1073,14 @@ html[data-theme="light"] .nav-tab.active {
   color: #3498db;
 }
 
+.nav-tab.active.tab-challenges {
+  color: var(--omega-warm-amber, #ff7a00);
+}
+
+.nav-tab.active.tab-progress {
+  color: var(--omega-success-green, #2ecc71);
+}
+
 html[data-theme="light"] .nav-tab.active.tab-hub {
   color: #4338ca;
 }
@@ -1081,6 +1091,14 @@ html[data-theme="light"] .nav-tab.active.tab-breathing {
 
 html[data-theme="light"] .nav-tab.active.tab-hydro {
   color: #0052a3;
+}
+
+html[data-theme="light"] .nav-tab.active.tab-challenges {
+  color: #e66a00;
+}
+
+html[data-theme="light"] .nav-tab.active.tab-progress {
+  color: #1b8744;
 }
 
 .nav-tab-indicator {

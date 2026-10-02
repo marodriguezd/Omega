@@ -32,7 +32,7 @@ function getAudioContext(): AudioContext | null {
  * Creates a synthetic resonant singing bowl chime.
  * Fundamental frequency f0 + natural overtone partials + soft exponential decay.
  */
-function playSingingBowl(
+export function playSingingBowl(
   fundamental: number,
   durationSec: number,
   volume: number,

@@ -8,12 +8,16 @@ import { enableKeepAwake, disableKeepAwake, registerBackButtonHandler } from './
 
 import BubbleBreathingApp from '../Bubble-Breathing/src/App';
 import HydrocicleApp from '../Hydrocicle/src/App';
+import { ChallengesScreen } from './components/ChallengesScreen';
+import { ProgressScreen } from './components/ProgressScreen';
+import { useOmegaStats } from './hooks/useOmegaStats';
 
 import './styles/hub.css';
 import './styles/responsive.css';
 import './styles/animations.css';
 
 export function App() {
+  const { stats } = useOmegaStats();
   const [activeTab, setActiveTab] = useState<TabType>('hub');
   const [currentLang, setCurrentLang] = useState<string>(() => {
     return localStorage.getItem('omega_language') || 'es';
@@ -95,15 +99,16 @@ export function App() {
   }, []);
 
   // Session state event tracker from sub-apps
-  const sessionStatesRef = useRef<{ bubble: boolean; hydro: boolean }>({
+  const sessionStatesRef = useRef<{ bubble: boolean; hydro: boolean; challenge: boolean }>({
     bubble: false,
     hydro: false,
+    challenge: false,
   });
 
   useEffect(() => {
     const handleSessionState = (e: any) => {
-      if (e.detail?.app === 'bubble' || e.detail?.app === 'hydro') {
-        sessionStatesRef.current[e.detail.app as 'bubble' | 'hydro'] = Boolean(e.detail.active);
+      if (e.detail?.app === 'bubble' || e.detail?.app === 'hydro' || e.detail?.app === 'challenge') {
+        sessionStatesRef.current[e.detail.app as 'bubble' | 'hydro' | 'challenge'] = Boolean(e.detail.active);
       }
     };
     window.addEventListener('omega-session-state', handleSessionState as EventListener);
@@ -151,6 +156,11 @@ export function App() {
       );
       return !!showerScreen;
     }
+    if (activeTab === 'challenges') {
+      if (sessionStatesRef.current.challenge) return true;
+      const challengeScreen = document.querySelector('.view-challenges .screen.active');
+      return !!challengeScreen;
+    }
     return false;
   }, [activeTab]);
 
@@ -171,6 +181,7 @@ export function App() {
   const handleConfirmExit = useCallback(() => {
     setShowExitModal(false);
     disableKeepAwake();
+    window.dispatchEvent(new CustomEvent('omega-pause-session', { detail: { pause: false, exit: true } }));
     if (pendingTabRef.current) {
       setActiveTab(pendingTabRef.current);
       pendingTabRef.current = null;
@@ -268,6 +279,22 @@ export function App() {
           aria-hidden={activeTab !== 'hydro'}
         >
           <HydrocicleApp />
+        </div>
+
+        {/* Tab: Challenges (20-Day Cold Challenge) */}
+        <div 
+          className={`omega-view view-challenges ${activeTab === 'challenges' ? 'active' : 'hidden'}`}
+          aria-hidden={activeTab !== 'challenges'}
+        >
+          <ChallengesScreen langDict={langDict} />
+        </div>
+
+        {/* Tab: Progress & Badges */}
+        <div 
+          className={`omega-view view-progress ${activeTab === 'progress' ? 'active' : 'hidden'}`}
+          aria-hidden={activeTab !== 'progress'}
+        >
+          <ProgressScreen langDict={langDict} combinedStreak={stats.combinedStreak} />
         </div>
       </main>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Home, Wind, Droplets, Moon, Sun, ZoomIn } from 'lucide-react';
+import { Home, Wind, Droplets, Award, TrendingUp, Moon, Sun, ZoomIn } from 'lucide-react';
 import { TabType } from './BottomNav';
 
 export interface NavigationRailProps {
@@ -79,8 +79,8 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
         <button
           className={`rail-tab nav-rail-item tab-hydro ${activeTab === 'hydro' ? 'active' : ''}`}
           onClick={() => onSelectTab('hydro')}
-          aria-label={langDict.tabHydro || 'Duchas'}
-          title={langDict.tabHydro || 'Duchas'}
+          aria-label={langDict.tabHydro || 'Frío'}
+          title={langDict.tabHydro || 'Frío'}
           aria-current={activeTab === 'hydro' ? 'page' : undefined}
           data-tab="hydro"
         >
@@ -88,7 +88,37 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
           <div className="nav-rail-icon-wrapper">
             <Droplets size={22} />
           </div>
-          <span className="rail-tab-label nav-rail-label nav-tab-label">{langDict.tabHydro || 'Duchas'}</span>
+          <span className="rail-tab-label nav-rail-label nav-tab-label">{langDict.tabHydro || 'Frío'}</span>
+        </button>
+
+        <button
+          className={`rail-tab nav-rail-item tab-challenges ${activeTab === 'challenges' ? 'active' : ''}`}
+          onClick={() => onSelectTab('challenges')}
+          aria-label={langDict.tabChallenges || 'Desafíos'}
+          title={langDict.tabChallenges || 'Desafíos'}
+          aria-current={activeTab === 'challenges' ? 'page' : undefined}
+          data-tab="challenges"
+        >
+          {activeTab === 'challenges' && <span className="nav-tab-indicator rail-indicator active" />}
+          <div className="nav-rail-icon-wrapper">
+            <Award size={22} />
+          </div>
+          <span className="rail-tab-label nav-rail-label nav-tab-label">{langDict.tabChallenges || 'Desafíos'}</span>
+        </button>
+
+        <button
+          className={`rail-tab nav-rail-item tab-progress ${activeTab === 'progress' ? 'active' : ''}`}
+          onClick={() => onSelectTab('progress')}
+          aria-label={langDict.tabProgress || 'Progreso'}
+          title={langDict.tabProgress || 'Progreso'}
+          aria-current={activeTab === 'progress' ? 'page' : undefined}
+          data-tab="progress"
+        >
+          {activeTab === 'progress' && <span className="nav-tab-indicator rail-indicator active" />}
+          <div className="nav-rail-icon-wrapper">
+            <TrendingUp size={22} />
+          </div>
+          <span className="rail-tab-label nav-rail-label nav-tab-label">{langDict.tabProgress || 'Progreso'}</span>
         </button>
       </nav>
 

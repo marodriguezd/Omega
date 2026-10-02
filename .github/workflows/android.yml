@@ -137,9 +137,9 @@ jobs:
           echo "Target release title: $RELEASE_TITLE"
 
           cat << 'EOF' > /tmp/release_notes.md
-          ## 🌌 Omega $RELEASE_TAG — Unified Wellness Hub (Wim Hof Sacred Geometry & 432Hz Zen Audio)
+          ## 🌌 Omega $RELEASE_TAG — Wim Hof Method Suite & Sacred Geometry
 
-          Release featuring the iconic **rounded hexagon geometry** (`BreathingSphere`), 432Hz harmonic Web Audio synthesizer (singing bowls, breath chimes), monotonic anti-drift timers, and unified contrast shower controls.
+          Comprehensive Open Source release featuring the **Wim Hof Method suite**: breathing retention timelines, 4-week progressive cold shower challenges, apnea push-up counter, and offline-first vitality dashboard.
 
           ### 📥 Direct APK Download
           Download the attached pre-compiled APK directly:
@@ -148,14 +148,16 @@ jobs:
           ### 🚀 Installation Instructions
           1. Download `Omega.apk` on your Android device.
           2. Tap the downloaded file to install (enable "Allow from this source" if prompted).
-          3. Open Omega and enjoy the Wim Hof breathing and contrast shower experience!
+          3. Open Omega and experience the full Wim Hof breathwork, cold exposure, and progress tracking!
 
           ### ✨ What's New in $RELEASE_TAG
-          - 🔷 **Wim Hof Sacred Geometry**: Rounded hexagon SVG (`R=86, cr=14`) with glassmorphism sheen, outer pulsating halos, and continuous perimeter progress ring (`pathLength="100"`).
-          - 🎵 **432Hz Zen Harmonic Audio**: Web Audio synthesizer featuring Tibetan singing bowls, smooth breath bells, and native tactile haptics.
-          - ⏱️ **Monotonic Drift-Free Timers**: Robust timeline state machine fixing retention and recovery skips, immune to background throttling.
-          - 🚿 **HydroCycle Unified Controls**: Streamlined contrast shower dock and integrated hexagon progress ring.
-          - 🔄 **Bidirectional Hub Sync & Auto-Pause**: Dynamic metrics updates and auto-pause on modal/back button exit.
+          - 🧊 **20-Day Cold Shower Challenge**: 4 progressive weeks (15s to 60s) with 432Hz audio feedback and calendar completion tracking.
+          - 💪 **Apnea Push-Up Test**: Wim Hof retention push-up counter, elapsed stopwatch, and auto-logging.
+          - 📊 **Vitality & Progress Screen**: 28-day activity heatmap, 10 unlockable hexagonal badges, and full JSON backup/restore.
+          - 🔷 **Wim Hof Sacred Geometry**: Rounded hexagon SVG (`R=86, cr=14`) with glassmorphism sheen, pulsating halos, and continuous perimeter progress ring.
+          - 🎵 **432Hz Zen Audio Engine**: Web Audio synthesizer with Tibetan singing bowls, smooth bells, and native tactile haptics.
+          - 📱 **5-Tab Navigation**: Fluid switching between Hub, Breathing, Cold Exposure, Challenges, and Progress.
+          - 🛡️ **Zero-Drift Architecture**: Monotonic performance.now() timers immune to background throttling.
           EOF
           sed -i "s|\$RELEASE_TAG|$RELEASE_TAG|g" /tmp/release_notes.md
 

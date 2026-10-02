@@ -1,7 +1,7 @@
 import React from 'react';
-import { Home, Wind, Droplets } from 'lucide-react';
+import { Home, Wind, Droplets, Award, TrendingUp } from 'lucide-react';
 
-export type TabType = 'hub' | 'breathing' | 'hydro';
+export type TabType = 'hub' | 'breathing' | 'hydro' | 'challenges' | 'progress';
 
 interface BottomNavProps {
   activeTab: TabType;
@@ -37,13 +37,36 @@ export const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onSelectTab, la
       <button
         className={`nav-tab tab-hydro ${activeTab === 'hydro' ? 'active' : ''}`}
         onClick={() => onSelectTab('hydro')}
-        aria-label={langDict.tabHydro || 'Duchas'}
+        aria-label={langDict.tabHydro || 'Frío'}
         aria-current={activeTab === 'hydro' ? 'page' : undefined}
       >
         {activeTab === 'hydro' && <span className="nav-tab-indicator active" />}
         <Droplets size={22} />
-        <span className="nav-tab-label">{langDict.tabHydro || 'Duchas'}</span>
+        <span className="nav-tab-label">{langDict.tabHydro || 'Frío'}</span>
+      </button>
+
+      <button
+        className={`nav-tab tab-challenges ${activeTab === 'challenges' ? 'active' : ''}`}
+        onClick={() => onSelectTab('challenges')}
+        aria-label={langDict.tabChallenges || 'Desafíos'}
+        aria-current={activeTab === 'challenges' ? 'page' : undefined}
+      >
+        {activeTab === 'challenges' && <span className="nav-tab-indicator active" />}
+        <Award size={22} />
+        <span className="nav-tab-label">{langDict.tabChallenges || 'Desafíos'}</span>
+      </button>
+
+      <button
+        className={`nav-tab tab-progress ${activeTab === 'progress' ? 'active' : ''}`}
+        onClick={() => onSelectTab('progress')}
+        aria-label={langDict.tabProgress || 'Progreso'}
+        aria-current={activeTab === 'progress' ? 'page' : undefined}
+      >
+        {activeTab === 'progress' && <span className="nav-tab-indicator active" />}
+        <TrendingUp size={22} />
+        <span className="nav-tab-label">{langDict.tabProgress || 'Progreso'}</span>
       </button>
     </nav>
   );
 };
+

@@ -49,7 +49,8 @@ const TEST_TIERS = [
     tier: 'Tier 4: Real-World Application Scenarios',
     milestones: 'End-to-End User Journeys',
     files: [
-      path.join(__dirname, 'tier4-scenarios/e2e-scenarios.test.js')
+      path.join(__dirname, 'tier4-scenarios/e2e-scenarios.test.js'),
+      path.join(__dirname, 'tier4-scenarios/wim-hof-suite.test.js')
     ]
   }
 ];
