@@ -162,6 +162,10 @@ jobs:
           sed -i "s|\$RELEASE_TAG|$RELEASE_TAG|g" /tmp/release_notes.md
 
           echo "Publishing release $RELEASE_TAG..."
+          # Clean up any legacy releases to ensure clean 1.0.0 baseline
+          for old_tag in v1.1.0 v1.2.0 v1.3.0 v1.4.0; do
+            gh release delete "$old_tag" --yes 2>/dev/null || true
+          done
           gh release delete "$RELEASE_TAG" --yes 2>/dev/null || true
 
           gh release create "$RELEASE_TAG" build-output/Omega.apk \
