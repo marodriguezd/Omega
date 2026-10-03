@@ -49,22 +49,22 @@ WARNING: Using flatDir should be avoided because it doesn't support any meta-dat
 > Task :capacitor-community-keep-awake:processReleaseNavigationResources
 > Task :capacitor-community-keep-awake:parseReleaseLocalResources
 > Task :capacitor-android:parseReleaseLocalResources
-> Task :capacitor-community-keep-awake:generateReleaseRFile
 > Task :capacitor-android:generateReleaseRFile
-> Task :capacitor-community-keep-awake:javaPreCompileRelease
+> Task :capacitor-community-keep-awake:generateReleaseRFile
 
 > Task :capacitor-android:compileReleaseJavaWithJavac
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
+> Task :capacitor-community-keep-awake:javaPreCompileRelease
 > Task :capacitor-app:generateReleaseResValues
 > Task :capacitor-app:generateReleaseResources
 > Task :capacitor-app:packageReleaseResources
-> Task :capacitor-app:processReleaseNavigationResources
 > Task :capacitor-android:bundleLibCompileToJarRelease
-> Task :capacitor-app:parseReleaseLocalResources
+> Task :capacitor-app:processReleaseNavigationResources
 > Task :capacitor-community-keep-awake:compileReleaseJavaWithJavac
 > Task :capacitor-community-keep-awake:bundleLibRuntimeToDirRelease
+> Task :capacitor-app:parseReleaseLocalResources
 > Task :capacitor-app:generateReleaseRFile
 > Task :capacitor-app:javaPreCompileRelease
 > Task :capacitor-app:compileReleaseJavaWithJavac
@@ -115,38 +115,37 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-haptics:processReleaseManifest
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
+> Task :app:mergeReleaseResources
+> Task :app:packageReleaseResources
 > Task :app:processReleaseManifestForPackage
+> Task :app:parseReleaseLocalResources
+> Task :capacitor-android:compileReleaseLibraryResources
+> Task :capacitor-app:compileReleaseLibraryResources
 > Task :capacitor-app:bundleLibCompileToJarRelease
+> Task :capacitor-community-keep-awake:compileReleaseLibraryResources
 > Task :capacitor-community-keep-awake:bundleLibCompileToJarRelease
+> Task :capacitor-cordova-android-plugins:compileReleaseLibraryResources
 > Task :capacitor-cordova-android-plugins:bundleLibCompileToJarRelease
+> Task :capacitor-haptics:compileReleaseLibraryResources
 > Task :capacitor-haptics:bundleLibCompileToJarRelease
 > Task :app:desugarReleaseFileDependencies
 > Task :app:mergeReleaseStartupProfile
-> Task :app:mergeReleaseResources
-> Task :app:packageReleaseResources
-> Task :app:mergeExtDexRelease
-> Task :app:parseReleaseLocalResources
-> Task :capacitor-android:prepareReleaseArtProfile
-> Task :capacitor-app:prepareReleaseArtProfile
-> Task :capacitor-android:compileReleaseLibraryResources
-> Task :capacitor-community-keep-awake:prepareReleaseArtProfile
-> Task :capacitor-app:compileReleaseLibraryResources
-> Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile
-> Task :capacitor-community-keep-awake:compileReleaseLibraryResources
-> Task :capacitor-haptics:prepareReleaseArtProfile
-> Task :capacitor-cordova-android-plugins:compileReleaseLibraryResources
-> Task :app:mergeReleaseArtProfile
-> Task :capacitor-haptics:compileReleaseLibraryResources
-> Task :capacitor-community-keep-awake:bundleLibRuntimeToJarRelease
-> Task :capacitor-app:bundleLibRuntimeToJarRelease
-> Task :capacitor-haptics:bundleLibRuntimeToJarRelease
-> Task :capacitor-android:bundleLibRuntimeToJarRelease
 > Task :app:processReleaseResources
 > Task :app:compileReleaseJavaWithJavac
 > Task :app:dexBuilderRelease
-> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarRelease
+> Task :capacitor-android:prepareReleaseArtProfile
+> Task :capacitor-app:prepareReleaseArtProfile
+> Task :capacitor-community-keep-awake:prepareReleaseArtProfile
+> Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile
+> Task :capacitor-haptics:prepareReleaseArtProfile
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeExtDexRelease
+> Task :capacitor-community-keep-awake:bundleLibRuntimeToJarRelease
+> Task :capacitor-app:bundleLibRuntimeToJarRelease
 > Task :app:mergeDexRelease
-> Task :app:mergeReleaseGlobalSynthetics
+> Task :capacitor-haptics:bundleLibRuntimeToJarRelease
+> Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarRelease
+> Task :capacitor-android:bundleLibRuntimeToJarRelease
 > Task :app:mergeReleaseShaders
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
@@ -171,7 +170,6 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-haptics:generateReleaseAssets UP-TO-DATE
 > Task :capacitor-haptics:mergeReleaseAssets
 > Task :app:mergeReleaseAssets
-> Task :app:compileReleaseArtProfile
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:extractProguardFiles
@@ -179,13 +177,14 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-android:createFullJarRelease
 > Task :capacitor-android:extractProguardFiles
 > Task :capacitor-android:generateReleaseLintModel
-> Task :capacitor-app:processReleaseJavaRes NO-SOURCE
+> Task :app:mergeReleaseGlobalSynthetics
 > Task :capacitor-android:prepareLintJarForPublish
+> Task :capacitor-app:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-app:createFullJarRelease
 > Task :capacitor-app:extractProguardFiles
 > Task :capacitor-app:generateReleaseLintModel
-> Task :capacitor-community-keep-awake:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-app:prepareLintJarForPublish
+> Task :capacitor-community-keep-awake:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-community-keep-awake:createFullJarRelease
 > Task :capacitor-community-keep-awake:extractProguardFiles
 > Task :capacitor-community-keep-awake:generateReleaseLintModel
@@ -193,6 +192,7 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-cordova-android-plugins:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-cordova-android-plugins:createFullJarRelease
 > Task :capacitor-cordova-android-plugins:extractProguardFiles
+> Task :app:compileReleaseArtProfile
 > Task :capacitor-cordova-android-plugins:generateReleaseLintModel
 > Task :capacitor-cordova-android-plugins:prepareLintJarForPublish
 > Task :capacitor-haptics:processReleaseJavaRes NO-SOURCE
@@ -229,8 +229,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-haptics:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-haptics:mergeReleaseConsumerProguardFiles
 > Task :capacitor-haptics:mergeReleaseJavaResource
-> Task :capacitor-android:checkReleaseAarMetadata
 > Task :capacitor-haptics:syncReleaseLibJars
+> Task :capacitor-android:checkReleaseAarMetadata
 > Task :capacitor-haptics:bundleReleaseLocalLintAar
 > Task :capacitor-android:stripReleaseDebugSymbols NO-SOURCE
 > Task :capacitor-android:copyReleaseJniLibsProjectAndLocalJars
@@ -263,10 +263,10 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-android:generateReleaseLintVitalModel
 > Task :capacitor-app:generateReleaseLintVitalModel
 > Task :capacitor-community-keep-awake:generateReleaseLintVitalModel
-> Task :capacitor-haptics:lintVitalAnalyzeRelease
 > Task :capacitor-cordova-android-plugins:generateReleaseLintVitalModel
 > Task :capacitor-haptics:generateReleaseLintVitalModel
 > Task :app:processReleaseJavaRes NO-SOURCE
+> Task :capacitor-haptics:lintVitalAnalyzeRelease
 > Task :app:mergeReleaseJavaResource
 > Task :app:optimizeReleaseResources
 > Task :app:collectReleaseDependencies
@@ -314,5 +314,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 1m 4s
+BUILD SUCCESSFUL in 1m 7s
 244 actionable tasks: 244 executed
