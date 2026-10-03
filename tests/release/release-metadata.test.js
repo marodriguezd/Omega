@@ -52,4 +52,50 @@ describe('Release hardening — metadata, naming and version truth', () => {
       'mismatched tag must exit non-zero',
     );
   });
+
+  it('R35. third-party license status is documented without inventing the Hydrocicle license', () => {
+    const notices = readProjectFile('THIRD-PARTY-NOTICES.md') || '';
+    assert.ok(notices.length > 0, 'THIRD-PARTY-NOTICES.md must exist for the public release');
+    assert.match(
+      notices,
+      /Bubble-Breathing\/LICENSE/,
+      'Bubble-Breathing Apache-2.0 evidence must be cited',
+    );
+    assert.match(notices, /Hydrocicle/, 'Hydrocicle status must be documented, not silent');
+    assert.match(
+      notices,
+      /OWNER CONFIRMATION REQUIRED/,
+      'the unverified Hydrocicle license must stay flagged for the owner',
+    );
+    // No license may be asserted for Hydrocicle: its pinned commit ships no
+    // LICENSE file and upstream metadata reports no license.
+    const start = notices.indexOf('## Hydrocicle');
+    assert.ok(start !== -1, 'Hydrocicle section must exist');
+    const next = notices.indexOf('\n## ', start + 3);
+    const hydro = next === -1 ? notices.slice(start) : notices.slice(start, next);
+    // The section may quote the README's claim, but must explicitly record
+    // the evidence gap and assert no license of its own: the pinned commit
+    // ships no LICENSE file and upstream metadata reports no license.
+    assert.match(hydro, /no `LICENSE` file/i, 'must record the missing LICENSE file');
+    assert.match(hydro, /"license": null/, 'must record the upstream metadata result');
+    assert.match(hydro, /No license is asserted here/, 'must not assert a license without evidence');
+  });
+
+  it('R31. public download links resolve to the versioned v1.0.0 release asset', () => {
+    // The floating `latest` release carries branch/dev APKs; links labeled
+    // with the release version must target the pinned tag asset instead.
+    for (const doc of ['README.md', 'README.es.md']) {
+      const text = readProjectFile(doc) || '';
+      assert.doesNotMatch(
+        text,
+        /releases\/latest\/download\//,
+        `${doc} must not link the floating dev 'latest' release as the versioned download`,
+      );
+      assert.match(
+        text,
+        new RegExp(`releases/download/v${pkg.version}/Omega-${pkg.version}\\.apk`),
+        `${doc} must link the pinned v${pkg.version} release asset`,
+      );
+    }
+  });
 });

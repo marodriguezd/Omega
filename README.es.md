@@ -33,10 +33,12 @@
 
 Descarga el archivo APK precompilado directamente desde GitHub Releases:
 
-👉 **[Descargar Omega.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/latest/download/Omega.apk)**
+👉 **[Descargar Omega-1.0.0.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)**
+
+**v1.0.0 es la primera versión pública** (las etiquetas anteriores `v1.1.0`–`v1.4.0` fueron compilaciones internas de prueba y no tienen soporte). Las versiones de escritorio de la misma release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — están adjuntas en la [página de la release v1.0.0](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verifica cualquier descarga con el `SHA256SUMS.txt` publicado: `sha256sum -c SHA256SUMS.txt`.
 
 ### Pasos de Instalación:
-1. Abre el enlace anterior desde el navegador de tu móvil Android y descarga `Omega.apk`.
+1. Abre el enlace anterior desde el navegador de tu móvil Android y descarga `Omega-1.0.0.apk`.
 2. Toca la notificación de descarga o localiza el archivo en tu carpeta de **Descargas**.
 3. Si Android te lo solicita, activa la opción **"Permitir desde esta fuente"** para tu navegador o gestor de archivos.
 4. Pulsa **Instalar** y ¡abre Omega en tu dispositivo!
@@ -82,7 +84,7 @@ Descarga el archivo APK precompilado directamente desde GitHub Releases:
 
 - **Proyecto Independiente**: Omega es un proyecto de software libre independiente y **no está afiliado, patrocinado, respaldado ni oficialmente vinculado** a Wim Hof, Innerfire B.V., ni a ninguna de sus filiales o entidades comerciales.
 - **Uso Justo Nominativo**: Cualquier alusión a "Wim Hof", "Método Wim Hof" o términos similares se realiza con carácter estrictamente descriptivo, informativo e histórico (*Nominative Fair Use*), para hacer referencia a las técnicas de respiración consciente e hidroterapia tradicionales.
-- **Aviso de Salud y Seguridad**: Las técnicas de hiperventilación, apnea y exposición al agua fría generan efectos fisiológicos intensos. Nunca practiques retención de aire dentro del agua (piscinas, bañeras), conduciendo, de pie o manejando maquinaria. Consulta a un médico antes de comenzar si padeces afecciones cardiovasculares, epilepsia o estás en período de embarazo.
+- **Aviso de Salud y Seguridad**: Las técnicas de hiperventilación, apnea y exposición al agua fría generan efectos fisiológicos intensos. Nunca practiques retención de aire dentro del agua (piscinas, bañeras), conduciendo, de pie o manejando maquinaria. Nunca practiques inmersión en frío en solitario en aguas abiertas; sal del frío y respira con normalidad si sientes mareo, entumecimiento o malestar. Consulta a un médico antes de comenzar si padeces afecciones cardiovasculares, epilepsia o estás en período de embarazo. Estas técnicas no constituyen tratamiento médico.
 
 ---
 

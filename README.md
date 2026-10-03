@@ -33,10 +33,12 @@
 
 Download the pre-compiled Android APK directly from GitHub Releases:
 
-👉 **[Download Omega.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/latest/download/Omega.apk)**
+👉 **[Download Omega-1.0.0.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)**
+
+**v1.0.0 is the first public release** (earlier `v1.1.0`–`v1.4.0` tags were private internal testing builds and are not supported). Desktop builds for the same release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — are attached to the [v1.0.0 release page](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verify any download with the published `SHA256SUMS.txt`: `sha256sum -c SHA256SUMS.txt`.
 
 ### Installation Steps:
-1. Open the link above in your Android browser and download `Omega.apk`.
+1. Open the link above in your Android browser and download `Omega-1.0.0.apk`.
 2. Tap the download notification or locate the file in your device's **Downloads** folder.
 3. If prompted by Android, enable **"Allow from this source"** for your browser or file manager.
 4. Tap **Install** and launch Omega!
@@ -82,7 +84,7 @@ Download the pre-compiled Android APK directly from GitHub Releases:
 
 - **Independent Project**: Omega is an independent open-source project and is **not affiliated, associated, authorized, endorsed by, or in any way officially connected** with Wim Hof, Innerfire B.V., or any of their subsidiaries or affiliates.
 - **Nominative Fair Use**: Any references to the "Wim Hof Method", "Wim Hof", or related terminology are used solely for descriptive, informational, and historical nominative fair use purposes to describe traditional breathwork and cold exposure techniques.
-- **Health & Safety Advisory**: Deep breathing with retention and extreme cold exposure induce powerful physiological effects. Never practice breath retention or hyperventilation in water, while driving, standing up, or operating machinery. Consult a physician prior to practicing if you have cardiovascular conditions, epilepsy, or are pregnant.
+- **Health & Safety Advisory**: Deep breathing with retention and extreme cold exposure induce powerful physiological effects. Never practice breath retention or hyperventilation in water, while driving, standing up, or operating machinery. Never practice cold immersion alone in open water; exit the cold and breathe normally if you feel dizzy, numb, or unwell. Consult a physician prior to practicing if you have cardiovascular conditions, epilepsy, or are pregnant. These techniques are not medical treatment.
 
 ---
 
@@ -115,7 +117,7 @@ pnpm dev              # web development (Vite)
 pnpm build            # TypeScript + Vite production build → dist/
 pnpm test             # 4-tier suite (56 tests)
 pnpm run test:platform# platform suite (19 tests: abstraction, Electron, packaging, matrix)
-pnpm run test:release # release suite (28 tests: metadata, security, icons, checksums, CI)
+pnpm run test:release # release suite (31 tests: metadata, security, icons, checksums, CI)
 pnpm run validate     # fail-fast packaging validator (targets, security, configs)
 pnpm run icons        # regenerate native icons from public/assets/icon.png
 pnpm run release:meta # print deterministic artifact names for package.json version
@@ -132,8 +134,8 @@ pnpm run android:build# assemble release APK via Gradle
 ### Release flow (`v*` tags)
 
 1. Tag must match the version: `node scripts/release-meta.mjs --tag=v1.0.0` fails CI otherwise (`package.json` is the single source of truth).
-2. Each job runs the full gate: `build` → 4-tier tests (56) → platform tests (19) → release tests (28) → `validate`.
-3. `android.yml` (ubuntu): syncs Capacitor, assembles the APK, writes `Omega.apk` + `Omega-<version>.apk` + `SHA256SUMS.txt` + `manifest.json`. `v*` tags require the `ANDROID_KEYSTORE_BASE64` secret; branch builds use an ephemeral dev keystore.
+2. Each job runs the full gate: `build` → 4-tier tests (56) → platform tests (19) → release tests (31) → `validate`.
+3. `android.yml` (ubuntu): syncs Capacitor, assembles the APK, writes `Omega.apk` + `Omega-<version>.apk` + `SHA256SUMS.txt` + `manifest.json`. Only `v*` tag runs publish to GitHub Releases (`v*` tags require the `ANDROID_KEYSTORE_BASE64` secret); branch builds upload the APK as a CI workflow artifact for testing and never touch a Release.
 4. `desktop.yml`: three native jobs package DMG / MSI / AppImage, each with its own `SHA256SUMS.txt` + `manifest.json`. On tags, `release-desktop` verifies every expected artifact exists, assembles a clean allowlisted payload (`*.dmg`, `*.msi`, `*.AppImage`, `manifest-*.json`, `SHA256SUMS.txt`), and uploads exactly those files to the GitHub Release.
 5. Verify a download with `sha256sum -c SHA256SUMS.txt`. Each manifest entry records version, commit, platform, filename, SHA-256, signing status, and build timestamp.
 

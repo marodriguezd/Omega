@@ -30,9 +30,9 @@ credentials to the repository.
 Generate a throwaway local dev keystore once (gitignored, never committed):
 
 ```bash
-keytool -genkeypair -keystore android/app/omega-release-key.jks \
-  -alias omega -keyalg RSA -keysize 2048 -validity 365 \
-  -storepass omega2025 -keypass omega2025 \
+keytool -genkeypair -keystore android/app/dev-local-key.jks \
+  -alias omega-dev -keyalg RSA -keysize 2048 -validity 365 \
+  -storepass omega-dev-local -keypass omega-dev-local \
   -dname "CN=Omega Dev, OU=Dev, O=Omega, C=US"
 pnpm run android:build
 ```
@@ -98,7 +98,7 @@ pnpm install
 pnpm run build
 pnpm run test                  # 56 core tests
 node tests/runner-platform.js  # 19 platform tests
-node tests/runner-release.js   # 28 release tests
+node tests/runner-release.js   # 31 release tests
 node scripts/validate-build.mjs
 node scripts/release-meta.mjs --tag=v1.0.0
 

@@ -7,8 +7,12 @@ android {
         applicationId "com.marodriguezd.omega"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        // versionCode is the CI run number (monotonically increasing per
+        // workflow) so Play/test tracks always order builds; local builds
+        // fall back to 1. versionName is the product version and must stay
+        // identical to package.json — never the run number.
         versionCode (System.getenv("BUILD_NUMBER") ? System.getenv("BUILD_NUMBER").toInteger() : 1)
-        versionName (System.getenv("BUILD_NUMBER") ? "1.0." + System.getenv("BUILD_NUMBER") : "1.0.0")
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -23,10 +27,14 @@ android {
             //  - CI branches / local dev: a local DEV keystore (see docs/SIGNING.md
             //    for the keytool one-liner). The repository ships NO keystore;
             //    dev-signed APKs must never be published as releases.
-            storeFile file(System.getenv("KEYSTORE_FILE") ?: 'omega-release-key.jks')
-            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "omega2025"
-            keyAlias System.getenv("KEY_ALIAS") ?: "omega"
-            keyPassword System.getenv("KEY_PASSWORD") ?: "omega2025"
+            // Defaults below are dev-only placeholders, never production:
+            // the historical `omega-release-key.jks` name is retired because
+            // that key is compromised (see docs/SIGNING.md) and must not look
+            // like the canonical signing mechanism.
+            storeFile file(System.getenv("KEYSTORE_FILE") ?: 'dev-local-key.jks')
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "omega-dev-local"
+            keyAlias System.getenv("KEY_ALIAS") ?: "omega-dev"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "omega-dev-local"
         }
     }
     buildTypes {

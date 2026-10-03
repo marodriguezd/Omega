@@ -30,13 +30,13 @@
     "android:build": "pnpm run android:sync && ./android/gradlew -p android assembleRelease",
     "android:apk": "pnpm run android:build",
     "electron:dev": "concurrently -k \"vite\" \"wait-on http://localhost:5173 && electron .\"",
-    "electron:build": "tsc -b && vite build && electron-builder",
-    "electron:pack": "tsc -b && vite build && electron-builder --dir",
+    "electron:build": "tsc -b && vite build && electron-builder --publish never",
+    "electron:pack": "tsc -b && vite build && electron-builder --dir --publish never",
     "electron:preview": "tsc -b && vite build && electron .",
     "dist:mac": "tsc -b && vite build && electron-builder --mac dmg --publish never",
     "dist:win": "tsc -b && vite build && electron-builder --win msi --publish never",
     "dist:linux": "tsc -b && vite build && electron-builder --linux AppImage --publish never",
-    "dist:all": "tsc -b && vite build && electron-builder --mac dmg --win msi --linux AppImage"
+    "dist:all": "tsc -b && vite build && electron-builder --mac dmg --win msi --linux AppImage --publish never"
   },
   "dependencies": {
     "@capacitor-community/keep-awake": "^8.0.1",

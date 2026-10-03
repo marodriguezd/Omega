@@ -173,4 +173,92 @@ describe('Release hardening — tag builds can never publish debug APKs', () => 
       fs.rmSync(tmp, { recursive: true, force: true });
     }
   });
+
+  it('R29. release step never deletes the shared GitHub Release (desktop publishes concurrently)', () => {
+    const yml = readProjectFile('.github/workflows/android.yml') || '';
+    const start = yml.indexOf('Create or Update GitHub Release');
+    assert.ok(start !== -1, 'release step must exist');
+    const releaseStep = yml.slice(start);
+    assert.doesNotMatch(
+      releaseStep,
+      /gh release delete/,
+      'release step must never delete the release: desktop.yml uploads DMG/MSI/AppImage to the same tag',
+    );
+    assert.match(releaseStep, /gh release view/, 'existing release must be reused when present');
+    assert.match(releaseStep, /gh release create/, 'missing release must be created');
+    assert.match(releaseStep, /--clobber/, 'uploads must clobber so concurrent publishes compose');
+  });
+
+  it('R32. branch and manual runs never publish to GitHub Releases', () => {
+    const yml = readProjectFile('.github/workflows/android.yml') || '';
+    const start = yml.indexOf('Create or Update GitHub Release');
+    assert.ok(start !== -1, 'release step must exist');
+    // The step-level gate: only v* tag runs reach the publish script.
+    const gate = yml.slice(start, start + 600);
+    assert.match(
+      gate,
+      /if:\s*startsWith\(github\.ref,\s*['"]refs\/tags\/v['"]\)/,
+      'release step must run on v* tags only',
+    );
+    const releaseStep = yml.slice(start);
+    assert.doesNotMatch(
+      releaseStep,
+      /RELEASE_TAG="latest"/,
+      'no branch fallback may target the floating latest release',
+    );
+    assert.doesNotMatch(
+      releaseStep,
+      /github\.event\.inputs\.release_tag/,
+      'manual-dispatch input must not select a publish target',
+    );
+    // Branch builds still ship the APK as a CI workflow artifact for testing.
+    assert.match(yml, /uses:\s*actions\/upload-artifact@v4/, 'dev APKs remain available as CI artifacts');
+  });
+
+  it('R33. Android versionName is the product version; versionCode stays monotonic', () => {
+    const gradle = readProjectFile('android/app/build.gradle') || '';
+    assert.match(gradle, /versionName\s+"1\.0\.0"/, 'versionName must be the literal product version 1.0.0');
+    assert.doesNotMatch(gradle, /versionName.*BUILD_NUMBER/, 'the CI run number must never be the visible version');
+    assert.match(
+      gradle,
+      /versionCode\s+\(System\.getenv\("BUILD_NUMBER"\)/,
+      'versionCode must derive from the monotonic CI run number',
+    );
+    // Artifact filename and package metadata describe the same release.
+    const pkg = JSON.parse(readProjectFile('package.json') || '{}');
+    assert.match(gradle, new RegExp(`versionName\\s+"${pkg.version}"`), 'gradle versionName must match package.json');
+    const yml = readProjectFile('.github/workflows/android.yml') || '';
+    assert.match(
+      yml,
+      /build-output\/Omega-\$\{VERSION\}\.apk/,
+      'published APK filename must carry the package.json version',
+    );
+  });
+
+  it('R34. release publish refuses non-version tags', () => {
+    const yml = readProjectFile('.github/workflows/android.yml') || '';
+    const start = yml.indexOf('Create or Update GitHub Release');
+    assert.ok(start !== -1, 'release step must exist');
+    const releaseStep = yml.slice(start);
+    assert.match(releaseStep, /v\[0-9\]\*/, 'release step must validate the tag shape');
+    assert.match(
+      releaseStep,
+      /refusing to publish non-version tag/,
+      'unexpected tags must fail instead of publishing',
+    );
+  });
+
+  it('R30. release publish step is fail-closed (no silent publish failure)', () => {
+    const yml = readProjectFile('.github/workflows/android.yml') || '';
+    const start = yml.indexOf('Create or Update GitHub Release');
+    assert.ok(start !== -1, 'release step must exist');
+    // Next step anchor: telemetry report follows the release step.
+    const end = yml.indexOf('Report pipeline telemetry', start);
+    const releaseStep = end === -1 ? yml.slice(start) : yml.slice(start, end);
+    assert.doesNotMatch(
+      releaseStep,
+      /continue-on-error/,
+      'a failed tag publish must fail the job, never stay green',
+    );
+  });
 });

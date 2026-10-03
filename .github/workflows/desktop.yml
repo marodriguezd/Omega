@@ -161,10 +161,19 @@ jobs:
           node scripts/validate-build.mjs
 
       - name: Package Windows MSI
+        shell: pwsh
         env:
           CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-        run: pnpm run dist:win
+        run: |
+          # Symmetrical with macOS: an empty CSC_LINK (secret absent) must be
+          # removed, not passed as an empty string, so electron-builder
+          # produces a valid unsigned MSI instead of failing on a bad path.
+          if ([string]::IsNullOrEmpty($env:CSC_LINK)) {
+            Remove-Item Env:\CSC_LINK -ErrorAction SilentlyContinue
+            Remove-Item Env:\CSC_KEY_PASSWORD -ErrorAction SilentlyContinue
+          }
+          pnpm run dist:win
 
       - name: Report signing status
         shell: pwsh
