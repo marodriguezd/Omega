@@ -73,7 +73,12 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-        run: pnpm run dist:mac
+        run: |
+          # An empty CSC_LINK (secret absent) must be unset: electron-builder
+          # resolves an empty string to the project dir and aborts with
+          # "<dir> not a file" instead of building an unsigned DMG.
+          if [ -z "$CSC_LINK" ]; then unset CSC_LINK CSC_KEY_PASSWORD; fi
+          pnpm run dist:mac
 
       - name: Report signing status
         env:

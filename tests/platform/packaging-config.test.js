@@ -35,6 +35,10 @@ describe('Packaging configuration (electron-builder + Capacitor + scripts)', () 
     for (const s of ['dist:mac', 'dist:win', 'dist:linux']) {
       assert.match(pkg?.scripts?.[s] ?? '', /--publish never/, `"${s}" must disable electron-builder publish`);
     }
+    // An empty CSC_LINK secret must be unset before packaging: electron-builder
+    // resolves "" to the project dir and aborts with "<dir> not a file".
+    const desktop = readProjectFile('.github/workflows/desktop.yml') || '';
+    assert.match(desktop, /unset CSC_LINK/, 'mac packaging must unset an empty CSC_LINK');
   });
 
   it('P13. Capacitor Android config and manifest cover release APK needs', () => {
