@@ -84,7 +84,7 @@ jobs:
             echo "### macOS signing: SIGNED (Developer ID certificate provided)" >> "$GITHUB_STEP_SUMMARY"
           else
             echo "SIGNING=mac-unsigned" >> "$GITHUB_ENV"
-            echo "### macOS signing: UNSIGNED (no MAC_CSC_LINK secret — see docs/SIGNING.md)" >> "$GITHUB_STEP_SUMMARY"
+            echo '### macOS signing: UNSIGNED (no MAC_CSC_LINK secret — see docs/SIGNING.md)' >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Generate release manifest
@@ -248,7 +248,7 @@ jobs:
         run: pnpm run dist:linux
 
       - name: Report signing status
-        run: echo "### Linux signing: UNSIGNED (AppImage ships unsigned by design)" >> "$GITHUB_STEP_SUMMARY"
+        run: 'echo "### Linux signing: UNSIGNED (AppImage ships unsigned by design)" >> "$GITHUB_STEP_SUMMARY"'
 
       - name: Generate release manifest
         run: node scripts/make-manifest.mjs release --platform=linux --signing=linux-unsigned
