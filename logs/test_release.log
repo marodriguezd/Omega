@@ -31,15 +31,22 @@
   ✔ [PASS] R2. version is semver and the single source of truth
   ✔ [PASS] R3. every target derives artifact names from ${version}
   ✔ [PASS] R4. release-meta derives deterministic names and gates tag matches
+  ✔ [PASS] R35. third-party license status is documented without inventing the Hydrocicle license
+  ✔ [PASS] R31. public download links resolve to the versioned v1.0.0 release asset
 ▶ tests/release/tag-apk-guard.test.js
   ✔ [PASS] R24. tag builds run ONLY assembleRelease; debug fallback is branch-only
   ✔ [PASS] R25. prepare step rejects debug APKs on tags and guards production signing
   ✔ [PASS] R26. tag + release APK accepted; tag + debug-only rejected; branch fallback permitted
   ✔ [PASS] R27. production manifest guard rejects debug APKs
   ✔ [PASS] R28. failed assembleRelease fails the tag job (no silent fallback)
+  ✔ [PASS] R29. release step never deletes the shared GitHub Release (desktop publishes concurrently)
+  ✔ [PASS] R32. branch and manual runs never publish to GitHub Releases
+  ✔ [PASS] R33. Android versionName is the product version; versionCode stays monotonic
+  ✔ [PASS] R34. release publish refuses non-version tags
+  ✔ [PASS] R30. release publish step is fail-closed (no silent publish failure)
 
 -----------------------------------------------
-Total: 28 | Passed: 28 | Failed: 0
+Total: 35 | Passed: 35 | Failed: 0
 -----------------------------------------------
 
 All release tests PASSED!

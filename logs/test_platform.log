@@ -18,6 +18,8 @@
   ✔ [PASS] P12. Maintainable npm scripts exist for every platform flow
   ✔ [PASS] P13. Capacitor Android config and manifest cover release APK needs
   ✔ [PASS] P14. Icons, Vite base and validator script are present
+  ✔ [PASS] P15. every local electron-builder command is publish-safe
+  ✔ [PASS] P16. production web build does not require mixed content
 ▶ tests/platform/platform-abstraction.test.js
   ✔ [PASS] P1. Runtime detection exposes electron/capacitor/web without duplicating logic
   ✔ [PASS] P2. Storage abstraction wraps localStorage with memory fallback and JSON safety
@@ -28,7 +30,7 @@
   ✔ [PASS] P7. Platform barrel exports the full capability surface
 
 -----------------------------------------------
-Total: 19 | Passed: 19 | Failed: 0
+Total: 21 | Passed: 21 | Failed: 0
 -----------------------------------------------
 
 All platform tests PASSED!
