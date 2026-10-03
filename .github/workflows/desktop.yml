@@ -1,0 +1,334 @@
+# Workflow for building and releasing Omega desktop artifacts (DMG / MSI / AppImage)
+# Uses native GitHub-hosted runners per platform — no brittle cross-compilation.
+#
+# Signing is OPTIONAL and secret-driven (see docs/SIGNING.md):
+#   macOS:  MAC_CSC_LINK (base64 .p12) + MAC_CSC_KEY_PASSWORD, optionally
+#           APPLE_ID + APPLE_APP_SPECIFIC_PASSWORD + APPLE_TEAM_ID for notarization.
+#   Windows: WIN_CSC_LINK (base64 .pfx) + WIN_CSC_KEY_PASSWORD.
+# When secrets are absent, artifacts build UNSIGNED and CI reports it explicitly.
+name: Build & Release Desktop
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-mac:
+    name: Build macOS DMG
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build web app
+        run: pnpm run build
+
+      - name: Verify tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: node scripts/release-meta.mjs --tag=${{ github.ref_name }}
+
+      - name: Ensure native icons (regenerate if missing)
+        run: |
+          if [ ! -f build/icon.icns ] || [ ! -f build/icon.ico ] || [ ! -f build/icons/512x512.png ]; then
+            python3 -c "import PIL" 2>/dev/null || pip install pillow
+            python3 scripts/generate-icons.py
+          else
+            echo "Native icons present."
+          fi
+
+      - name: Run test suites + validate
+        run: |
+          pnpm run test
+          node tests/runner-platform.js
+          node tests/runner-release.js
+          node scripts/validate-build.mjs
+
+      - name: Package macOS DMG
+        env:
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: pnpm run dist:mac
+
+      - name: Report signing status
+        env:
+          MAC_CSC_LINK_PRESENT: ${{ secrets.MAC_CSC_LINK != '' }}
+        run: |
+          if [ "$MAC_CSC_LINK_PRESENT" = "true" ]; then
+            echo "SIGNING=mac-signed" >> "$GITHUB_ENV"
+            echo "### macOS signing: SIGNED (Developer ID certificate provided)" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "SIGNING=mac-unsigned" >> "$GITHUB_ENV"
+            echo "### macOS signing: UNSIGNED (no MAC_CSC_LINK secret — see docs/SIGNING.md)" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Generate release manifest
+        run: node scripts/make-manifest.mjs release --platform=mac --signing="${SIGNING:-mac-unknown}"
+
+      - name: Generate SHA-256 checksums
+        run: node scripts/make-checksums.mjs release --extra=manifest.json
+
+      - name: List artifacts
+        run: ls -lh release/
+
+      - name: Upload DMG artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Omega-macOS-DMG
+          path: |
+            release/*.dmg
+            release/SHA256SUMS.txt
+            release/manifest.json
+          retention-days: 14
+          if-no-files-found: error
+
+  build-win:
+    name: Build Windows MSI
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build web app
+        run: pnpm run build
+
+      - name: Verify tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: node scripts/release-meta.mjs --tag=${{ github.ref_name }}
+
+      - name: Ensure native icons (regenerate if missing)
+        shell: pwsh
+        run: |
+          if (-not (Test-Path build/icon.icns) -or -not (Test-Path build/icon.ico) -or -not (Test-Path build/icons/512x512.png)) {
+            python -c "import PIL" 2>$null; if ($LASTEXITCODE -ne 0) { pip install pillow }
+            python scripts/generate-icons.py
+          } else {
+            echo "Native icons present."
+          }
+
+      - name: Run test suites + validate
+        run: |
+          pnpm run test
+          node tests/runner-platform.js
+          node tests/runner-release.js
+          node scripts/validate-build.mjs
+
+      - name: Package Windows MSI
+        env:
+          CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+        run: pnpm run dist:win
+
+      - name: Report signing status
+        shell: pwsh
+        env:
+          WIN_CSC_LINK_PRESENT: ${{ secrets.WIN_CSC_LINK != '' }}
+        run: |
+          if ($env:WIN_CSC_LINK_PRESENT -eq 'true') {
+            "SIGNING=win-signed" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            "### Windows signing: SIGNED (code-signing certificate provided)" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          } else {
+            "SIGNING=win-unsigned" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+            "### Windows signing: UNSIGNED (no WIN_CSC_LINK secret — see docs/SIGNING.md)" | Out-File -FilePath $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          }
+
+      - name: Generate release manifest
+        shell: pwsh
+        run: |
+          $s = if ($env:SIGNING) { $env:SIGNING } else { 'win-unknown' }
+          node scripts/make-manifest.mjs release --platform=windows --signing="$s"
+
+      - name: Generate SHA-256 checksums
+        run: node scripts/make-checksums.mjs release --extra=manifest.json
+
+      - name: List artifacts
+        run: Get-ChildItem release/
+
+      - name: Upload MSI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Omega-Windows-MSI
+          path: |
+            release/*.msi
+            release/SHA256SUMS.txt
+            release/manifest.json
+          retention-days: 14
+          if-no-files-found: error
+
+  build-linux:
+    name: Build Linux AppImage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build web app
+        run: pnpm run build
+
+      - name: Verify tag matches package.json version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: node scripts/release-meta.mjs --tag=${{ github.ref_name }}
+
+      - name: Ensure native icons (regenerate if missing)
+        run: |
+          if [ ! -f build/icon.icns ] || [ ! -f build/icon.ico ] || [ ! -f build/icons/512x512.png ]; then
+            python3 -c "import PIL" 2>/dev/null || pip install pillow
+            python3 scripts/generate-icons.py
+          else
+            echo "Native icons present."
+          fi
+
+      - name: Run test suites + validate
+        run: |
+          pnpm run test
+          node tests/runner-platform.js
+          node tests/runner-release.js
+          node scripts/validate-build.mjs
+
+      - name: Package Linux AppImage
+        run: pnpm run dist:linux
+
+      - name: Report signing status
+        run: echo "### Linux signing: UNSIGNED (AppImage ships unsigned by design)" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Generate release manifest
+        run: node scripts/make-manifest.mjs release --platform=linux --signing=linux-unsigned
+
+      - name: Generate SHA-256 checksums
+        run: node scripts/make-checksums.mjs release --extra=manifest.json
+
+      - name: List artifacts
+        run: ls -lh release/
+
+      - name: Upload AppImage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Omega-Linux-AppImage
+          path: |
+            release/*.AppImage
+            release/SHA256SUMS.txt
+            release/manifest.json
+          retention-days: 14
+          if-no-files-found: error
+
+  release-desktop:
+    name: Validate + publish desktop release
+    needs: [build-mac, build-win, build-linux]
+    # Only publish a GitHub Release on version tags; every push still
+    # produces downloadable workflow artifacts via the jobs above.
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (scripts only)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Download all desktop artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: desktop-artifacts
+          # No merge-multiple: each job artifact lands in its own
+          # subdirectory so same-named manifests/checksums never collide.
+
+      - name: Verify expected artifacts + tag match
+        run: |
+          set -e
+          node scripts/release-meta.mjs --tag=${{ github.ref_name }}
+          VERSION=$(node -p "require('./package.json').version")
+          echo "Expected version: $VERSION"
+          ls -lhR desktop-artifacts/
+          check_one() {
+            dir="desktop-artifacts/$1"; ext="$2"
+            count=$(ls "$dir"/*."$ext" 2>/dev/null | wc -l)
+            if [ "$count" -eq 0 ]; then
+              echo "FATAL: no .$ext artifact in $dir"
+              exit 1
+            fi
+            echo "found $count .$ext artifact(s) in $dir"
+            test -f "$dir/manifest.json" || { echo "FATAL: manifest.json missing in $dir"; exit 1; }
+          }
+          check_one Omega-macOS-DMG dmg
+          check_one Omega-Windows-MSI msi
+          check_one Omega-Linux-AppImage AppImage
+          echo "Desktop per-job payloads verified for v$VERSION."
+
+      - name: Assemble clean release payload
+        run: |
+          set -e
+          rm -rf payload && mkdir -p payload
+          cp desktop-artifacts/Omega-macOS-DMG/*.dmg payload/
+          cp desktop-artifacts/Omega-Windows-MSI/*.msi payload/
+          cp desktop-artifacts/Omega-Linux-AppImage/*.AppImage payload/
+          cp desktop-artifacts/Omega-macOS-DMG/manifest.json payload/manifest-mac.json
+          cp desktop-artifacts/Omega-Windows-MSI/manifest.json payload/manifest-windows.json
+          cp desktop-artifacts/Omega-Linux-AppImage/manifest.json payload/manifest-linux.json
+          node scripts/make-checksums.mjs payload --extra=manifest-mac.json --extra=manifest-windows.json --extra=manifest-linux.json
+          cat payload/SHA256SUMS.txt
+          # Publish exactly and only these files — nothing else.
+          ls payload/
+
+      - name: Publish to GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ github.ref_name }}" payload/*.dmg payload/*.msi payload/*.AppImage payload/manifest-*.json payload/SHA256SUMS.txt --clobber

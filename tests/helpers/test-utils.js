@@ -1,8 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert';
+import { fileURLToPath } from 'node:url';
 
-export const PROJECT_ROOT = '/data/data/com.termux/files/home/Omega';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+export const PROJECT_ROOT = path.resolve(__dirname, '..', '..');
 
 /**
  * Reads a file from project root or returns null if not found.

@@ -101,6 +101,8 @@ export interface WimHofStoreData {
   badges: BadgeDefinition[];
 }
 
+import { storageGetItem, storageGetJson, storageSetItem, storageSetJson } from '../platform/storage';
+
 const STORAGE_KEYS = {
   STORE: 'omega_wimhof_store',
   BUBBLE_HISTORY: 'bubbleBreathingHistory',
@@ -111,26 +113,11 @@ const STORAGE_KEYS = {
 };
 
 function safeGetJson<T>(key: string, fallback: T): T {
-  try {
-    const raw = localStorage.getItem(key);
-    if (!raw) return fallback;
-    return JSON.parse(raw) as T;
-  } catch (e) {
-    return fallback;
-  }
+  return storageGetJson<T>(key, fallback);
 }
 
 function safeSetJson(key: string, value: any): boolean {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-    return true;
-  } catch (e: any) {
-    if (e?.name === 'QuotaExceededError') {
-      console.warn('LocalStorage quota exceeded for key:', key);
-      return false;
-    }
-    return false;
-  }
+  return storageSetJson(key, value);
 }
 
 /**
@@ -371,9 +358,9 @@ export function exportBackupJson(): string {
     version: store.version,
     data: store,
     configs: {
-      omega_language: localStorage.getItem('omega_language') || 'es',
-      omega_theme: localStorage.getItem('omega_theme') || 'dark',
-      omega_zoom: localStorage.getItem('omega_zoom') || '100',
+      omega_language: storageGetItem('omega_language') || 'es',
+      omega_theme: storageGetItem('omega_theme') || 'dark',
+      omega_zoom: storageGetItem('omega_zoom') || '100',
       bubbleBreathingConfig: safeGetJson('bubbleBreathingConfig', {}),
       hydrocicleConfig: safeGetJson('hydrocicleConfig', {})
     }
@@ -437,9 +424,9 @@ export function importBackupJson(rawJson: string): { success: boolean; message?:
 
     // Restore configs if included
     if (parsed.configs) {
-      if (parsed.configs.omega_language) localStorage.setItem('omega_language', parsed.configs.omega_language);
-      if (parsed.configs.omega_theme) localStorage.setItem('omega_theme', parsed.configs.omega_theme);
-      if (parsed.configs.omega_zoom) localStorage.setItem('omega_zoom', parsed.configs.omega_zoom);
+      if (parsed.configs.omega_language) storageSetItem('omega_language', parsed.configs.omega_language);
+      if (parsed.configs.omega_theme) storageSetItem('omega_theme', parsed.configs.omega_theme);
+      if (parsed.configs.omega_zoom) storageSetItem('omega_zoom', parsed.configs.omega_zoom);
       if (parsed.configs.bubbleBreathingConfig) safeSetJson('bubbleBreathingConfig', parsed.configs.bubbleBreathingConfig);
       if (parsed.configs.hydrocicleConfig) safeSetJson('hydrocicleConfig', parsed.configs.hydrocicleConfig);
     }

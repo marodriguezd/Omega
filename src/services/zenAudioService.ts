@@ -5,7 +5,7 @@
  * and smooth breath guidance cues.
  */
 
-import { triggerHaptic } from './nativeService';
+import { triggerHaptic } from '../platform/haptics';
 
 let audioCtx: AudioContext | null = null;
 

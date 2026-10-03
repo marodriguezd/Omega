@@ -18,7 +18,12 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file('omega-release-key.jks')
+            // KEYSTORE_FILE selects the keystore:
+            //  - CI tags: injected production keystore from ANDROID_KEYSTORE_BASE64.
+            //  - CI branches / local dev: a local DEV keystore (see docs/SIGNING.md
+            //    for the keytool one-liner). The repository ships NO keystore;
+            //    dev-signed APKs must never be published as releases.
+            storeFile file(System.getenv("KEYSTORE_FILE") ?: 'omega-release-key.jks')
             storePassword System.getenv("KEYSTORE_PASSWORD") ?: "omega2025"
             keyAlias System.getenv("KEY_ALIAS") ?: "omega"
             keyPassword System.getenv("KEY_PASSWORD") ?: "omega2025"

@@ -12,6 +12,7 @@ import { ChallengesScreen } from './components/ChallengesScreen';
 import { ProgressScreen } from './components/ProgressScreen';
 import { useOmegaStats } from './hooks/useOmegaStats';
 
+import './styles/fonts.css';
 import './styles/hub.css';
 import './styles/responsive.css';
 import './styles/animations.css';

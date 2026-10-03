@@ -36,5 +36,25 @@ android/app/release/
 *.apk
 *.aab
 
+# Electron / desktop packaging (root output dirs only)
+/release/
+/build-output/
+*.dmg
+*.msi
+*.AppImage
+*.exe
+*.snap
+*.deb
+
+# Signing credentials — NEVER commit keystores, certificates or keys.
+# Android production signing comes only from CI secrets (see docs/SIGNING.md).
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+android/app/ci-release-key.jks
+
 # Teamwork Multi-Agent Internal Directory
 .agents/
