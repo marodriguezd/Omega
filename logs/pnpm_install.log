@@ -5,14 +5,14 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +447
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 447, reused 88, downloaded 0, added 0
-Progress: resolved 447, reused 212, downloaded 0, added 0
+Progress: resolved 447, reused 70, downloaded 0, added 0
+Progress: resolved 447, reused 399, downloaded 0, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 447, reused 447, downloaded 0, added 5
+Progress: resolved 447, reused 447, downloaded 0, added 20
 ✓ Lockfile passes supply-chain policies (535 entries in 4.1s)
-Progress: resolved 447, reused 447, downloaded 0, added 292
+Progress: resolved 447, reused 447, downloaded 0, added 335
 Progress: resolved 447, reused 447, downloaded 0, added 447, done
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
@@ -38,4 +38,4 @@ devDependencies:
 + typescript 5.8.3
 + vite 6.4.3
 
-Done in 6s using pnpm v11.28.3
+Done in 5.9s using pnpm v11.28.3
