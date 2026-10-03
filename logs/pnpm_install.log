@@ -5,15 +5,14 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +657
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 657, reused 59, downloaded 0, added 0
-Progress: resolved 657, reused 162, downloaded 0, added 0
-Progress: resolved 657, reused 278, downloaded 0, added 0
-Progress: resolved 657, reused 657, downloaded 0, added 0
+Progress: resolved 657, reused 62, downloaded 0, added 0
+Progress: resolved 657, reused 175, downloaded 0, added 0
+Progress: resolved 657, reused 567, downloaded 0, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-✓ Lockfile passes supply-chain policies (749 entries in 4.7s)
-Progress: resolved 657, reused 657, downloaded 0, added 262
+✓ Lockfile passes supply-chain policies (749 entries in 3.9s)
+Progress: resolved 657, reused 657, downloaded 0, added 473
 Progress: resolved 657, reused 657, downloaded 0, added 657, done
 
 dependencies:
@@ -39,4 +38,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 7.6s using pnpm v11.28.3
+Done in 6.2s using pnpm v11.28.3
