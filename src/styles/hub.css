@@ -214,7 +214,7 @@ body {
   overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
-  padding: 0.5rem 1rem clamp(0.75rem, 2vh, 1.5rem) !important;
+  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) 1rem clamp(0.75rem, 2vh, 1.5rem) !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
@@ -231,14 +231,17 @@ body {
   justify-content: space-evenly !important;
 }
 
-/* Scrollable views: pad bottom so content never reaches behind or touches bottom nav */
+/* Scrollable views: pad top and bottom so banners and content never collide with status bar or bottom nav */
 .omega-view #configScreen,
 .omega-view #statsScreen,
 .omega-view #resultsScreen,
 .omega-view.view-challenges .screen,
 .omega-view.view-progress .screen {
   justify-content: flex-start !important;
-  padding-bottom: clamp(2rem, 5vh, 3.5rem) !important;
+  padding-top: calc(0.85rem + env(safe-area-inset-top, 0px)) !important;
+  padding-bottom: clamp(2.5rem, 6vh, 4rem) !important;
+  padding-left: calc(1rem + env(safe-area-inset-left, 0px)) !important;
+  padding-right: calc(1rem + env(safe-area-inset-right, 0px)) !important;
 }
 
 /* Hexagon responsive adaptation under zoom */
@@ -527,7 +530,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: calc(0.35rem + env(safe-area-inset-top, 0px));
+  padding-top: calc(0.6rem + env(safe-area-inset-top, 0px));
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
   margin-bottom: 1.15rem;

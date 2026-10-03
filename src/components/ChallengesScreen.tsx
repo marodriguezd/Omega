@@ -184,7 +184,16 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     const ringPercent = targetSec > 0 ? (elapsed / targetSec) * 100 : 0;
 
     return (
-      <div className="screen active" style={{ justifyContent: 'space-evenly', padding: '1.5rem 1rem' }}>
+      <div 
+        className="screen active" 
+        style={{ 
+          justifyContent: 'space-evenly', 
+          paddingTop: 'calc(1.2rem + env(safe-area-inset-top, 0px))', 
+          paddingBottom: 'calc(1.5rem + env(safe-area-inset-bottom, 0px))', 
+          paddingLeft: 'calc(1rem + env(safe-area-inset-left, 0px))', 
+          paddingRight: 'calc(1rem + env(safe-area-inset-right, 0px))' 
+        }}
+      >
         <div className="round-info" style={{ color: 'var(--omega-warm-amber, #ff7a00)', fontWeight: 700 }}>
           {langDict.challengeTitle || 'Reto de 20 Días'} • {langDict.dayLabel || 'Día'} {currentDayItem.day}
         </div>
@@ -232,7 +241,17 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
 
   // Challenge Overview & Roadmap
   return (
-    <div className="screen" style={{ justifyContent: 'flex-start', overflowY: 'auto', padding: '1rem' }}>
+    <div 
+      className="screen" 
+      style={{ 
+        justifyContent: 'flex-start', 
+        overflowY: 'auto', 
+        paddingTop: 'calc(0.85rem + env(safe-area-inset-top, 0px))', 
+        paddingBottom: '3.5rem', 
+        paddingLeft: 'calc(1rem + env(safe-area-inset-left, 0px))', 
+        paddingRight: 'calc(1rem + env(safe-area-inset-right, 0px))' 
+      }}
+    >
       {/* Header Banner */}
       <div className="glass-card streak-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <div className="streak-info">

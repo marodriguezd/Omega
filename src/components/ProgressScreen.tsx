@@ -111,7 +111,17 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
   };
 
   return (
-    <div className="screen" style={{ justifyContent: 'flex-start', overflowY: 'auto', padding: '1rem', paddingBottom: '3rem' }}>
+    <div 
+      className="screen" 
+      style={{ 
+        justifyContent: 'flex-start', 
+        overflowY: 'auto', 
+        paddingTop: 'calc(0.85rem + env(safe-area-inset-top, 0px))', 
+        paddingBottom: '3.5rem', 
+        paddingLeft: 'calc(1rem + env(safe-area-inset-left, 0px))', 
+        paddingRight: 'calc(1rem + env(safe-area-inset-right, 0px))' 
+      }}
+    >
       {/* Header Banner */}
       <div className="glass-card streak-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <div className="streak-info">
