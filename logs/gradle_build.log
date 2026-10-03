@@ -124,16 +124,16 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :app:mergeReleaseStartupProfile
 > Task :app:mergeReleaseResources
 > Task :app:packageReleaseResources
-> Task :app:parseReleaseLocalResources
 > Task :app:mergeExtDexRelease
+> Task :app:parseReleaseLocalResources
 > Task :capacitor-android:prepareReleaseArtProfile
-> Task :capacitor-app:prepareReleaseArtProfile
-> Task :capacitor-community-keep-awake:prepareReleaseArtProfile
 > Task :capacitor-android:compileReleaseLibraryResources
-> Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile
+> Task :capacitor-app:prepareReleaseArtProfile
 > Task :capacitor-app:compileReleaseLibraryResources
-> Task :capacitor-haptics:prepareReleaseArtProfile
+> Task :capacitor-community-keep-awake:prepareReleaseArtProfile
 > Task :capacitor-community-keep-awake:compileReleaseLibraryResources
+> Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile
+> Task :capacitor-haptics:prepareReleaseArtProfile
 > Task :capacitor-cordova-android-plugins:compileReleaseLibraryResources
 > Task :app:mergeReleaseArtProfile
 > Task :capacitor-haptics:compileReleaseLibraryResources
@@ -194,8 +194,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-cordova-android-plugins:createFullJarRelease
 > Task :capacitor-cordova-android-plugins:extractProguardFiles
 > Task :capacitor-cordova-android-plugins:generateReleaseLintModel
-> Task :capacitor-haptics:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-cordova-android-plugins:prepareLintJarForPublish
+> Task :capacitor-haptics:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-haptics:createFullJarRelease
 > Task :capacitor-haptics:extractProguardFiles
 > Task :capacitor-haptics:generateReleaseLintModel
@@ -212,13 +212,13 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-app:stripReleaseDebugSymbols NO-SOURCE
 > Task :capacitor-app:copyReleaseJniLibsProjectAndLocalJars
 > Task :capacitor-app:extractDeepLinksForAarRelease
-> Task :capacitor-community-keep-awake:mergeReleaseJavaResource
 > Task :capacitor-app:extractReleaseAnnotations
-> Task :capacitor-community-keep-awake:syncReleaseLibJars
-> Task :capacitor-community-keep-awake:bundleReleaseLocalLintAar
 > Task :capacitor-app:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-app:mergeReleaseConsumerProguardFiles
+> Task :capacitor-community-keep-awake:mergeReleaseJavaResource
 > Task :capacitor-app:mergeReleaseJavaResource
+> Task :capacitor-community-keep-awake:syncReleaseLibJars
+> Task :capacitor-community-keep-awake:bundleReleaseLocalLintAar
 > Task :capacitor-app:syncReleaseLibJars
 > Task :capacitor-app:bundleReleaseLocalLintAar
 > Task :capacitor-haptics:checkReleaseAarMetadata
@@ -258,7 +258,7 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-community-keep-awake:writeReleaseLintModelMetadata
 > Task :capacitor-cordova-android-plugins:lintVitalAnalyzeRelease
 > Task :capacitor-cordova-android-plugins:writeReleaseLintModelMetadata
-> Task :capacitor-android:lintVitalAnalyzeRelease
+> Task :capacitor-haptics:lintVitalAnalyzeRelease
 > Task :capacitor-haptics:writeReleaseLintModelMetadata
 > Task :capacitor-android:generateReleaseLintVitalModel
 > Task :capacitor-app:generateReleaseLintVitalModel
@@ -266,7 +266,7 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-cordova-android-plugins:generateReleaseLintVitalModel
 > Task :capacitor-haptics:generateReleaseLintVitalModel
 > Task :app:processReleaseJavaRes NO-SOURCE
-> Task :capacitor-haptics:lintVitalAnalyzeRelease
+> Task :capacitor-android:lintVitalAnalyzeRelease
 > Task :app:mergeReleaseJavaResource
 > Task :app:optimizeReleaseResources
 > Task :app:collectReleaseDependencies
@@ -314,5 +314,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 1m 2s
+BUILD SUCCESSFUL in 1m 4s
 244 actionable tasks: 244 executed
