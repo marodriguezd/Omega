@@ -13,4 +13,4 @@ computing gzip size...
 [2mdist/[22m[2massets/[22m[36mweb-DZz7nCD3.js                  [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
 [2mdist/[22m[2massets/[22m[36mweb-CJcskl_V.js                  [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
 [2mdist/[22m[2massets/[22m[36mindex-DQCI3pGs.js                [39m[1m[2m398.13 kB[22m[1m[22m[2m │ gzip: 117.43 kB[22m
-[32m✓ built in 4.84s[39m
+[32m✓ built in 4.68s[39m
