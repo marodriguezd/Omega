@@ -1,22 +1,29 @@
 Scope: all 3 workspace projects
 [WARN] The settings in Bubble-Breathing/pnpm-workspace.yaml do not apply, because Bubble-Breathing is a project of this workspace. pnpm reads settings only from the pnpm-workspace.yaml at the workspace root. Move the settings there, or add "!Bubble-Breathing" to the root's "packages" to keep that project a separate workspace.
-? Verifying lockfile against supply-chain policies (535 entries)...
+? Verifying lockfile against supply-chain policies (749 entries)...
 Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
-Packages: +447
+Packages: +657
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 447, reused 96, downloaded 0, added 0
-Progress: resolved 447, reused 224, downloaded 0, added 0
+Progress: resolved 657, reused 0, downloaded 0, added 0
+Progress: resolved 657, reused 0, downloaded 1, added 0
+✓ Lockfile passes supply-chain policies (749 entries in 3.7s)
+Progress: resolved 657, reused 0, downloaded 55, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-✓ Lockfile passes supply-chain policies (535 entries in 3.4s)
-Progress: resolved 447, reused 447, downloaded 0, added 23
-Progress: resolved 447, reused 447, downloaded 0, added 447, done
+Progress: resolved 657, reused 0, downloaded 73, added 4
+Progress: resolved 657, reused 0, downloaded 249, added 16
+Progress: resolved 657, reused 0, downloaded 580, added 36
+Progress: resolved 657, reused 0, downloaded 657, added 599
+Progress: resolved 657, reused 0, downloaded 657, added 657, done
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../node_modules/electron-winstaller install$ node ./script/select-7z-arch.js
 .../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../node_modules/electron-winstaller install: Selecting 7-Zip for arch x64
 .../esbuild@0.21.5/node_modules/esbuild postinstall: Done
+.../node_modules/electron-winstaller install: Done
 
 dependencies:
 + @capacitor-community/keep-awake 8.0.1
@@ -34,7 +41,11 @@ devDependencies:
 + @types/react 19.2.18
 + @types/react-dom 19.2.7
 + @vitejs/plugin-react 5.2.0
++ concurrently 10.0.5
++ electron 44.5.1
++ electron-builder 26.15.3
 + typescript 5.8.3
 + vite 6.4.3
++ wait-on 9.5.1
 
-Done in 5.4s using pnpm v11.28.3
+Done in 9.7s using pnpm v11.28.3

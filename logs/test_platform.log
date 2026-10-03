@@ -1,0 +1,35 @@
+
+===============================================
+       OMEGA PLATFORM TEST SUITE RUNNER        
+===============================================
+
+▶ tests/platform/cross-platform-matrix.test.js
+  ✔ [PASS] P15. Shared React layer has no duplicated business logic per platform
+  ✔ [PASS] P16. Storage flows through one abstraction on every runtime
+  ✔ [PASS] P17. Audio/haptics stay platform-agnostic (Web Audio + abstraction)
+  ✔ [PASS] P18. Runtime matrix resolves deterministically in each environment
+  ✔ [PASS] P19. Offline-first: persistence never requires network
+▶ tests/platform/electron-security.test.js
+  ✔ [PASS] P8. Main process uses secure BrowserWindow defaults
+  ✔ [PASS] P9. Main process validates IPC payloads and allowlists channels
+  ✔ [PASS] P10. Preload exposes a minimal allowlisted bridge with no Node leakage
+▶ tests/platform/packaging-config.test.js
+  ✔ [PASS] P11. electron-builder targets DMG, MSI and AppImage with stable appId
+  ✔ [PASS] P12. Maintainable npm scripts exist for every platform flow
+  ✔ [PASS] P13. Capacitor Android config and manifest cover release APK needs
+  ✔ [PASS] P14. Icons, Vite base and validator script are present
+▶ tests/platform/platform-abstraction.test.js
+  ✔ [PASS] P1. Runtime detection exposes electron/capacitor/web without duplicating logic
+  ✔ [PASS] P2. Storage abstraction wraps localStorage with memory fallback and JSON safety
+  ✔ [PASS] P3. KeepAwake cascades Electron IPC -> Capacitor -> Web wakeLock
+  ✔ [PASS] P4. Haptics routes Capacitor native -> vibrate -> Electron no-op
+  ✔ [PASS] P5. Lifecycle exposes back-button handler with cleanup
+  ✔ [PASS] P6. nativeService remains a thin backward-compatible facade (no duplicated logic)
+  ✔ [PASS] P7. Platform barrel exports the full capability surface
+
+-----------------------------------------------
+Total: 19 | Passed: 19 | Failed: 0
+-----------------------------------------------
+
+All platform tests PASSED!
+

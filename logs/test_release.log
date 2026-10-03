@@ -1,0 +1,46 @@
+
+===============================================
+       OMEGA RELEASE TEST SUITE RUNNER         
+===============================================
+
+▶ tests/release/ci-signing-checksums.test.js
+  ✔ [PASS] R13. make-checksums emits verifiable SHA-256 manifests
+  ✔ [PASS] R14. make-checksums fails loudly when no artifacts exist
+  ✔ [PASS] R15. signing is optional: unsigned builds work, secrets only opt in
+  ✔ [PASS] R16. CI uses native runners, tag gates, checksums and artifact guards
+▶ tests/release/electron-production.test.js
+  ✔ [PASS] R5. BrowserWindow keeps secure defaults and no Node leakage
+  ✔ [PASS] R6. IPC stays allowlisted with strict boolean validation
+  ✔ [PASS] R7. navigation is locked to the bundled app
+  ✔ [PASS] R8. no dev-server URL can leak into packaged production
+▶ tests/release/icons-offline.test.js
+  ✔ [PASS] R9. per-target desktop icons exist and reference the builder config
+  ✔ [PASS] R10. icon binaries carry genuine native magic bytes
+  ✔ [PASS] R11. Android launcher icons cover every density
+  ✔ [PASS] R12. fonts are bundled locally — no remote font dependency
+▶ tests/release/release-cleanliness.test.js
+  ✔ [PASS] R17. no signing credentials are tracked in Git
+  ✔ [PASS] R18. .gitignore blocks future credential commits
+  ✔ [PASS] R19. release scripts and workflows contain no machine-specific paths
+  ✔ [PASS] R20. release manifest is correct and deterministic
+  ✔ [PASS] R21. checksums and manifest agree on every artifact hash
+  ✔ [PASS] R22. manifest tooling fails loudly without signing context
+  ✔ [PASS] R23. release publishes exactly the expected payload — nothing else
+▶ tests/release/release-metadata.test.js
+  ✔ [PASS] R1. package.json carries full release identity (appId, names, license, repo)
+  ✔ [PASS] R2. version is semver and the single source of truth
+  ✔ [PASS] R3. every target derives artifact names from ${version}
+  ✔ [PASS] R4. release-meta derives deterministic names and gates tag matches
+▶ tests/release/tag-apk-guard.test.js
+  ✔ [PASS] R24. tag builds run ONLY assembleRelease; debug fallback is branch-only
+  ✔ [PASS] R25. prepare step rejects debug APKs on tags and guards production signing
+  ✔ [PASS] R26. tag + release APK accepted; tag + debug-only rejected; branch fallback permitted
+  ✔ [PASS] R27. production manifest guard rejects debug APKs
+  ✔ [PASS] R28. failed assembleRelease fails the tag job (no silent fallback)
+
+-----------------------------------------------
+Total: 28 | Passed: 28 | Failed: 0
+-----------------------------------------------
+
+All release tests PASSED!
+
