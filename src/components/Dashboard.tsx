@@ -109,7 +109,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                   className="lang-overlay active" 
                   onClick={() => setIsLangDropdownOpen(false)} 
                 />
-                <div className="lang-dropdown open" style={{ position: 'absolute', top: '48px', right: 0, zIndex: 100 }}>
+                <div className="lang-dropdown hub-lang-dropdown open" style={{ position: 'absolute', top: 'calc(100% + 8px)', right: 0, left: 'auto', zIndex: 1000 }}>
                   {LANGUAGES.map(lang => (
                     <button
                       key={lang.code}

@@ -616,6 +616,30 @@ body {
   flex-shrink: 0 !important;
 }
 
+/* Header Action Buttons Isolation - Prevent global sub-app absolute positioning from breaking Hub Header layout */
+.hub-header-actions .hub-icon-btn,
+.hub-header-actions .theme-toggle-btn,
+.hub-header-actions .lang-btn,
+.hub-header-actions .zoom-btn,
+.hub-header-actions .about-btn {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
+  flex-shrink: 0 !important;
+  margin: 0 !important;
+}
+
+.hub-header-actions .hub-icon-btn:active,
+.hub-header-actions .theme-toggle-btn:active,
+.hub-header-actions .lang-btn:active,
+.hub-header-actions .zoom-btn:active,
+.hub-header-actions .about-btn:active {
+  transform: scale(0.92) !important;
+}
+
 .hub-icon-btn,
 .zoom-btn,
 .lang-btn,
@@ -645,6 +669,60 @@ body {
 .lang-btn:active,
 .theme-toggle-btn:active {
   transform: scale(0.92);
+}
+
+/* Hub Language Dropdown Isolation - Align right, keep inside screen, high contrast */
+.hub-lang-container .lang-dropdown,
+.hub-lang-dropdown {
+  position: absolute !important;
+  top: calc(100% + 8px) !important;
+  right: 0 !important;
+  left: auto !important;
+  transform: none !important;
+  min-width: 140px !important;
+  max-width: calc(100vw - 32px) !important;
+  box-sizing: border-box !important;
+  z-index: 1000 !important;
+  background: var(--color-dropdown-bg, #1a2332) !important;
+  border: 1px solid var(--color-glass-border, rgba(255, 255, 255, 0.15)) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  overflow: hidden !important;
+}
+
+.hub-lang-container .lang-dropdown .lang-option,
+.hub-lang-dropdown .lang-option {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.6rem !important;
+  padding: 0.65rem 0.9rem !important;
+  color: var(--color-text, #f0f6fc) !important;
+  background: transparent !important;
+  border: none !important;
+  font-size: 0.88rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease !important;
+  text-align: left !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.hub-lang-container .lang-dropdown .lang-option:hover,
+.hub-lang-dropdown .lang-option:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.hub-lang-container .lang-dropdown .lang-option.active,
+.hub-lang-dropdown .lang-option.active {
+  background: rgba(52, 152, 219, 0.25) !important;
+  color: #3498db !important;
+  font-weight: 600 !important;
 }
 
 /* Glass Card Component */
