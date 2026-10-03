@@ -33,9 +33,9 @@
     "electron:build": "tsc -b && vite build && electron-builder",
     "electron:pack": "tsc -b && vite build && electron-builder --dir",
     "electron:preview": "tsc -b && vite build && electron .",
-    "dist:mac": "tsc -b && vite build && electron-builder --mac dmg",
-    "dist:win": "tsc -b && vite build && electron-builder --win msi",
-    "dist:linux": "tsc -b && vite build && electron-builder --linux AppImage",
+    "dist:mac": "tsc -b && vite build && electron-builder --mac dmg --publish never",
+    "dist:win": "tsc -b && vite build && electron-builder --win msi --publish never",
+    "dist:linux": "tsc -b && vite build && electron-builder --linux AppImage --publish never",
     "dist:all": "tsc -b && vite build && electron-builder --mac dmg --win msi --linux AppImage"
   },
   "dependencies": {

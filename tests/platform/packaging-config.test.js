@@ -30,6 +30,11 @@ describe('Packaging configuration (electron-builder + Capacitor + scripts)', () 
     ]) {
       assert.ok(pkg?.scripts?.[s], `script "${s}" must exist`);
     }
+    // electron-builder must never self-publish: releases ship only via the
+    // allowlisted release-desktop payload job.
+    for (const s of ['dist:mac', 'dist:win', 'dist:linux']) {
+      assert.match(pkg?.scripts?.[s] ?? '', /--publish never/, `"${s}" must disable electron-builder publish`);
+    }
   });
 
   it('P13. Capacitor Android config and manifest cover release APK needs', () => {
