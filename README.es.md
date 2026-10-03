@@ -35,7 +35,7 @@ Descarga el archivo APK precompilado directamente desde GitHub Releases:
 
 👉 **[Descargar Omega-1.0.0.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)**
 
-**v1.0.0 es la primera versión pública** (las etiquetas anteriores `v1.1.0`–`v1.4.0` fueron compilaciones internas de prueba y no tienen soporte). Las versiones de escritorio de la misma release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — están adjuntas en la [página de la release v1.0.0](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verifica cualquier descarga con el `SHA256SUMS.txt` publicado: `sha256sum -c SHA256SUMS.txt`.
+**v1.0.0 es la primera versión pública** (las etiquetas anteriores `v1.1.0`–`v1.4.0` fueron compilaciones internas de prueba y no tienen soporte). Las versiones de escritorio de la misma release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — están adjuntas en la [página de la release v1.0.0](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verifica Android con `sha256sum -c SHA256SUMS-android.txt` y escritorio con `sha256sum -c SHA256SUMS-desktop.txt`.
 
 ### Pasos de Instalación:
 1. Abre el enlace anterior desde el navegador de tu móvil Android y descarga `Omega-1.0.0.apk`.
@@ -106,7 +106,7 @@ Descarga el archivo APK precompilado directamente desde GitHub Releases:
 ```bash
 git clone --recursive https://github.com/marodriguezd/Omega.git
 cd Omega
-pnpm install --dangerously-allow-all-builds
+pnpm install
 pnpm test
 pnpm dev
 ```

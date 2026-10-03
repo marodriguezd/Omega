@@ -13,13 +13,21 @@ on:
         required: false
         default: ''
 
+# Least privilege: read-only by default. The single build-apk job below
+# re-elevates to contents:write because v* tag runs publish the GitHub
+# Release and push ci-feedback telemetry from that same job.
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build-apk:
     name: Build Android APK
     runs-on: ubuntu-latest
+    # Tag runs create/update the shared GitHub Release (desktop.yml
+    # publishes DMG/MSI/AppImage to the same tag concurrently) and push
+    # pipeline telemetry; branch runs simply do not use this grant.
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository and submodules
@@ -41,7 +49,12 @@ jobs:
           cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --dangerously-allow-all-builds 2>&1 | tee pnpm_install.log
+        # Reproducible CI install: --frozen-lockfile resolves only from the
+        # committed pnpm-lock.yaml and never mutates it. Postinstall builds
+        # (electron, esbuild, …) are already allowlisted in
+        # pnpm-workspace.yaml (onlyBuiltDependencies), so
+        # --dangerously-allow-all-builds is not needed here.
+        run: pnpm install --frozen-lockfile 2>&1 | tee pnpm_install.log
 
       - name: Build Web Application
         id: build_web
@@ -178,8 +191,13 @@ jobs:
             VERSION=$(node -p "require('./package.json').version")
             cp "$APK_FILE" build-output/Omega.apk
             cp "$APK_FILE" "build-output/Omega-${VERSION}.apk"
-            node scripts/make-manifest.mjs build-output --platform=android --signing="${SIGNING:-android-unknown}"
-            node scripts/make-checksums.mjs build-output --extra=manifest.json
+            # Platform-scoped metadata names: desktop.yml publishes
+            # manifest-mac/windows/linux.json + SHA256SUMS-desktop.txt to the
+            # same tag concurrently, so shared names (manifest.json /
+            # SHA256SUMS.txt) would clobber each other. Distinct per-platform
+            # names let concurrent publishes compose instead of racing.
+            node scripts/make-manifest.mjs build-output --platform=android --signing="${SIGNING:-android-unknown}" --out=manifest-android.json
+            node scripts/make-checksums.mjs build-output --extra=manifest-android.json --out=SHA256SUMS-android.txt
             ls -lh build-output/
           else
             echo "Error: No APK found in android/app/build/outputs/apk!"
@@ -195,8 +213,8 @@ jobs:
           name: Omega-Android-APK
           path: |
             build-output/*.apk
-            build-output/SHA256SUMS.txt
-            build-output/manifest.json
+            build-output/SHA256SUMS-android.txt
+            build-output/manifest-android.json
           retention-days: 14
           if-no-files-found: warn
 
@@ -220,7 +238,7 @@ jobs:
               exit 1
               ;;
           esac
-          RELEASE_TITLE="Omega Android ${RELEASE_TAG}"
+          RELEASE_TITLE="Omega ${RELEASE_TAG}"
           VERSION=$(node -p "require('./package.json').version")
 
           echo "Target release tag: $RELEASE_TAG"
@@ -254,21 +272,25 @@ jobs:
           sed -i "s|\$VERSION|$VERSION|g" /tmp/release_notes.md
 
           echo "Publishing release $RELEASE_TAG..."
-          # Never delete the release: desktop.yml publishes DMG/MSI/AppImage
-          # to this same tag concurrently, and a delete would silently wipe
-          # those assets. Create once, then clobber-upload, so concurrent
-          # publishes compose instead of racing.
+          # Shared release-creation strategy (mirrored in desktop.yml
+          # release-desktop): never delete the release — desktop publishes
+          # DMG/MSI/AppImage to this same tag concurrently, and a delete
+          # would silently wipe those assets. Create once, then
+          # clobber-upload, so concurrent publishes compose instead of
+          # racing. Per-platform metadata names (manifest-android.json,
+          # SHA256SUMS-android.txt vs desktop's manifest-*.json,
+          # SHA256SUMS-desktop.txt) guarantee the clobber sets are disjoint.
           # v1.0.0 is the canonical first release; earlier v1.1.0–v1.4.0
           # tags were private testing artifacts and are left untouched.
           if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
-            gh release upload "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS.txt build-output/manifest.json --clobber 2>&1 | tee /tmp/release.log
+            gh release upload "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS-android.txt build-output/manifest-android.json --clobber 2>&1 | tee /tmp/release.log
           else
-            gh release create "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS.txt build-output/manifest.json \
+            gh release create "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS-android.txt build-output/manifest-android.json \
               --title "$RELEASE_TITLE" \
               --notes-file /tmp/release_notes.md \
               2>&1 | tee /tmp/release.log || {
                 echo "Create raced with a concurrent publish, falling back to clobber upload..."
-                gh release upload "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS.txt build-output/manifest.json --clobber 2>&1 | tee -a /tmp/release.log
+                gh release upload "$RELEASE_TAG" build-output/*.apk build-output/SHA256SUMS-android.txt build-output/manifest-android.json --clobber 2>&1 | tee -a /tmp/release.log
               }
           fi
           echo "GitHub Release step completed!"

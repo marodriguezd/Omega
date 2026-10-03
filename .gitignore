@@ -58,3 +58,6 @@ android/app/ci-release-key.jks
 
 # Teamwork Multi-Agent Internal Directory
 .agents/
+
+# Internal agent/session state — never product or release content.
+.opencode/

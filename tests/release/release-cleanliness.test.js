@@ -120,10 +120,12 @@ describe('Release hardening — cleanliness and manifest regressions', () => {
 
   it('R23. release publishes exactly the expected payload — nothing else', () => {
     const desktop = readProjectFile('.github/workflows/desktop.yml') || '';
-    // The publish step globs the assembled payload dir only.
-    assert.match(desktop, /payload\/\*\.dmg payload\/\*\.msi payload\/\*\.AppImage payload\/manifest-\*\.json payload\/SHA256SUMS\.txt/);
+    // The publish step globs the assembled payload dir only. Checksum and
+    // manifest names are platform-scoped (desktop vs android) so concurrent
+    // clobber-uploads to the same tag compose instead of overwriting.
+    assert.match(desktop, /payload\/\*\.dmg payload\/\*\.msi payload\/\*\.AppImage payload\/manifest-\*\.json payload\/SHA256SUMS-desktop\.txt/);
     assert.doesNotMatch(desktop, /merge-multiple:\s*true/, 'artifacts must not be merged (filename collisions)');
     const android = readProjectFile('.github/workflows/android.yml') || '';
-    assert.match(android, /build-output\/\*\.apk build-output\/SHA256SUMS\.txt build-output\/manifest\.json/);
+    assert.match(android, /build-output\/\*\.apk build-output\/SHA256SUMS-android\.txt build-output\/manifest-android\.json/);
   });
 });

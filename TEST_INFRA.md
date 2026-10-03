@@ -2,13 +2,19 @@
 
 ## 1. Overview & Architectural Philosophy
 
-The Omega testing infrastructure provides a robust, self-contained, and completely automated **4-tier opaque-box end-to-end test framework**. It evaluates the Omega platform from the outside against authoritative functional and non-functional specifications defined in `ORIGINAL_REQUEST.md` and `PROJECT.md`.
+The Omega testing infrastructure provides a robust, self-contained, and completely automated test framework. It evaluates the Omega platform from the outside against authoritative functional and non-functional specifications defined in `ORIGINAL_REQUEST.md`.
+
+Three suites, one runner convention each:
+
+- **4-tier functional suite** (`tests/runner.js`, `pnpm run test`): 56 tests.
+- **Platform suite** (`tests/runner-platform.js`, `pnpm run test:platform`): 21 tests.
+- **Release-hardening suite** (`tests/runner-release.js`, `pnpm run test:release`): 40 tests.
 
 ### Core Highlights:
-- **Zero Heavy Binary Overhead**: Built directly upon Node 24's native `node:test`, `node:assert`, and standard ESM. No fragile, memory-heavy headless browser binaries or external daemon dependencies required.
+- **Zero Heavy Binary Overhead**: Built directly upon Node's native `node:test`, `node:assert`, and standard ESM. No fragile, memory-heavy headless browser binaries or external daemon dependencies required.
 - **Lightweight High-Fidelity Shims**: Simulates browser windowing, custom events, `localStorage`, `navigator.wakeLock`, and `navigator.vibrate` with isolated per-test teardown via `tests/helpers/dom-shim.js`.
 - **Authoritative CSS & AST Inspection**: Direct filesystem and CSS custom property parsing (`parseCssVariables`, `parseKeyframes`, `parseMediaQueries`) to ensure compliance with Wim Hof design tokens, GPU acceleration flags, responsive layout breakpoints, and cross-platform configuration.
-- **Unified Master Test Runner**: `tests/runner.js` executes all 4 tiers sequentially, aggregates results into a structured executive summary table, and maps pending tests to implementation milestones.
+- **Static CI auditing**: The platform and release suites additionally assert on workflow files, scripts, and packaging configuration (tag gates, signing guards, checksums, allowlisted payloads).
 
 ---
 
@@ -17,8 +23,10 @@ The Omega testing infrastructure provides a robust, self-contained, and complete
 All test suites and harnesses are colocated in the root `tests/` directory:
 
 ```
-/data/data/com.termux/files/home/Omega/tests/
-├── runner.js                             # Master CLI test runner with formatted reporting
+tests/
+├── runner.js                             # 4-tier master runner with formatted reporting
+├── runner-platform.js                    # Platform suite runner
+├── runner-release.js                     # Release-hardening suite runner
 ├── helpers/
 │   ├── dom-shim.js                       # Lightweight DOM tree, localStorage, and event bus shim
 │   └── test-utils.js                     # Project file reader, CSS parser, WCAG contrast calculator
@@ -34,8 +42,22 @@ All test suites and harnesses are colocated in the root `tests/` directory:
 │   └── r4-platform-boundaries.test.js    # Tier 2: R4 API errors, corrupted storage, extreme streaks, quota full
 ├── tier3-combinations/
 │   └── cross-feature.test.js             # Tier 3: Pairwise combinations (Tab switch during active exercise, etc.)
-└── tier4-scenarios/
-    └── e2e-scenarios.test.js             # Tier 4: Full realistic user journeys (Breathing, Hydro, Desktop, Mobile, Sync)
+├── tier4-scenarios/
+│   ├── e2e-scenarios.test.js             # Tier 4: Full realistic user journeys (Breathing, Hydro, Desktop, Mobile, Sync)
+│   └── wim-hof-suite.test.js             # Tier 4: Challenge schedule, apnea push-ups, badges, backup, legacy keys
+├── platform/
+│   ├── platform-abstraction.test.js      # Platform runtime/storage/keep-awake/haptics/lifecycle abstraction
+│   ├── electron-security.test.js         # Electron main/preload security surface
+│   ├── packaging-config.test.js          # electron-builder targets, scripts, Capacitor, publish safety
+│   └── cross-platform-matrix.test.js     # Capability matrix across Android/macOS/Windows/Linux/web
+└── release/
+    ├── release-metadata.test.js          # R1-R4, R31, R35: version truth, links, third-party notices
+    ├── electron-production.test.js       # R5-R8: production Electron security
+    ├── icons-offline.test.js             # R9-R12: native icons, bundled fonts
+    ├── ci-signing-checksums.test.js      # R13-R16: checksums, signing optionality, CI integrity
+    ├── release-cleanliness.test.js       # R17-R23: credentials, manifests, allowlisted payload
+    ├── tag-apk-guard.test.js             # R24-R30, R32-R34: tag guards, shared-release safety
+    └── release-race.test.js              # R36-R40: race-safe publication, lockfile CI, least privilege, hygiene
 ```
 
 ---
@@ -43,27 +65,19 @@ All test suites and harnesses are colocated in the root `tests/` directory:
 ## 3. How to Run the Tests
 
 ### 3.1 Standard Execution
-Execute the entire test suite via `npm test` or directly via Node:
 
 ```bash
-# Run entire test suite (exits with code 1 if pending implementation tests fail)
-npm test
-
-# Run directly via runner
-node tests/runner.js
+pnpm run test           # 4-tier functional suite (56 tests, strict)
+pnpm run test:platform  # platform suite (21 tests)
+pnpm run test:release   # release-hardening suite (40 tests)
 ```
 
 ### 3.2 Baseline / Diagnostic Mode
-During milestone implementation (M1-M4), run with `--baseline` to inspect the full summary and pending items without breaking build pipelines:
 
-```bash
-npm test -- --baseline
-# or
-node tests/runner.js --baseline
-```
+`tests/runner.js --baseline` re-runs the 4-tier suite without failing on
+pending items. No pending items remain; strict mode is the release gate.
 
 ### 3.3 Individual Tier or File Execution
-Run any specific test file or tier directly with Node's native test runner:
 
 ```bash
 # Run single file
@@ -89,13 +103,15 @@ node --test tests/**/*.test.js
 
 ## 4. Test Suite Composition & Coverage Map
 
-| Tier | Category | Scope | Count | Target Milestones |
+| Tier | Category | Scope | Count | Status |
 |---|---|---|:---:|---|
-| **Tier 1** | Feature Coverage | Primary happy-path contracts for R1, R2, R3, R4 | 20 | M1, M2, M3, M4 |
-| **Tier 2** | Boundary & Corner Cases | Extreme values, clamping, WCAG contrast, timer drift, safe-area limits | 20 | M1, M2, M3, M4 |
-| **Tier 3** | Cross-Feature Combinations | Pairwise interaction matrices (active session protection, zoom + squircle, storage sync) | 6 | Integration |
-| **Tier 4** | Real-World Application Scenarios | Complete end-to-end user journeys (Breathing, HydroCycle, Desktop, Mobile, i18n) | 5 | End-to-End |
-| **Total** | **Comprehensive Suite** | **Complete coverage across R1-R4** | **51** | **All Milestones** |
+| **Tier 1** | Feature Coverage | Primary happy-path contracts for R1, R2, R3, R4 | 20 | All pass |
+| **Tier 2** | Boundary & Corner Cases | Extreme values, clamping, WCAG contrast, timer drift, safe-area limits | 20 | All pass |
+| **Tier 3** | Cross-Feature Combinations | Pairwise interaction matrices (active session protection, zoom + squircle, storage sync) | 6 | All pass |
+| **Tier 4** | Real-World Application Scenarios | End-to-end user journeys (breathing, cold exposure, challenge, badges, backup, desktop, mobile, i18n) | 10 | All pass |
+| **Total functional** | **Comprehensive Suite** | **Complete coverage across R1-R4** | **56** | **56/56 pass** |
+| **Platform** | Abstraction & packaging | Runtime, storage, keep-awake, haptics, lifecycle, Electron security, builder config, matrix | 21 | 21/21 pass |
+| **Release-hardening** | Release safety | Metadata, icons, checksums, signing, tag guards, race-safe publication | 40 | 40/40 pass |
 
 ---
 

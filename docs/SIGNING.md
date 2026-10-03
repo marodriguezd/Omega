@@ -85,7 +85,7 @@ Required for `v*` tags. Branch builds use an ephemeral dev keystore.
 ## Linux (AppImage)
 
 AppImages ship unsigned by design; no secrets apply. Users verify
-authenticity via the published `SHA256SUMS.txt` and `manifest-*.json`.
+authenticity via the published `SHA256SUMS-desktop.txt` and `manifest-*.json`.
 
 ## Release procedure (maintainers)
 
@@ -94,11 +94,11 @@ authenticity via the published `SHA256SUMS.txt` and `manifest-*.json`.
 #    Edit package.json "version", e.g. "1.0.0".
 
 # 2. Full local gate (must all pass):
-pnpm install
+pnpm install --frozen-lockfile
 pnpm run build
 pnpm run test                  # 56 core tests
-node tests/runner-platform.js  # 19 platform tests
-node tests/runner-release.js   # 31 release tests
+node tests/runner-platform.js  # 21 platform tests
+node tests/runner-release.js   # 40 release tests
 node scripts/validate-build.mjs
 node scripts/release-meta.mjs --tag=v1.0.0
 
@@ -110,9 +110,15 @@ git push origin main v1.0.0
 CI then validates the tag, runs every suite, builds APK (ubuntu),
 DMG (macOS), MSI (Windows), AppImage (Linux), and publishes:
 
-- `Omega-<version>.apk`, `Omega.apk` (compat alias), `SHA256SUMS.txt`, `manifest.json`
+- `Omega-<version>.apk`, `Omega.apk` (compat alias), `SHA256SUMS-android.txt`, `manifest-android.json`
 - `Omega-<version>.dmg`, `Omega-<version>.msi`, `Omega-<version>.AppImage`
-- `manifest-mac.json`, `manifest-windows.json`, `manifest-linux.json`, combined `SHA256SUMS.txt`
+- `manifest-mac.json`, `manifest-windows.json`, `manifest-linux.json`, `SHA256SUMS-desktop.txt`
+
+Checksum/manifest names are platform-scoped on purpose: both workflows
+publish to the same tag concurrently, and a shared `SHA256SUMS.txt` /
+`manifest.json` name would let the last uploader destroy the other
+platform's verification data. Verify each platform file next to the
+artifacts it covers.
 
 Each `manifest*.json` entry carries `{ version, commit, platform,
 artifact, sha256, signing, builtAt }` — the `signing` field tells you
@@ -121,5 +127,6 @@ exactly how that artifact was signed.
 ## Verifying a release
 
 ```bash
-sha256sum -c SHA256SUMS.txt
+sha256sum -c SHA256SUMS-android.txt   # APK + manifest-android.json
+sha256sum -c SHA256SUMS-desktop.txt   # DMG + MSI + AppImage + manifest-*.json
 ```
