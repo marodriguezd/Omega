@@ -16,7 +16,7 @@ Project Root: /home/runner/work/Omega/Omega
      └─ Expected "--omega-glass-blur" token to be defined
   ✖ [FAIL] T1.R1.4: Unified UI controls (buttons, modals, switches) must apply design tokens and glassmorphism
      └─ Frosted glass elements must implement backdrop-filter blur
-  ✔ [PASS] T1.R1.5: Breathing sphere geometry must be organic and circular, eliminating sharp polygons (0ms)
+  ✔ [PASS] T1.R1.5: Breathing sphere geometry must be organic and circular, eliminating sharp polygons (1ms)
   ✖ [FAIL] T1.R2.1: Key animated elements must restrict mutations to GPU-accelerated transform, opacity, and will-change
      └─ Animated visual elements must declare will-change: transform or opacity to promote to GPU compositor layers
   ✔ [PASS] T1.R2.2: Header and session progress bars must eliminate layout thrashing by avoiding width animations (0ms)
@@ -64,10 +64,10 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T2.R3.4: Safe area insets boundary: dynamic calculation with 0px vs 60px notch (0ms)
   ✔ [PASS] T2.R3.5: Rapid window resize oscillation across 768px boundary maintains clean state transition (0ms)
   ✔ [PASS] T2.R4.1: KeepAwake native failure gracefully falls back to Web Wake Lock API (1ms)
-  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (1ms)
+  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
   ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
   ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
-  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (19ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (20ms)
 
 ▶ Executing Tier 3: Cross-Feature Combinations...
   ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (3ms)
@@ -78,7 +78,7 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T3.C6: Multi-window storage events synchronize streak and checklist metrics dynamically (0ms)
 
 ▶ Executing Tier 4: Real-World Application Scenarios...
-  ✔ [PASS] T4.S1: Complete Wim Hof Breathing Session Journey (Config -> Rhythm -> Retention -> Recovery -> Stats) (1ms)
+  ✔ [PASS] T4.S1: Complete Wim Hof Breathing Session Journey (Config -> Rhythm -> Retention -> Recovery -> Stats) (2ms)
   ✔ [PASS] T4.S2: Complete HydroCycle Contrast Shower Journey with Routine Checklist 100% Completion (1ms)
   ✔ [PASS] T4.S3: Desktop Wide-Screen Session (>=768px) with Multi-Column Dashboard and Navigation Rail (0ms)
   ✔ [PASS] T4.S4: Mobile Commuter Session with Safe-Area insets, screen wake lock, and accidental exit protection (0ms)
@@ -100,7 +100,7 @@ Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
 Tier 4: Real-World Application Scenarios |    10 |   10 |    0 | End-to-End User Journeys
 ----------------------------------------+-------+------+------+-----------
 Total Tests: 56 | Passed: 38 | Pending Implementation: 18
-Suite Execution Time: 0.73s
+Suite Execution Time: 0.78s
 ================================================================
 
 Pending Implementation Milestones / Discovered Defects:

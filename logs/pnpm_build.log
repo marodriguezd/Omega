@@ -5,9 +5,9 @@ transforming...
 rendering chunks...
 computing gzip size...
 [2mdist/[22m[32mindex.html                 [39m[1m[2m  1.13 kB[22m[1m[22m[2m │ gzip:   0.54 kB[22m
-[2mdist/[22m[2massets/[22m[35mindex-6V4TfD9r.css  [39m[1m[2m 79.68 kB[22m[1m[22m[2m │ gzip:  13.07 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-BmB_tj5a.js     [39m[1m[2m  0.84 kB[22m[1m[22m[2m │ gzip:   0.40 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-BMCNCLvi.js     [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-BwbkoZNK.js     [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
-[2mdist/[22m[2massets/[22m[36mindex-Bx5Lh8bS.js   [39m[1m[2m396.32 kB[22m[1m[22m[2m │ gzip: 116.87 kB[22m
-[32m✓ built in 4.48s[39m
+[2mdist/[22m[2massets/[22m[35mindex-DOnbNG-4.css  [39m[1m[2m 79.92 kB[22m[1m[22m[2m │ gzip:  13.10 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-SnppH9Kz.js     [39m[1m[2m  0.84 kB[22m[1m[22m[2m │ gzip:   0.40 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-djzhP4be.js     [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-C9tm2HEN.js     [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-BaYnYKOE.js   [39m[1m[2m396.88 kB[22m[1m[22m[2m │ gzip: 116.94 kB[22m
+[32m✓ built in 4.65s[39m
