@@ -7,15 +7,17 @@ Packages: +657
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Progress: resolved 657, reused 0, downloaded 0, added 0
 Progress: resolved 657, reused 0, downloaded 1, added 0
-✓ Lockfile passes supply-chain policies (749 entries in 3.7s)
-Progress: resolved 657, reused 0, downloaded 55, added 0
+Progress: resolved 657, reused 0, downloaded 33, added 0
+Progress: resolved 657, reused 0, downloaded 54, added 0
+✓ Lockfile passes supply-chain policies (749 entries in 5.9s)
+Progress: resolved 657, reused 0, downloaded 59, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 657, reused 0, downloaded 73, added 4
-Progress: resolved 657, reused 0, downloaded 249, added 16
-Progress: resolved 657, reused 0, downloaded 580, added 36
-Progress: resolved 657, reused 0, downloaded 657, added 599
+Progress: resolved 657, reused 0, downloaded 81, added 4
+Progress: resolved 657, reused 0, downloaded 204, added 12
+Progress: resolved 657, reused 0, downloaded 451, added 28
+Progress: resolved 657, reused 0, downloaded 657, added 306
 Progress: resolved 657, reused 0, downloaded 657, added 657, done
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
 .../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
@@ -48,4 +50,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 9.7s using pnpm v11.28.3
+Done in 12s using pnpm v11.28.3

@@ -19,8 +19,8 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T1.R2.4: CSS transition and animation syntax must be valid without invalid combinations (0ms)
   ✔ [PASS] T1.R2.5: High-precision timer loops must calculate elapsed time using timestamp deltas to prevent drift (0ms)
   ✔ [PASS] T1.R3.1: Mobile navigation shell (<768px) must render BottomNav with safe-area insets and touch targets >=44px (1ms)
-  ✔ [PASS] T1.R3.2: Desktop layout (>=768px) must incorporate Navigation Rail / Sidebar (1ms)
-  ✔ [PASS] T1.R3.3: Dashboard layout on viewports >=768px must utilize multi-column grid without 480px artificial clamping (1ms)
+  ✔ [PASS] T1.R3.2: Desktop layout (>=768px) must incorporate Navigation Rail / Sidebar (0ms)
+  ✔ [PASS] T1.R3.3: Dashboard layout on viewports >=768px must utilize multi-column grid without 480px artificial clamping (0ms)
   ✔ [PASS] T1.R3.4: Safe-area insets must be comprehensively handled for all 4 edges (top, bottom, left, right) (0ms)
   ✔ [PASS] T1.R3.5: Navigation items must expose active tab indicators and accessible labels across layouts (0ms)
   ✔ [PASS] T1.R4.1: vite.config.ts must declare base: "./" for Electron file:// packaging compatibility (1ms)
@@ -46,10 +46,10 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T2.R3.4: Safe area insets boundary: dynamic calculation with 0px vs 60px notch (0ms)
   ✔ [PASS] T2.R3.5: Rapid window resize oscillation across 768px boundary maintains clean state transition (0ms)
   ✔ [PASS] T2.R4.1: KeepAwake native failure gracefully falls back to Web Wake Lock API (1ms)
-  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (1ms)
+  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
   ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
   ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
-  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (20ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (19ms)
 
 ▶ Executing Tier 3: Cross-Feature Combinations...
   ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (2ms)
@@ -82,7 +82,7 @@ Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
 Tier 4: Real-World Application Scenarios |    10 |   10 |    0 | End-to-End User Journeys
 ----------------------------------------+-------+------+------+-----------
 Total Tests: 56 | Passed: 56 | Pending Implementation: 0
-Suite Execution Time: 0.71s
+Suite Execution Time: 0.70s
 ================================================================
 
 🎉 100% of all tests in all 4 tiers PASSED!
