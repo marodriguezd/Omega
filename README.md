@@ -33,12 +33,12 @@
 
 Download the pre-compiled Android APK directly from GitHub Releases:
 
-👉 **[Download Omega-1.0.0.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)**
+👉 **[Download Omega-1.0.1.apk (v1.0.1)](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.apk)**
 
-**v1.0.0 is the first public release** (earlier `v1.1.0`–`v1.4.0` tags were private internal testing builds and are not supported). Desktop builds for the same release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — are attached to the [v1.0.0 release page](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verify Android downloads with `sha256sum -c SHA256SUMS-android.txt` and desktop downloads with `sha256sum -c SHA256SUMS-desktop.txt` (per-platform checksum files published next to the artifacts).
+**v1.0.1 is the latest release** (incorporates full code review refactorings, optimizations, and hardening). Desktop builds for the same release — `Omega-1.0.1.dmg` (macOS), `Omega-1.0.1.msi` (Windows), `Omega-1.0.1.AppImage` (Linux) — are attached to the [v1.0.1 release page](https://github.com/marodriguezd/Omega/releases/tag/v1.0.1). Verify Android downloads with `sha256sum -c SHA256SUMS-android.txt` and desktop downloads with `sha256sum -c SHA256SUMS-desktop.txt` (per-platform checksum files published next to the artifacts).
 
 ### Installation Steps:
-1. Open the link above in your Android browser and download `Omega-1.0.0.apk`.
+1. Open the link above in your Android browser and download `Omega-1.0.1.apk`.
 2. Tap the download notification or locate the file in your device's **Downloads** folder.
 3. If prompted by Android, enable **"Allow from this source"** for your browser or file manager.
 4. Tap **Install** and launch Omega!

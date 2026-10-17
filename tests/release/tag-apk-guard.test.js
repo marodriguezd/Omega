@@ -216,8 +216,9 @@ describe('Release hardening — tag builds can never publish debug APKs', () => 
   });
 
   it('R33. Android versionName is the product version; versionCode stays monotonic', () => {
+    const pkg = JSON.parse(readProjectFile('package.json') || '{}');
     const gradle = readProjectFile('android/app/build.gradle') || '';
-    assert.match(gradle, /versionName\s+"1\.0\.0"/, 'versionName must be the literal product version 1.0.0');
+    assert.match(gradle, new RegExp(`versionName\\s+"${pkg.version}"`), 'versionName must be the literal product version');
     assert.doesNotMatch(gradle, /versionName.*BUILD_NUMBER/, 'the CI run number must never be the visible version');
     assert.match(
       gradle,
@@ -225,7 +226,6 @@ describe('Release hardening — tag builds can never publish debug APKs', () => 
       'versionCode must derive from the monotonic CI run number',
     );
     // Artifact filename and package metadata describe the same release.
-    const pkg = JSON.parse(readProjectFile('package.json') || '{}');
     assert.match(gradle, new RegExp(`versionName\\s+"${pkg.version}"`), 'gradle versionName must match package.json');
     const yml = readProjectFile('.github/workflows/android.yml') || '';
     assert.match(

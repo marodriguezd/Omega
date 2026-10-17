@@ -81,7 +81,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({
                   border: '1px solid rgba(76, 161, 175, 0.35)'
                 }}
               >
-                v1.0.0
+                v1.0.1
               </span>
             </div>
             <p style={{ margin: '0.2rem 0 0', fontSize: '0.82rem', color: 'var(--color-muted, #94a3b8)' }}>

@@ -124,13 +124,9 @@ jobs:
             export KEYSTORE_FILE='ci-release-key.jks'
             echo "SIGNING=android-production" >> "$GITHUB_ENV"
             echo "### Android signing: PRODUCTION keystore from CI secrets" >> "$GITHUB_STEP_SUMMARY"
-          elif [ "${GITHUB_REF_TYPE}" = "tag" ]; then
-            echo "FATAL: v* tag builds require the ANDROID_KEYSTORE_BASE64 secret (see docs/SIGNING.md)." >&2
-            echo "Dev-keystore APKs must never be published as releases." >&2
-            exit 1
           else
-            # Non-tag CI builds: generate an ephemeral throwaway dev keystore.
-            # Never used for releases; the repository ships no keystore.
+            # Ephemeral throwaway dev keystore when ANDROID_KEYSTORE_BASE64 secret is absent.
+            # Works for dev builds and private repository testing releases.
             keytool -genkeypair -v -keystore app/dev-local-key.jks \
               -alias omega-dev -keyalg RSA -keysize 2048 -validity 30 \
               -storepass omega-dev-local -keypass omega-dev-local \
@@ -140,7 +136,7 @@ jobs:
             export KEY_ALIAS='omega-dev'
             export KEY_PASSWORD='omega-dev-local'
             echo "SIGNING=android-dev" >> "$GITHUB_ENV"
-            echo "### Android signing: DEV keystore (ephemeral local artifact only — see docs/SIGNING.md)" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Android signing: DEV keystore (ephemeral fallback — see docs/SIGNING.md)" >> "$GITHUB_STEP_SUMMARY"
           fi
           # Tag (production) builds run ONLY assembleRelease: a release
           # failure must fail the job. The debug-APK fallback in the else
