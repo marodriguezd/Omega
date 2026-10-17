@@ -33,6 +33,12 @@
   ✔ [PASS] R4. release-meta derives deterministic names and gates tag matches
   ✔ [PASS] R35. third-party license status is documented without inventing the Hydrocicle license
   ✔ [PASS] R31. public download links resolve to the versioned v1.0.0 release asset
+▶ tests/release/release-race.test.js
+  ✔ [PASS] R36. both workflows share the one safe release-creation strategy
+  ✔ [PASS] R37. concurrent android/desktop uploads compose (disjoint asset sets)
+  ✔ [PASS] R38. CI runs least privilege: read by default, write only to publish
+  ✔ [PASS] R39. CI installs are reproducible from the committed lockfile
+  ✔ [PASS] R40. internal agent state is not product/release content
 ▶ tests/release/tag-apk-guard.test.js
   ✔ [PASS] R24. tag builds run ONLY assembleRelease; debug fallback is branch-only
   ✔ [PASS] R25. prepare step rejects debug APKs on tags and guards production signing
@@ -46,7 +52,7 @@
   ✔ [PASS] R30. release publish step is fail-closed (no silent publish failure)
 
 -----------------------------------------------
-Total: 35 | Passed: 35 | Failed: 0
+Total: 40 | Passed: 40 | Failed: 0
 -----------------------------------------------
 
 All release tests PASSED!
