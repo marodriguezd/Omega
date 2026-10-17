@@ -12,6 +12,7 @@ export interface BreathingSessionRecord {
   totalRetentionTime: number;
   breathsPerRound?: number;
   pace?: string;
+  sensations?: string[];
 }
 
 export interface ColdSessionRecord {
@@ -25,6 +26,7 @@ export interface ColdSessionRecord {
   tempUnit?: 'C' | 'F';
   challengeDay?: number;
   notes?: string;
+  sensations?: string[];
 }
 
 export interface PushUpRecord {
@@ -178,6 +180,68 @@ export function loadWimHofStore(): WimHofStoreData {
     store.badges = INITIAL_BADGES;
   }
 
+  // Bi-directional synchronization: reconcile any sessions recorded in sub-apps
+  const legacyBubble = safeGetJson<any[]>(STORAGE_KEYS.BUBBLE_HISTORY, []);
+  const legacyHydro = safeGetJson<any[]>(STORAGE_KEYS.HYDRO_HISTORY, []);
+  let storeChanged = false;
+
+  if (Array.isArray(legacyBubble) && legacyBubble.length > 0) {
+    const existingIds = new Set(store.breathingHistory.map(b => String(b.id)));
+    for (let idx = 0; idx < legacyBubble.length; idx++) {
+      const b = legacyBubble[idx];
+      const bId = String(b.id || `bb-${b.date || Date.now()}-${idx}`);
+      if (!existingIds.has(bId)) {
+        const rawDate = typeof b.date === 'string' ? new Date(b.date).getTime() : Number(b.date);
+        const parsedDate = Number.isFinite(rawDate) ? rawDate : Date.now();
+        const retTimes = Array.isArray(b.retentionTimes) ? b.retentionTimes : (b.retentionSeconds ? [b.retentionSeconds] : [0]);
+        const totRet = Number(b.totalRetentionTime || b.retentionSeconds || 0);
+        store.breathingHistory.push({
+          id: bId,
+          date: parsedDate,
+          rounds: Number(b.rounds || b.roundsCompleted || 1),
+          retentionTimes: retTimes,
+          totalRetentionTime: totRet,
+          breathsPerRound: b.breaths || b.breathsPerRound || 30,
+          pace: b.pace || b.speed || 'standard',
+          sensations: Array.isArray(b.sensations) ? b.sensations : undefined
+        });
+        existingIds.add(bId);
+        storeChanged = true;
+      }
+    }
+  }
+
+  if (Array.isArray(legacyHydro) && legacyHydro.length > 0) {
+    const existingIds = new Set(store.coldHistory.map(c => String(c.id)));
+    for (let idx = 0; idx < legacyHydro.length; idx++) {
+      const h = legacyHydro[idx];
+      const hId = String(h.id || `hc-${h.date || Date.now()}-${idx}`);
+      if (!existingIds.has(hId)) {
+        const rawDate = typeof h.date === 'string' ? new Date(h.date).getTime() : Number(h.date);
+        const parsedDate = Number.isFinite(rawDate) ? rawDate : Date.now();
+        store.coldHistory.push({
+          id: hId,
+          date: parsedDate,
+          type: (h.type as any) || (h.preset === 'cold_shock' ? 'free_shower' : 'contrast'),
+          totalColdTime: Number(h.totalColdTime || 0),
+          totalWarmTime: Number(h.totalWarmTime || 0),
+          rounds: Number(h.rounds || 1),
+          waterTemp: h.waterTemp,
+          tempUnit: h.tempUnit || 'C',
+          sensations: Array.isArray(h.sensations) ? h.sensations : undefined
+        });
+        existingIds.add(hId);
+        storeChanged = true;
+      }
+    }
+  }
+
+  if (storeChanged) {
+    store.breathingHistory.sort((a, b) => b.date - a.date);
+    store.coldHistory.sort((a, b) => b.date - a.date);
+    safeSetJson(STORAGE_KEYS.STORE, store);
+  }
+
   return store;
 }
 
@@ -244,7 +308,8 @@ export function recordBreathingSession(session: BreathingSessionRecord): boolean
     retentionSeconds: session.totalRetentionTime,
     totalRetentionTime: session.totalRetentionTime,
     breaths: session.breathsPerRound || 30,
-    speed: session.pace || 'standard'
+    speed: session.pace || 'standard',
+    sensations: session.sensations
   };
 
   const legacyList = safeGetJson<any[]>(STORAGE_KEYS.BUBBLE_HISTORY, []);
@@ -254,6 +319,27 @@ export function recordBreathingSession(session: BreathingSessionRecord): boolean
   safeSetJson(STORAGE_KEYS.STORE, store);
   broadcastStoreUpdate();
   return true;
+}
+
+/**
+ * Updates an existing breathing session record
+ */
+export function updateBreathingSession(id: string, updates: Partial<BreathingSessionRecord>): boolean {
+  const store = loadWimHofStore();
+  const session = store.breathingHistory.find(s => s.id === id);
+  if (session) {
+    Object.assign(session, updates);
+    safeSetJson(STORAGE_KEYS.STORE, store);
+    const legacyList = safeGetJson<any[]>(STORAGE_KEYS.BUBBLE_HISTORY, []);
+    const leg = legacyList.find(s => s.id === id);
+    if (leg) {
+      Object.assign(leg, updates);
+      safeSetJson(STORAGE_KEYS.BUBBLE_HISTORY, legacyList);
+    }
+    broadcastStoreUpdate();
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -283,7 +369,8 @@ export function recordColdSession(session: ColdSessionRecord): boolean {
     totalColdTime: session.totalColdTime,
     totalWarmTime: session.totalWarmTime || 0,
     waterTemp: session.waterTemp,
-    tempUnit: session.tempUnit
+    tempUnit: session.tempUnit,
+    sensations: session.sensations
   };
 
   const legacyList = safeGetJson<any[]>(STORAGE_KEYS.HYDRO_HISTORY, []);
@@ -293,6 +380,27 @@ export function recordColdSession(session: ColdSessionRecord): boolean {
   safeSetJson(STORAGE_KEYS.STORE, store);
   broadcastStoreUpdate();
   return true;
+}
+
+/**
+ * Updates an existing cold session record
+ */
+export function updateColdSession(id: string, updates: Partial<ColdSessionRecord>): boolean {
+  const store = loadWimHofStore();
+  const session = store.coldHistory.find(s => s.id === id);
+  if (session) {
+    Object.assign(session, updates);
+    safeSetJson(STORAGE_KEYS.STORE, store);
+    const legacyList = safeGetJson<any[]>(STORAGE_KEYS.HYDRO_HISTORY, []);
+    const leg = legacyList.find(s => s.id === id);
+    if (leg) {
+      Object.assign(leg, updates);
+      safeSetJson(STORAGE_KEYS.HYDRO_HISTORY, legacyList);
+    }
+    broadcastStoreUpdate();
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -403,11 +511,41 @@ export function importBackupJson(rawJson: string): { success: boolean; message?:
       return { success: false, message: 'Formato JSON inválido: faltan campos de historial.' };
     }
 
+    // Sanitize imported records
+    const sanitizedBreathing: BreathingSessionRecord[] = data.breathingHistory
+      .filter((b: any) => b && typeof b === 'object')
+      .map((b: any, idx: number) => ({
+        id: String(b.id || `bb-imported-${idx}`),
+        date: Number(b.date) || Date.now(),
+        rounds: Number(b.rounds || 1),
+        retentionTimes: Array.isArray(b.retentionTimes) ? b.retentionTimes.map(Number) : [Number(b.totalRetentionTime || b.retentionSeconds || 0)],
+        totalRetentionTime: Number(b.totalRetentionTime || b.retentionSeconds || 0),
+        breathsPerRound: Number(b.breathsPerRound || b.breaths || 30),
+        pace: typeof b.pace === 'string' ? b.pace : typeof b.speed === 'string' ? b.speed : 'standard',
+        sensations: Array.isArray(b.sensations) ? b.sensations.filter((s: any) => typeof s === 'string') : undefined
+      }));
+
+    const sanitizedCold: ColdSessionRecord[] = data.coldHistory
+      .filter((c: any) => c && typeof c === 'object')
+      .map((c: any, idx: number) => ({
+        id: String(c.id || `hc-imported-${idx}`),
+        date: Number(c.date) || Date.now(),
+        type: c.type || (c.preset === 'cold_shock' ? 'free_shower' : 'contrast'),
+        totalColdTime: Number(c.totalColdTime || 0),
+        totalWarmTime: Number(c.totalWarmTime || 0),
+        rounds: Number(c.rounds || 1),
+        waterTemp: typeof c.waterTemp === 'number' ? c.waterTemp : undefined,
+        tempUnit: c.tempUnit === 'F' ? 'F' : 'C',
+        challengeDay: typeof c.challengeDay === 'number' ? c.challengeDay : undefined,
+        notes: typeof c.notes === 'string' ? c.notes : undefined,
+        sensations: Array.isArray(c.sensations) ? c.sensations.filter((s: any) => typeof s === 'string') : undefined
+      }));
+
     // Save imported store
     const store: WimHofStoreData = {
       version: 1,
-      breathingHistory: data.breathingHistory,
-      coldHistory: data.coldHistory,
+      breathingHistory: sanitizedBreathing,
+      coldHistory: sanitizedCold,
       pushUpHistory: Array.isArray(data.pushUpHistory) ? data.pushUpHistory : [],
       challengeDays: Array.isArray(data.challengeDays) && data.challengeDays.length === 20 ? data.challengeDays : INITIAL_CHALLENGE_DAYS,
       badges: Array.isArray(data.badges) ? data.badges : INITIAL_BADGES

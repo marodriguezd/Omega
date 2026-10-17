@@ -382,6 +382,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
                         minute: '2-digit'
                       })}
                     </div>
+                    {act.sensations && act.sensations.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', marginTop: '0.25rem' }}>
+                        {act.sensations.map(s => (
+                          <span
+                            key={s}
+                            style={{
+                              fontSize: '0.65rem',
+                              padding: '1px 5px',
+                              borderRadius: '8px',
+                              background: act.type === 'breathing' ? 'rgba(0, 240, 255, 0.12)' : 'rgba(0, 210, 255, 0.12)',
+                              border: act.type === 'breathing' ? '1px solid rgba(0, 240, 255, 0.25)' : '1px solid rgba(0, 210, 255, 0.25)',
+                              color: act.type === 'breathing' ? '#00f0ff' : '#00d2ff',
+                              fontWeight: 600
+                            }}
+                          >
+                            {langDict[`sensation_${s}`] || s}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="activity-item-right">

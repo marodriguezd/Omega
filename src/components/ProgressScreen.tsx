@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { 
   Award, 
   Calendar, 
@@ -11,7 +11,10 @@ import {
   CheckCircle2, 
   ShieldCheck,
   TrendingUp,
-  FileCheck
+  FileCheck,
+  ChevronDown,
+  ChevronUp,
+  History
 } from 'lucide-react';
 import { 
   loadWimHofStore, 
@@ -21,6 +24,7 @@ import {
   importBackupJson 
 } from '../services/omegaStore';
 import { formatTimeSeconds } from '../hooks/useOmegaStats';
+import { RoundRetentionBarChart } from './RoundRetentionBarChart';
 
 interface ProgressScreenProps {
   langDict: Record<string, string>;
@@ -30,7 +34,16 @@ interface ProgressScreenProps {
 export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combinedStreak }) => {
   const [storeData, setStoreData] = useState<WimHofStoreData>(() => loadWimHofStore());
   const [importStatus, setImportStatus] = useState<string | null>(null);
+  const [expandedSessionIds, setExpandedSessionIds] = useState<Record<string, boolean>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const importTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const toggleSessionExpand = (id: string) => {
+    setExpandedSessionIds(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   const refreshData = () => {
     const updated = loadWimHofStore();
@@ -45,23 +58,37 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
     return () => {
       window.removeEventListener('omega-store-update', refreshData);
       window.removeEventListener('omega-sync', refreshData);
+      if (importTimeoutRef.current) {
+        clearTimeout(importTimeoutRef.current);
+      }
     };
   }, [combinedStreak]);
 
-  // Aggregate Metrics
-  const totalBreathing = storeData.breathingHistory.length;
-  const totalRetentionSec = storeData.breathingHistory.reduce((sum, s) => sum + (s.totalRetentionTime || 0), 0);
-  const maxRetentionSec = storeData.breathingHistory.reduce((max, s) => {
-    const top = Math.max(...(s.retentionTimes || [0]));
-    return Math.max(max, top);
-  }, 0);
+  // Memoized Aggregate Metrics
+  const { totalBreathing, totalRetentionSec, maxRetentionSec, totalColdSessions, totalColdSec, maxColdSec } = useMemo(() => {
+    const totalB = storeData.breathingHistory.length;
+    const totalRetSec = storeData.breathingHistory.reduce((sum, s) => sum + (s.totalRetentionTime || 0), 0);
+    const maxRetSec = storeData.breathingHistory.reduce((max, s) => {
+      const top = Math.max(...(s.retentionTimes || [0]));
+      return Math.max(max, top);
+    }, 0);
 
-  const totalColdSessions = storeData.coldHistory.length;
-  const totalColdSec = storeData.coldHistory.reduce((sum, s) => sum + (s.totalColdTime || 0), 0);
-  const maxColdSec = storeData.coldHistory.reduce((max, s) => Math.max(max, s.totalColdTime || 0), 0);
+    const totalCold = storeData.coldHistory.length;
+    const totalC = storeData.coldHistory.reduce((sum, s) => sum + (s.totalColdTime || 0), 0);
+    const maxC = storeData.coldHistory.reduce((max, s) => Math.max(max, s.totalColdTime || 0), 0);
 
-  // Generate 28-day / 4-week activity heatmap
-  const generateHeatmapDays = () => {
+    return {
+      totalBreathing: totalB,
+      totalRetentionSec: totalRetSec,
+      maxRetentionSec: maxRetSec,
+      totalColdSessions: totalCold,
+      totalColdSec: totalC,
+      maxColdSec: maxC
+    };
+  }, [storeData.breathingHistory, storeData.coldHistory]);
+
+  // Memoized 28-day / 4-week activity heatmap with pre-indexed date sets
+  const heatmapDays = useMemo(() => {
     const days = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -85,9 +112,15 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
       });
     }
     return days;
-  };
+  }, [storeData.breathingHistory, storeData.coldHistory]);
 
-  const heatmapDays = generateHeatmapDays();
+  // Memoized top 5 recent breathing sessions
+  const recentBreathingSessions = useMemo(() => {
+    return storeData.breathingHistory
+      .slice()
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 5);
+  }, [storeData.breathingHistory]);
 
   // Handle JSON Import
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +137,13 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
       } else {
         setImportStatus(result.message || 'Error al importar datos.');
       }
-      setTimeout(() => setImportStatus(null), 4000);
+      if (importTimeoutRef.current) clearTimeout(importTimeoutRef.current);
+      importTimeoutRef.current = setTimeout(() => setImportStatus(null), 4000);
+    };
+    reader.onerror = () => {
+      setImportStatus('Error al leer el archivo seleccionado.');
+      if (importTimeoutRef.current) clearTimeout(importTimeoutRef.current);
+      importTimeoutRef.current = setTimeout(() => setImportStatus(null), 4000);
     };
     reader.readAsText(file);
     e.target.value = '';
@@ -237,6 +276,112 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
             <p>{langDict.totalColdTime || 'Total en frío'}</p>
           </div>
         </div>
+      </div>
+
+      {/* Wim Hof Method Round-by-Round Breathing History & Retention Progression */}
+      <div className="glass-card" style={{ width: '100%', marginBottom: '1.2rem' }}>
+        <h4 style={{ margin: '0 0 0.4rem', fontSize: '1rem', color: 'var(--omega-primary-cyan, #00f0ff)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <History size={19} />
+          <span>{langDict.recentBreathingHistory || 'Historial de Respiración'}</span>
+        </h4>
+        <p style={{ margin: '0 0 0.85rem', fontSize: '0.78rem', color: 'var(--color-muted)' }}>
+          {langDict.recentBreathingHistoryDesc || 'Desglose de apnea ronda por ronda estilo Wim Hof'}
+        </p>
+
+        {storeData.breathingHistory.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '1.2rem 0', color: 'var(--color-muted)', fontSize: '0.82rem' }}>
+            {langDict.noBreathingHistoryYet || 'No hay sesiones registradas aún.'}
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {recentBreathingSessions.map((session, sIdx) => {
+                const isExpanded = expandedSessionIds[session.id] ?? (sIdx === 0);
+                const sessionDate = new Date(session.date);
+                const dateStr = sessionDate.toLocaleDateString(undefined, {
+                  month: 'short',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit'
+                });
+                const roundCount = session.rounds || (session.retentionTimes ? session.retentionTimes.length : 1);
+                const maxHold = session.retentionTimes && session.retentionTimes.length > 0 
+                  ? Math.max(...session.retentionTimes) 
+                  : (session.totalRetentionTime || 0);
+
+                return (
+                  <div
+                    key={session.id || sIdx}
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      border: '1px solid var(--color-glass-border)',
+                      borderRadius: 'var(--omega-radius-squircle-sm, 10px)',
+                      padding: '0.7rem 0.85rem',
+                      display: 'flex',
+                      flexDirection: 'column'
+                    }}
+                  >
+                    <div
+                      onClick={() => toggleSessionExpand(session.id || String(sIdx))}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
+                        <span style={{ fontSize: '0.82rem', fontWeight: 600, color: '#fff' }}>
+                          {dateStr}
+                        </span>
+                        <span style={{ fontSize: '0.72rem', color: 'var(--color-muted)' }}>
+                          {roundCount} {langDict.roundLabel ? `${langDict.roundLabel}s` : 'rondas'} • Max: <strong style={{ color: 'var(--omega-warm-amber, #ff7a00)' }}>{formatTimeSeconds(maxHold)}</strong>
+                        </span>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--omega-primary-cyan, #00f0ff)' }}>
+                          {formatTimeSeconds(session.totalRetentionTime || 0)}
+                        </span>
+                        {isExpanded ? <ChevronUp size={16} color="var(--color-muted)" /> : <ChevronDown size={16} color="var(--color-muted)" />}
+                      </div>
+                    </div>
+
+                    {session.sensations && session.sensations.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: '0.4rem' }}>
+                        {session.sensations.map(s => (
+                          <span
+                            key={s}
+                            style={{
+                              fontSize: '0.68rem',
+                              padding: '2px 7px',
+                              borderRadius: '9999px',
+                              background: 'rgba(0, 240, 255, 0.12)',
+                              border: '1px solid rgba(0, 240, 255, 0.28)',
+                              color: 'var(--omega-primary-cyan, #00f0ff)',
+                              fontWeight: 600
+                            }}
+                          >
+                            {langDict[`sensation_${s}`] || s}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    {isExpanded && session.retentionTimes && session.retentionTimes.length > 0 && (
+                      <div style={{ marginTop: '0.5rem', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '0.4rem' }}>
+                        <RoundRetentionBarChart
+                          retentionTimes={session.retentionTimes}
+                          bestRetentionSec={maxRetentionSec}
+                          compact={false}
+                          langDict={langDict}
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+          </div>
+        )}
       </div>
 
       {/* Hexagonal Badges Showcase */}

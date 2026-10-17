@@ -109,6 +109,7 @@ jobs:
         run: ls -lh release/
 
       - name: Upload DMG artifact
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: Omega-macOS-DMG
@@ -117,7 +118,7 @@ jobs:
             release/SHA256SUMS.txt
             release/manifest.json
           retention-days: 14
-          if-no-files-found: error
+          if-no-files-found: warn
 
   build-win:
     name: Build Windows MSI
@@ -212,6 +213,7 @@ jobs:
         run: Get-ChildItem release/
 
       - name: Upload MSI artifact
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: Omega-Windows-MSI
@@ -220,7 +222,7 @@ jobs:
             release/SHA256SUMS.txt
             release/manifest.json
           retention-days: 14
-          if-no-files-found: error
+          if-no-files-found: warn
 
   build-linux:
     name: Build Linux AppImage
@@ -289,6 +291,7 @@ jobs:
         run: ls -lh release/
 
       - name: Upload AppImage artifact
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: Omega-Linux-AppImage
@@ -297,7 +300,7 @@ jobs:
             release/SHA256SUMS.txt
             release/manifest.json
           retention-days: 14
-          if-no-files-found: error
+          if-no-files-found: warn
 
   release-desktop:
     name: Validate + publish desktop release

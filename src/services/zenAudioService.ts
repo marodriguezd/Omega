@@ -42,7 +42,9 @@ export function playSingingBowl(
     { ratio: 2.76, gain: 0.18 }
   ]
 ) {
-  if (volume <= 0) return;
+  if (!Number.isFinite(volume) || volume <= 0) return;
+  if (!Number.isFinite(durationSec) || durationSec <= 0) return;
+  if (!Number.isFinite(fundamental) || fundamental <= 0) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
@@ -93,7 +95,10 @@ function playBreathChime(
   durationMs: number,
   volume: number
 ) {
-  if (volume <= 0) return;
+  if (!Number.isFinite(volume) || volume <= 0) return;
+  if (!Number.isFinite(durationMs) || durationMs <= 0) return;
+  if (!Number.isFinite(startFreq) || startFreq <= 0) return;
+  if (!Number.isFinite(endFreq) || endFreq <= 0) return;
   const ctx = getAudioContext();
   if (!ctx) return;
 
@@ -229,4 +234,77 @@ export function playCountdownBeep(volume: number, secondsRemaining: number) {
     { ratio: 1.0, gain: 1.0 }
   ]);
   triggerHaptic('light', 35);
+}
+
+/**
+ * Penetrating 432Hz/864Hz dual chime designed to pierce through shower noise at milestones
+ * (15s, 30s, 45s, 60s, +30s) without harsh clipping.
+ */
+export function playWaterMilestoneCue(volume: number, _milestoneSec?: number) {
+  // First strike (576Hz)
+  playSingingBowl(576, 1.4, volume * 1.1, [
+    { ratio: 1.0, gain: 1.0 },
+    { ratio: 1.5, gain: 0.4 },
+    { ratio: 2.0, gain: 0.25 }
+  ]);
+  // Second strike delayed by 140ms (864Hz high bell)
+  setTimeout(() => {
+    playSingingBowl(864, 1.8, volume * 1.15, [
+      { ratio: 1.0, gain: 1.0 },
+      { ratio: 1.5, gain: 0.3 }
+    ]);
+  }, 140);
+  triggerHaptic('heavy', [120, 80, 200]);
+}
+
+/**
+ * Acoustic countdown beep for the 5-second dry-hands entry buffer
+ */
+export function playPrepCountdownCue(volume: number, secondsRemaining: number) {
+  if (secondsRemaining <= 0) {
+    playSingingBowl(576, 1.6, volume * 1.2, [
+      { ratio: 1.0, gain: 1.0 },
+      { ratio: 1.5, gain: 0.45 },
+      { ratio: 2.0, gain: 0.3 }
+    ]);
+    triggerHaptic('success', [150, 100, 250]);
+  } else {
+    const freq = secondsRemaining === 1 ? 540 : 432;
+    playSingingBowl(freq, 0.35, volume * 0.8, [
+      { ratio: 1.0, gain: 1.0 }
+    ]);
+    triggerHaptic('medium', 45);
+  }
+}
+
+/**
+ * Celebratory 432Hz/648Hz harmonic resonance chord marking retention goal achievement
+ * without interrupting the active stopwatch.
+ */
+export function playTargetReachedCue(volume: number) {
+  playSingingBowl(432, 2.6, volume * 1.1, [
+    { ratio: 1.0, gain: 1.0 },
+    { ratio: 1.5, gain: 0.6 },
+    { ratio: 2.0, gain: 0.35 },
+    { ratio: 2.76, gain: 0.2 }
+  ]);
+  triggerHaptic('success', [100, 60, 100, 60, 200]);
+}
+
+/**
+ * Triumphant 3-note ascending harmonic arpeggio (432Hz -> 576Hz -> 864Hz)
+ * celebrating an all-time Personal Best (PB) retention hold during live apnea.
+ */
+export function playPersonalBestCue(volume: number) {
+  const notes = [432, 576, 864];
+  notes.forEach((freq, idx) => {
+    setTimeout(() => {
+      playSingingBowl(freq, 2.2, volume * 1.15, [
+        { ratio: 1.0, gain: 1.0 },
+        { ratio: 1.5, gain: 0.4 },
+        { ratio: 2.0, gain: 0.25 }
+      ]);
+    }, idx * 150);
+  });
+  triggerHaptic('success', [80, 50, 120, 50, 200]);
 }

@@ -10,7 +10,8 @@ import {
   Snowflake, 
   ChevronRight,
   ShieldAlert,
-  Sparkles
+  Sparkles,
+  Wind
 } from 'lucide-react';
 import { 
   loadWimHofStore, 
@@ -20,7 +21,13 @@ import {
   recordColdSession
 } from '../services/omegaStore';
 import { BreathingSphere } from './BreathingSphere';
-import { playTransitionCue, playCompletionFanfare, playCountdownBeep } from '../services/zenAudioService';
+import { 
+  playTransitionCue, 
+  playCompletionFanfare, 
+  playCountdownBeep,
+  playWaterMilestoneCue,
+  playPrepCountdownCue
+} from '../services/zenAudioService';
 import { enableKeepAwake, disableKeepAwake, triggerHaptic } from '../services/nativeService';
 
 interface ChallengesScreenProps {
@@ -38,10 +45,26 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
   // Active challenge session runner
   const [isSessionActive, setIsSessionActive] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [sessionStage, setSessionStage] = useState<'prep' | 'cold'>('cold');
+  const [prepCountdown, setPrepCountdown] = useState(5);
   const [timeLeft, setTimeLeft] = useState(15);
+  const [isPacingActive, setIsPacingActive] = useState<boolean>(() => {
+    return localStorage.getItem('omega_cold_pacing') === 'true';
+  });
   const timerRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
+  const prepStartTimeRef = useRef<number | null>(null);
   const accumulatedSecRef = useRef(0);
+  const lastMilestoneSecRef = useRef<number | null>(null);
+  const lastPrepSecRef = useRef<number | null>(null);
+
+  const togglePacing = () => {
+    setIsPacingActive(prev => {
+      const next = !prev;
+      localStorage.setItem('omega_cold_pacing', String(next));
+      return next;
+    });
+  };
 
   const refreshData = () => {
     const updated = loadWimHofStore();
@@ -100,11 +123,24 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     setSelectedDay(day.day);
     setTimeLeft(day.targetSec);
     accumulatedSecRef.current = 0;
-    startTimeRef.current = Date.now();
+    lastMilestoneSecRef.current = null;
+    lastPrepSecRef.current = 5;
+    setSessionStage('prep');
+    setPrepCountdown(5);
+    prepStartTimeRef.current = Date.now();
+    startTimeRef.current = null;
     setIsSessionActive(true);
     setIsPlaying(true);
     enableKeepAwake();
-    playTransitionCue('cold', 0.8);
+    playPrepCountdownCue(0.85, 5);
+    triggerHaptic('medium');
+  };
+
+  const skipPrep = () => {
+    setSessionStage('cold');
+    startTimeRef.current = Date.now();
+    accumulatedSecRef.current = 0;
+    playTransitionCue('cold', 0.85);
     triggerHaptic('medium');
   };
 
@@ -112,6 +148,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     if (timerRef.current) cancelAnimationFrame(timerRef.current);
     setIsSessionActive(false);
     setIsPlaying(false);
+    setSessionStage('cold');
     disableKeepAwake();
   };
 
@@ -122,15 +159,49 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
       return;
     }
 
-    startTimeRef.current = Date.now();
     const targetDuration = currentDayItem.targetSec;
 
     const tick = () => {
-      if (!startTimeRef.current) return;
       const now = Date.now();
+
+      if (sessionStage === 'prep') {
+        if (!prepStartTimeRef.current) prepStartTimeRef.current = now;
+        const elapsedPrep = Math.floor((now - prepStartTimeRef.current) / 1000);
+        const remPrep = Math.max(0, 5 - elapsedPrep);
+        setPrepCountdown(remPrep);
+
+        if (remPrep !== lastPrepSecRef.current) {
+          lastPrepSecRef.current = remPrep;
+          playPrepCountdownCue(0.85, remPrep);
+        }
+
+        if (remPrep <= 0) {
+          setSessionStage('cold');
+          startTimeRef.current = Date.now();
+          accumulatedSecRef.current = 0;
+          playTransitionCue('cold', 0.9);
+          triggerHaptic('success');
+          return;
+        }
+
+        timerRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (!startTimeRef.current) startTimeRef.current = now;
       const elapsedSec = accumulatedSecRef.current + Math.floor((now - startTimeRef.current) / 1000);
       const remaining = Math.max(0, targetDuration - elapsedSec);
       setTimeLeft(remaining);
+
+      // Acoustic water milestone chimes at 15s, 30s, 45s, 60s, and every 30s beyond
+      if (
+        (elapsedSec === 15 || elapsedSec === 30 || elapsedSec === 45 || elapsedSec === 60 || (elapsedSec > 60 && elapsedSec % 30 === 0)) &&
+        elapsedSec !== lastMilestoneSecRef.current &&
+        remaining > 5
+      ) {
+        lastMilestoneSecRef.current = elapsedSec;
+        playWaterMilestoneCue(0.9, elapsedSec);
+      }
 
       // Final countdown beeps
       if (remaining > 0 && remaining <= 5) {
@@ -163,16 +234,20 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     return () => {
       if (timerRef.current) cancelAnimationFrame(timerRef.current);
     };
-  }, [isSessionActive, isPlaying, currentDayItem]);
+  }, [isSessionActive, isPlaying, sessionStage, currentDayItem]);
 
   const handleTogglePlayPause = () => {
     if (isPlaying) {
-      if (startTimeRef.current) {
+      if (sessionStage === 'cold' && startTimeRef.current) {
         accumulatedSecRef.current += Math.floor((Date.now() - startTimeRef.current) / 1000);
       }
       setIsPlaying(false);
     } else {
-      startTimeRef.current = Date.now();
+      if (sessionStage === 'cold') {
+        startTimeRef.current = Date.now();
+      } else {
+        prepStartTimeRef.current = Date.now();
+      }
       setIsPlaying(true);
     }
   };
@@ -182,6 +257,32 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     const targetSec = currentDayItem.targetSec;
     const elapsed = targetSec - timeLeft;
     const ringPercent = targetSec > 0 ? (elapsed / targetSec) * 100 : 0;
+
+    // 4s inhale / 6s exhale cold shock pacing
+    const cycleSec = elapsed % 10;
+    const isPacingInhale = cycleSec < 4;
+
+    let sphereScale = isPlaying ? 1.05 : 1.0;
+    let durationMs = 300;
+    let easing = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
+    if (sessionStage === 'cold' && isPacingActive && isPlaying) {
+      if (isPacingInhale) {
+        sphereScale = 1.25;
+        durationMs = 4000;
+        easing = 'ease-out';
+      } else {
+        sphereScale = 0.95;
+        durationMs = 6000;
+        easing = 'ease-in-out';
+      }
+    }
+
+    const instructionTitle = sessionStage === 'prep' 
+      ? (langDict.prepPhaseTitle || 'Prepárate para entrar') 
+      : (isPacingActive && isPlaying
+          ? (isPacingInhale ? (langDict.pacingInhale || 'Inhala suavemente (4s)') : (langDict.pacingExhale || 'Exhala despacio y relaja (6s)'))
+          : `${langDict.coldPhase || 'Agua Fría'} (${targetSec}s)`);
 
     return (
       <div 
@@ -198,26 +299,68 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
           {langDict.challengeTitle || 'Reto de 20 Días'} • {langDict.dayLabel || 'Día'} {currentDayItem.day}
         </div>
 
-        <div className="instruction" style={{ color: 'var(--omega-cold-blue, #00d2ff)', fontSize: '1.4rem', fontWeight: 700 }}>
-          {langDict.coldPhase || 'Agua Fría'} ({targetSec}s)
+        <div className="instruction" style={{ color: sessionStage === 'prep' ? 'var(--omega-warm-amber, #ff7a00)' : 'var(--omega-cold-blue, #00d2ff)', fontSize: '1.3rem', fontWeight: 700, minHeight: '2rem' }}>
+          {instructionTitle}
         </div>
 
+        {/* 4s/6s Breath Pacing Toggle Pill (Cold Stage only) */}
+        {sessionStage === 'cold' && (
+          <button
+            type="button"
+            onClick={togglePacing}
+            className={`pacing-toggle-btn ${isPacingActive ? 'active' : ''}`}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.4rem',
+              backgroundColor: isPacingActive ? 'rgba(0, 210, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              border: `1px solid ${isPacingActive ? 'var(--omega-cold-blue, #00d2ff)' : 'rgba(255, 255, 255, 0.15)'}`,
+              color: isPacingActive ? '#00d2ff' : 'var(--color-muted)',
+              padding: '0.25rem 0.75rem',
+              borderRadius: '9999px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              cursor: 'pointer',
+              margin: '0 auto',
+              transition: 'all 0.2s ease'
+            }}
+            title={langDict.pacingActiveDesc || 'Ritmo 4s/6s activo para calmar el reflejo de jadeo'}
+          >
+            <Wind size={13} />
+            <span>{langDict.pacingToggleLabel || 'Ritmo 4s/6s'}: {isPacingActive ? 'ON' : 'OFF'}</span>
+          </button>
+        )}
+
         <BreathingSphere
-          phase="cold"
-          scale={isPlaying ? 1.05 : 1.0}
-          isPulsing={isPlaying}
-          progress={ringPercent}
-          icon={<Snowflake size={52} color="white" />}
+          phase={sessionStage === 'prep' ? 'hot' : 'cold'}
+          scale={sphereScale}
+          durationMs={durationMs}
+          easing={easing}
+          isPulsing={isPlaying && !isPacingActive}
+          progress={sessionStage === 'prep' ? Math.min(100, Math.max(0, ((5 - prepCountdown) / 5) * 100)) : ringPercent}
+          icon={sessionStage === 'prep' ? <Flame size={52} color="white" /> : <Snowflake size={52} color="white" />}
           onClick={handleTogglePlayPause}
         />
 
         <div className="timer-display" style={{ margin: '0.4rem 0', color: '#fff', fontWeight: 800 }}>
-          {timeLeft}s
+          {sessionStage === 'prep' ? `${prepCountdown}s` : `${timeLeft}s`}
         </div>
 
         <div style={{ fontSize: '0.85rem', color: 'var(--color-muted)', textAlign: 'center' }}>
-          {langDict.horseStanceGuide || 'Respira hondo y calmado, relaja los hombros y abraza el frío.'}
+          {sessionStage === 'prep' 
+            ? (langDict.prepCountdownSubtitle || 'Deja el móvil en un lugar seco y seguro. El agua fría comienza pronto.') 
+            : (langDict.horseStanceGuide || 'Respira hondo y calmado, relaja los hombros y abraza el frío.')}
         </div>
+
+        {sessionStage === 'prep' && (
+          <button 
+            className="start-button" 
+            style={{ padding: '0.45rem 1.2rem', fontSize: '0.85rem', maxWidth: '220px', margin: '0 auto' }}
+            onClick={skipPrep}
+          >
+            {langDict.skipPrepBtn || 'Entrar ya'}
+          </button>
+        )}
 
         <div className="controls-panel" style={{ marginTop: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
           <button 
@@ -377,7 +520,9 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
       <div style={{ textAlign: 'center', padding: '0.5rem' }}>
         <button
           onClick={() => {
-            if (confirm('¿Deseas reiniciar el Reto de 20 Días al Día 1?')) {
+            const msg = langDict.resetChallengeConfirm || '¿Deseas reiniciar el Reto de 20 Días al Día 1?';
+            const confirmed = typeof window !== 'undefined' && typeof window.confirm === 'function' ? window.confirm(msg) : true;
+            if (confirmed) {
               resetChallenge();
               refreshData();
             }

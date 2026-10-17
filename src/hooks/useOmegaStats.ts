@@ -7,6 +7,7 @@ export interface RecentActivityItem {
   title: string;
   summary: string;
   detail: string;
+  sensations?: string[];
 }
 
 export interface OmegaStats {
@@ -33,9 +34,9 @@ function calculateStreak(dates: Date[]): number {
   if (dates.length === 0) return 0;
 
   // Deduplicate dates by YYYY-MM-DD
-  const dateStrings = Array.from(
-    new Set(dates.map(d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`))
-  ).sort().reverse();
+  const dateSet = new Set(
+    dates.map(d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`)
+  );
 
   const today = new Date();
   const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -44,16 +45,16 @@ function calculateStreak(dates: Date[]): number {
   yesterday.setDate(yesterday.getDate() - 1);
   const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
 
-  if (!dateStrings.includes(todayStr) && !dateStrings.includes(yesterdayStr)) {
+  if (!dateSet.has(todayStr) && !dateSet.has(yesterdayStr)) {
     return 0;
   }
 
   let streak = 0;
-  let checkDate = dateStrings.includes(todayStr) ? new Date(today) : new Date(yesterday);
+  let checkDate = dateSet.has(todayStr) ? new Date(today) : new Date(yesterday);
 
   while (true) {
     const curStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
-    if (dateStrings.includes(curStr)) {
+    if (dateSet.has(curStr)) {
       streak++;
       checkDate.setDate(checkDate.getDate() - 1);
     } else {
@@ -123,6 +124,7 @@ export function useOmegaStats() {
         title: 'Bubble Breathing',
         summary: `${item.rounds || 1} rondas`,
         detail: `Apnea: ${formatTimeSeconds(item.retentionSeconds || 0)}`,
+        sensations: item.sensations,
       });
     });
 
@@ -132,13 +134,18 @@ export function useOmegaStats() {
       totalCold += Number(item.totalColdTime) || 0;
       if (isSameDay(d, today)) isHydroToday = true;
 
+      const tempBadge = (item.waterTemp !== undefined && item.waterTemp !== null)
+        ? ` • ${item.waterTemp}°${item.tempUnit || 'C'}`
+        : '';
+
       activities.push({
         id: item.id || `h-${item.date}`,
         type: 'hydro',
         date: item.date,
         title: 'HydroCycle',
-        summary: `${item.rounds || 1} rondas`,
+        summary: `${item.rounds || 1} rondas${tempBadge}`,
         detail: `Frío: ${formatTimeSeconds(item.totalColdTime || 0)}`,
+        sensations: item.sensations,
       });
     });
 

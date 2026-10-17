@@ -17,12 +17,14 @@ export const PushUpModal: React.FC<PushUpModalProps> = ({ isOpen, onClose, langD
   const [seconds, setSeconds] = useState(0);
   const startTimeRef = useRef<number | null>(null);
   const animFrameRef = useRef<number | null>(null);
+  const lastChimeMinuteRef = useRef<number>(0);
 
   useEffect(() => {
     if (!isOpen) {
       setPhase('idle');
       setPushUps(0);
       setSeconds(0);
+      lastChimeMinuteRef.current = 0;
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       disableKeepAwake();
     }
@@ -35,6 +37,7 @@ export const PushUpModal: React.FC<PushUpModalProps> = ({ isOpen, onClose, langD
     }
 
     startTimeRef.current = Date.now();
+    lastChimeMinuteRef.current = 0;
     enableKeepAwake();
 
     const tick = () => {
@@ -42,9 +45,11 @@ export const PushUpModal: React.FC<PushUpModalProps> = ({ isOpen, onClose, langD
       const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
       setSeconds(elapsed);
 
-      // Minute chime
-      if (elapsed > 0 && elapsed % 60 === 0) {
-        playRetentionMinuteCue(0.8, Math.floor(elapsed / 60));
+      // Minute chime throttled to once per elapsed minute
+      const currentMinute = Math.floor(elapsed / 60);
+      if (currentMinute > 0 && elapsed % 60 === 0 && currentMinute > lastChimeMinuteRef.current) {
+        lastChimeMinuteRef.current = currentMinute;
+        playRetentionMinuteCue(0.8, currentMinute);
       }
 
       animFrameRef.current = requestAnimationFrame(tick);
