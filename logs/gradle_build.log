@@ -49,14 +49,14 @@ WARNING: Using flatDir should be avoided because it doesn't support any meta-dat
 > Task :capacitor-community-keep-awake:processReleaseNavigationResources
 > Task :capacitor-community-keep-awake:parseReleaseLocalResources
 > Task :capacitor-android:parseReleaseLocalResources
-> Task :capacitor-community-keep-awake:generateReleaseRFile
 > Task :capacitor-android:generateReleaseRFile
-> Task :capacitor-community-keep-awake:javaPreCompileRelease
+> Task :capacitor-community-keep-awake:generateReleaseRFile
 
 > Task :capacitor-android:compileReleaseJavaWithJavac
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
+> Task :capacitor-community-keep-awake:javaPreCompileRelease
 > Task :capacitor-app:generateReleaseResValues
 > Task :capacitor-app:generateReleaseResources
 > Task :capacitor-android:bundleLibCompileToJarRelease
@@ -172,15 +172,15 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-haptics:mergeReleaseAssets
 > Task :app:compileReleaseArtProfile
 > Task :app:mergeReleaseAssets
-> Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:extractProguardFiles
 > Task :capacitor-android:processReleaseJavaRes NO-SOURCE
+> Task :app:compressReleaseAssets
 > Task :capacitor-android:createFullJarRelease
 > Task :capacitor-android:extractProguardFiles
 > Task :capacitor-android:generateReleaseLintModel
-> Task :capacitor-app:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-android:prepareLintJarForPublish
+> Task :capacitor-app:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-app:createFullJarRelease
 > Task :capacitor-app:extractProguardFiles
 > Task :capacitor-app:generateReleaseLintModel
@@ -189,8 +189,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-community-keep-awake:createFullJarRelease
 > Task :capacitor-community-keep-awake:extractProguardFiles
 > Task :capacitor-community-keep-awake:generateReleaseLintModel
-> Task :capacitor-cordova-android-plugins:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-community-keep-awake:prepareLintJarForPublish
+> Task :capacitor-cordova-android-plugins:processReleaseJavaRes NO-SOURCE
 > Task :capacitor-cordova-android-plugins:createFullJarRelease
 > Task :capacitor-cordova-android-plugins:extractProguardFiles
 > Task :capacitor-cordova-android-plugins:generateReleaseLintModel
@@ -203,8 +203,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-community-keep-awake:checkReleaseAarMetadata
 > Task :app:generateReleaseLintVitalReportModel
 > Task :capacitor-community-keep-awake:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-keep-awake:extractDeepLinksForAarRelease
 > Task :capacitor-community-keep-awake:copyReleaseJniLibsProjectAndLocalJars
+> Task :capacitor-community-keep-awake:extractDeepLinksForAarRelease
 > Task :capacitor-community-keep-awake:extractReleaseAnnotations
 > Task :capacitor-community-keep-awake:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-community-keep-awake:mergeReleaseConsumerProguardFiles
@@ -212,11 +212,11 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-app:stripReleaseDebugSymbols NO-SOURCE
 > Task :capacitor-app:copyReleaseJniLibsProjectAndLocalJars
 > Task :capacitor-app:extractDeepLinksForAarRelease
-> Task :capacitor-community-keep-awake:mergeReleaseJavaResource
 > Task :capacitor-app:extractReleaseAnnotations
+> Task :capacitor-community-keep-awake:mergeReleaseJavaResource
+> Task :capacitor-app:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-community-keep-awake:syncReleaseLibJars
 > Task :capacitor-community-keep-awake:bundleReleaseLocalLintAar
-> Task :capacitor-app:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-app:mergeReleaseConsumerProguardFiles
 > Task :capacitor-app:mergeReleaseJavaResource
 > Task :capacitor-haptics:checkReleaseAarMetadata
@@ -314,5 +314,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 2m 19s
+BUILD SUCCESSFUL in 2m 24s
 244 actionable tasks: 244 executed
