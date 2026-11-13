@@ -32,7 +32,8 @@
   ✔ [PASS] R3. every target derives artifact names from ${version}
   ✔ [PASS] R4. release-meta derives deterministic names and gates tag matches
   ✔ [PASS] R35. third-party license status is documented without inventing the Hydrocicle license
-  ✔ [PASS] R31. public download links resolve to the versioned v1.0.0 release asset
+  ✖ [FAIL] R31. public download links resolve to the versioned v1.0.0 release asset
+     └─ README.es.md must link the pinned v1.0.2 release asset
 ▶ tests/release/release-race.test.js
   ✔ [PASS] R36. both workflows share the one safe release-creation strategy
   ✔ [PASS] R37. concurrent android/desktop uploads compose (disjoint asset sets)
@@ -52,8 +53,7 @@
   ✔ [PASS] R30. release publish step is fail-closed (no silent publish failure)
 
 -----------------------------------------------
-Total: 40 | Passed: 40 | Failed: 0
+Total: 40 | Passed: 39 | Failed: 1
 -----------------------------------------------
 
-All release tests PASSED!
-
+- [tests/release/release-metadata.test.js] R31. public download links resolve to the versioned v1.0.0 release asset: README.es.md must link the pinned v1.0.2 release asset
