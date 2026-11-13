@@ -5,14 +5,25 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +657
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 657, reused 149, downloaded 0, added 0
-Progress: resolved 657, reused 324, downloaded 0, added 0
+Progress: resolved 657, reused 0, downloaded 0, added 0
+Progress: resolved 657, reused 0, downloaded 1, added 0
+✓ Lockfile passes supply-chain policies (749 entries in 3.4s)
+Progress: resolved 657, reused 0, downloaded 51, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-✓ Lockfile passes supply-chain policies (749 entries in 3.3s)
-Progress: resolved 657, reused 657, downloaded 0, added 6
-Progress: resolved 657, reused 657, downloaded 0, added 657, done
+Progress: resolved 657, reused 0, downloaded 92, added 4
+Progress: resolved 657, reused 0, downloaded 442, added 32
+Progress: resolved 657, reused 0, downloaded 657, added 252
+Progress: resolved 657, reused 0, downloaded 657, added 527
+Progress: resolved 657, reused 0, downloaded 657, added 657, done
+.../node_modules/electron-winstaller install$ node ./script/select-7z-arch.js
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.21.5/node_modules/esbuild postinstall$ node install.js
+.../node_modules/electron-winstaller install: Selecting 7-Zip for arch x64
+.../node_modules/electron-winstaller install: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../esbuild@0.21.5/node_modules/esbuild postinstall: Done
 
 dependencies:
 + @capacitor-community/keep-awake 8.0.1
@@ -37,4 +48,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 5.7s using pnpm v11.28.6
+Done in 10.8s using pnpm v11.28.11
