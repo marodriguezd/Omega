@@ -1,8 +1,4 @@
-/**
- * Shared platform type definitions.
- * Single source of truth for runtime capabilities across
- * Web, Capacitor (Android) and Electron (macOS/Windows/Linux).
- */
+// Shared platform type definitions for Web, Capacitor, and Electron runtimes.
 
 export type RuntimeKind = 'electron' | 'capacitor' | 'web';
 
@@ -10,7 +6,7 @@ export type DesktopPlatform = 'darwin' | 'win32' | 'linux' | 'unknown';
 
 export interface PlatformInfo {
   runtime: RuntimeKind;
-  /** Node-style platform string when known (electron), else 'android' | 'web'. */
+  /** Platform identifier ('android', 'web', or OS platform). */
   platform: string;
   isNative: boolean;
   isElectron: boolean;
@@ -18,7 +14,7 @@ export interface PlatformInfo {
   supportsWakeLock: boolean;
 }
 
-/** Minimal allowlisted Electron bridge exposed via preload. */
+// Electron bridge interface exposed via preload.
 export interface ElectronBridgeAPI {
   isElectron?: boolean;
   platform?: string;

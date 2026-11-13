@@ -64,7 +64,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
     };
   }, [combinedStreak]);
 
-  // Memoized Aggregate Metrics
   const { totalBreathing, totalRetentionSec, maxRetentionSec, totalColdSessions, totalColdSec, maxColdSec } = useMemo(() => {
     const totalB = storeData.breathingHistory.length;
     const totalRetSec = storeData.breathingHistory.reduce((sum, s) => sum + (s.totalRetentionTime || 0), 0);
@@ -87,13 +86,12 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
     };
   }, [storeData.breathingHistory, storeData.coldHistory]);
 
-  // Memoized 28-day / 4-week activity heatmap with pre-indexed date sets
+  // 28-day activity heatmap indexed by date.
   const heatmapDays = useMemo(() => {
     const days = [];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Look back 28 days
     for (let i = 27; i >= 0; i--) {
       const d = new Date(today);
       d.setDate(d.getDate() - i);
@@ -114,7 +112,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
     return days;
   }, [storeData.breathingHistory, storeData.coldHistory]);
 
-  // Memoized top 5 recent breathing sessions
   const recentBreathingSessions = useMemo(() => {
     return storeData.breathingHistory
       .slice()
@@ -122,7 +119,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
       .slice(0, 5);
   }, [storeData.breathingHistory]);
 
-  // Handle JSON Import
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -161,7 +157,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         paddingRight: 'calc(1rem + env(safe-area-inset-right, 0px))' 
       }}
     >
-      {/* Header Banner */}
       <div className="glass-card streak-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <div className="streak-info">
           <div className="streak-flame" style={{ fontSize: '2.4rem' }}>Ω</div>
@@ -177,7 +172,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         </div>
       </div>
 
-      {/* Vitality Heatmap Calendar */}
       <div className="glass-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <h4 style={{ margin: '0 0 0.85rem', fontSize: '0.95rem', color: 'var(--omega-primary-cyan, #00f0ff)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <Calendar size={18} />
@@ -235,7 +229,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         </div>
       </div>
 
-      {/* Metric Cards Grid */}
       <div className="metrics-grid" style={{ width: '100%', marginBottom: '1.2rem' }}>
         <div className="metric-box">
           <div className="metric-icon" style={{ background: 'rgba(255, 122, 0, 0.2)', color: '#ff7a00' }}>
@@ -278,7 +271,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         </div>
       </div>
 
-      {/* Wim Hof Method Round-by-Round Breathing History & Retention Progression */}
       <div className="glass-card" style={{ width: '100%', marginBottom: '1.2rem' }}>
         <h4 style={{ margin: '0 0 0.4rem', fontSize: '1rem', color: 'var(--omega-primary-cyan, #00f0ff)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <History size={19} />
@@ -384,7 +376,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         )}
       </div>
 
-      {/* Hexagonal Badges Showcase */}
       <div className="glass-card" style={{ width: '100%', marginBottom: '1.2rem' }}>
         <h4 style={{ margin: '0 0 1rem', fontSize: '1rem', color: 'var(--omega-warm-amber, #ff7a00)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <Award size={20} />
@@ -417,7 +408,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
                   opacity: b.unlocked ? 1 : 0.55
                 }}
               >
-                {/* Hexagonal Motif Badge Container */}
                 <div
                   style={{
                     width: 48,
@@ -462,7 +452,6 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         </div>
       </div>
 
-      {/* Offline Data Portability & Backup */}
       <div className="glass-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.95rem', color: 'var(--omega-text-primary, #f0f6fc)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
           <ShieldCheck size={18} color="#2ecc71" />

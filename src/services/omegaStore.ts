@@ -1,8 +1,4 @@
-/**
- * Omega Wim Hof Method Unified Offline-First Store & Engine
- * Manages reactive local persistence, 20-day cold challenge, push-up retention test,
- * ice bath logging, hexagonal badges, and JSON backup portability.
- */
+// Unified offline-first store for sessions, challenge progression, and badges.
 
 export interface BreathingSessionRecord {
   id: string;
@@ -55,25 +51,25 @@ export interface BadgeDefinition {
 }
 
 export const INITIAL_CHALLENGE_DAYS: ChallengeDay[] = [
-  // Week 1 (Days 1 - 5): 15 seconds
+  // Week 1 (days 1-5, 15s)
   { day: 1, targetSec: 15, completed: false },
   { day: 2, targetSec: 15, completed: false },
   { day: 3, targetSec: 15, completed: false },
   { day: 4, targetSec: 15, completed: false },
   { day: 5, targetSec: 15, completed: false },
-  // Week 2 (Days 6 - 10): 30 seconds
+  // Week 2 (days 6-10, 30s)
   { day: 6, targetSec: 30, completed: false },
   { day: 7, targetSec: 30, completed: false },
   { day: 8, targetSec: 30, completed: false },
   { day: 9, targetSec: 30, completed: false },
   { day: 10, targetSec: 30, completed: false },
-  // Week 3 (Days 11 - 15): 45 seconds
+  // Week 3 (days 11-15, 45s)
   { day: 11, targetSec: 45, completed: false },
   { day: 12, targetSec: 45, completed: false },
   { day: 13, targetSec: 45, completed: false },
   { day: 14, targetSec: 45, completed: false },
   { day: 15, targetSec: 45, completed: false },
-  // Week 4 (Days 16 - 20): 60 seconds (1 minute)
+  // Week 4 (days 16-20, 60s)
   { day: 16, targetSec: 60, completed: false },
   { day: 17, targetSec: 60, completed: false },
   { day: 18, targetSec: 60, completed: false },
@@ -122,11 +118,8 @@ function safeSetJson(key: string, value: any): boolean {
   return storageSetJson(key, value);
 }
 
-/**
- * Loads entire unified state with automatic migration from existing sub-app histories
- */
+// Load unified store with migration from legacy sub-app keys.
 export function loadWimHofStore(): WimHofStoreData {
-  // Load primary store if present
   let store = safeGetJson<WimHofStoreData | null>(STORAGE_KEYS.STORE, null);
 
   // If absent or partial, build from backward-compatible keys
@@ -180,7 +173,7 @@ export function loadWimHofStore(): WimHofStoreData {
     store.badges = INITIAL_BADGES;
   }
 
-  // Bi-directional synchronization: reconcile any sessions recorded in sub-apps
+  // Reconcile sessions recorded in sub-apps
   const legacyBubble = safeGetJson<any[]>(STORAGE_KEYS.BUBBLE_HISTORY, []);
   const legacyHydro = safeGetJson<any[]>(STORAGE_KEYS.HYDRO_HISTORY, []);
   let storeChanged = false;
@@ -245,9 +238,7 @@ export function loadWimHofStore(): WimHofStoreData {
   return store;
 }
 
-/**
- * Evaluates and unlocks badges based on current state
- */
+// Evaluate and unlock badges based on session metrics and streak.
 export function evaluateBadges(store: WimHofStoreData, currentStreak: number): boolean {
   let changed = false;
   const now = Date.now();
@@ -264,7 +255,6 @@ export function evaluateBadges(store: WimHofStoreData, currentStreak: number): b
   if (store.breathingHistory.length > 0) unlock('first_breath');
   if (store.coldHistory.length > 0) unlock('first_ice');
 
-  // Max retention time
   const maxRetention = store.breathingHistory.reduce((max, s) => {
     const highestInSession = Math.max(...(s.retentionTimes || [0]));
     return Math.max(max, highestInSession);
@@ -273,17 +263,13 @@ export function evaluateBadges(store: WimHofStoreData, currentStreak: number): b
   if (maxRetention >= 120) unlock('retention_2m');
   if (maxRetention >= 180) unlock('retention_3m');
 
-  // Pushups
   if (store.pushUpHistory.length > 0) unlock('pushup_apnea');
 
-  // Ice plunge
   if (store.coldHistory.some(c => c.type === 'ice_bath')) unlock('ice_plunge');
 
-  // Streaks
   if (currentStreak >= 7) unlock('streak_7');
   if (currentStreak >= 21) unlock('streak_21');
 
-  // Challenge days
   const completedCount = store.challengeDays.filter(d => d.completed).length;
   if (completedCount >= 5) unlock('challenge_week1');
   if (completedCount >= 20) unlock('challenge_completed');
@@ -291,14 +277,12 @@ export function evaluateBadges(store: WimHofStoreData, currentStreak: number): b
   return changed;
 }
 
-/**
- * Saves a new breathing session and maintains bi-directional backward compatibility
- */
+// Record breathing session with backward-compatible key synchronization.
 export function recordBreathingSession(session: BreathingSessionRecord): boolean {
   const store = loadWimHofStore();
   store.breathingHistory.unshift(session);
 
-  // Sync backward compatibility for Bubble-Breathing & tests
+  // Sync backward compatibility for Bubble-Breathing
   const legacyRecord = {
     id: session.id,
     date: session.date,
@@ -321,9 +305,7 @@ export function recordBreathingSession(session: BreathingSessionRecord): boolean
   return true;
 }
 
-/**
- * Updates an existing breathing session record
- */
+// Update existing breathing session record.
 export function updateBreathingSession(id: string, updates: Partial<BreathingSessionRecord>): boolean {
   const store = loadWimHofStore();
   const session = store.breathingHistory.find(s => s.id === id);
@@ -342,14 +324,11 @@ export function updateBreathingSession(id: string, updates: Partial<BreathingSes
   return false;
 }
 
-/**
- * Saves a cold exposure session (shower, contrast, or ice bath)
- */
+// Record cold session and update corresponding challenge day if present.
 export function recordColdSession(session: ColdSessionRecord): boolean {
   const store = loadWimHofStore();
   store.coldHistory.unshift(session);
 
-  // If attached to challenge day, mark as completed
   if (session.challengeDay && session.challengeDay >= 1 && session.challengeDay <= 20) {
     const dayItem = store.challengeDays.find(d => d.day === session.challengeDay);
     if (dayItem) {
@@ -360,7 +339,7 @@ export function recordColdSession(session: ColdSessionRecord): boolean {
     }
   }
 
-  // Sync backward compatibility for HydroCycle & tests
+  // Sync backward compatibility for HydroCycle
   const legacyRecord = {
     id: session.id,
     date: session.date,
@@ -382,9 +361,7 @@ export function recordColdSession(session: ColdSessionRecord): boolean {
   return true;
 }
 
-/**
- * Updates an existing cold session record
- */
+// Update existing cold session record.
 export function updateColdSession(id: string, updates: Partial<ColdSessionRecord>): boolean {
   const store = loadWimHofStore();
   const session = store.coldHistory.find(s => s.id === id);
@@ -403,9 +380,7 @@ export function updateColdSession(id: string, updates: Partial<ColdSessionRecord
   return false;
 }
 
-/**
- * Saves a push-up apnea session
- */
+// Record push-up session.
 export function recordPushUpSession(record: PushUpRecord): boolean {
   const store = loadWimHofStore();
   store.pushUpHistory.unshift(record);
@@ -415,9 +390,7 @@ export function recordPushUpSession(record: PushUpRecord): boolean {
   return true;
 }
 
-/**
- * Marks or updates a 20-Day Challenge Day
- */
+// Update challenge day progress.
 export function updateChallengeDay(dayNumber: number, completed: boolean, actualSec?: number): boolean {
   const store = loadWimHofStore();
   const dayItem = store.challengeDays.find(d => d.day === dayNumber);
@@ -435,9 +408,7 @@ export function updateChallengeDay(dayNumber: number, completed: boolean, actual
   return true;
 }
 
-/**
- * Resets the 20-Day Challenge back to Day 1
- */
+// Reset 20-day challenge back to day 1.
 export function resetChallenge(): void {
   const store = loadWimHofStore();
   store.challengeDays = INITIAL_CHALLENGE_DAYS.map(d => ({ ...d }));
@@ -446,18 +417,14 @@ export function resetChallenge(): void {
   broadcastStoreUpdate();
 }
 
-/**
- * Dispatches sync events across window and storage listeners
- */
+// Dispatch cross-view sync events.
 export function broadcastStoreUpdate(): void {
   if (typeof window === 'undefined') return;
   window.dispatchEvent(new CustomEvent('omega-sync'));
   window.dispatchEvent(new CustomEvent('omega-store-update'));
 }
 
-/**
- * Exports complete application state into a clean JSON string
- */
+// Export state and settings as JSON string.
 export function exportBackupJson(): string {
   const store = loadWimHofStore();
   const exportPayload = {
@@ -476,9 +443,7 @@ export function exportBackupJson(): string {
   return JSON.stringify(exportPayload, null, 2);
 }
 
-/**
- * Triggers a download of the exported JSON file in browser or mobile WebView
- */
+// Trigger file download of backup JSON.
 export function triggerBackupDownload(): boolean {
   try {
     const jsonStr = exportBackupJson();
@@ -499,9 +464,7 @@ export function triggerBackupDownload(): boolean {
   }
 }
 
-/**
- * Imports state from JSON string with schema validation and atomic recovery
- */
+// Import state from JSON payload with schema normalization.
 export function importBackupJson(rawJson: string): { success: boolean; message?: string } {
   try {
     const parsed = JSON.parse(rawJson);
@@ -541,7 +504,6 @@ export function importBackupJson(rawJson: string): { success: boolean; message?:
         sensations: Array.isArray(c.sensations) ? c.sensations.filter((s: any) => typeof s === 'string') : undefined
       }));
 
-    // Save imported store
     const store: WimHofStoreData = {
       version: 1,
       breathingHistory: sanitizedBreathing,

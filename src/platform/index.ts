@@ -1,8 +1,4 @@
-/**
- * Public platform abstraction entry point.
- * App code should import from '@/platform' (or '../platform')
- * instead of touching window.electronAPI / Capacitor / navigator directly.
- */
+// Platform abstraction entry point.
 export type { RuntimeKind, PlatformInfo, ElectronBridgeAPI, HapticType, DesktopPlatform } from './types';
 export {
   getRuntimeKind,

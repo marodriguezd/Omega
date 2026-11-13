@@ -45,7 +45,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
           color: 'var(--color-text, #ffffff)'
         }}
       >
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem' }}>
           <div 
             style={{
@@ -90,7 +89,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
           </div>
         </div>
 
-        {/* Scrollable Body */}
         <div 
           style={{ 
             overflowY: 'auto', 
@@ -103,7 +101,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
             gap: '1rem'
           }}
         >
-          {/* Description */}
           <div 
             style={{ 
               background: 'rgba(255, 255, 255, 0.04)', 
@@ -118,7 +115,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
             </p>
           </div>
 
-          {/* Pillars List */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.65rem' }}>
               <div style={{ color: '#4ca1af', marginTop: '2px' }}><Wind size={18} /></div>
@@ -161,7 +157,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
             </div>
           </div>
 
-          {/* Privacy & Offline banner */}
           <div 
             style={{ 
               display: 'flex', 
@@ -181,7 +176,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
             </span>
           </div>
 
-          {/* Open source license & author */}
           <div style={{ textAlign: 'center', fontSize: '0.74rem', color: 'var(--color-muted, #94a3b8)', marginTop: '0.25rem' }}>
             <p style={{ margin: '0 0 0.35rem' }}>
               Licencia MIT • Código Abierto
@@ -195,7 +189,6 @@ export const AboutModal: React.FC<AboutModalProps> = ({
           </div>
         </div>
 
-        {/* Footer Close Button */}
         <div style={{ marginTop: '1.25rem', display: 'flex', justifyContent: 'flex-end' }}>
           <button 
             className="hub-btn primary"

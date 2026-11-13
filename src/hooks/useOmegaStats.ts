@@ -1,3 +1,4 @@
+// Aggregated habit statistics, active streak calculation, and recent activity history.
 import { useState, useEffect, useCallback } from 'react';
 
 export interface RecentActivityItem {
@@ -33,7 +34,7 @@ function isSameDay(d1: Date, d2: Date) {
 function calculateStreak(dates: Date[]): number {
   if (dates.length === 0) return 0;
 
-  // Deduplicate dates by YYYY-MM-DD
+  // Deduplicate dates by calendar day.
   const dateSet = new Set(
     dates.map(d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`)
   );

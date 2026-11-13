@@ -26,7 +26,6 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
       data-testid="navigation-rail"
       role="navigation"
     >
-      {/* Top Section: Brand Logo Badge */}
       <div className="rail-top">
         <div 
           className="rail-logo-badge" 
@@ -44,7 +43,6 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
         </div>
       </div>
 
-      {/* Middle Section: Navigation Tab Items */}
       <nav className="rail-nav nav-rail-items" aria-label="Navegación principal">
         <button
           className={`rail-tab nav-rail-item tab-hub ${activeTab === 'hub' ? 'active' : ''}`}
@@ -122,7 +120,6 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
         </button>
       </nav>
 
-      {/* Bottom Section: Theme & Zoom Quick Actions */}
       <div className="rail-bottom">
         {onZoomClick && (
           <button

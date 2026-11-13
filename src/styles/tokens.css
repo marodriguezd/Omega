@@ -1,13 +1,6 @@
-/**
- * Omega Unified Design Tokens
- * Language: Android 17 / Material Expressive + Wim Hof Method Aesthetic
- * Specification: Milestone 1 (R1)
- */
+/* Omega design tokens */
 
-/* ============================================================================
-   Light Mode Adaptation (Glacial Arctic Daylight)
-   Higher specificity: html[data-theme="light"] (0,1,1) > :root (0,1,0)
-   ============================================================================ */
+/* Light theme adaptation; higher specificity overrides :root default */
 html[data-theme="light"],
 [data-theme="light"] {
   /* Surfaces */
@@ -19,7 +12,7 @@ html[data-theme="light"],
   --omega-bg-surface-translucent: rgba(255, 255, 255, 0.78);
   --omega-bg-surface-elevated: rgba(255, 255, 255, 0.92);
 
-  /* Wim Hof Chromatic Accents (Calibrated for AAA Contrast on Light) */
+  /* Chromatic accents */
   --omega-primary-cyan: #008cb0;
   --omega-glacier-neon: #008cb0;
   --omega-glacier-300: #0099b8;
@@ -49,14 +42,14 @@ html[data-theme="light"],
   --omega-danger-crimson: #c62828;
   --omega-danger-glow: rgba(211, 47, 47, 0.20);
 
-  /* Neutral Typography (Dark slate on light ice) */
+  /* Typography */
   --omega-text-primary: #0d1821;
   --omega-text-secondary: #455a6a;
   --omega-text-tertiary: #758a99;
   --omega-text-muted: rgba(13, 24, 33, 0.55);
   --omega-divider: rgba(10, 30, 50, 0.08);
 
-  /* Glassmorphism on Light */
+  /* Glassmorphism */
   --omega-bg-glass: rgba(255, 255, 255, 0.65);
   --omega-glass-fill: rgba(255, 255, 255, 0.65);
   --omega-glass-fill-elevated: rgba(255, 255, 255, 0.88);
@@ -76,7 +69,7 @@ html[data-theme="light"],
   --omega-glass-shadow: 0 8px 24px 0 rgba(10, 30, 50, 0.06);
   --omega-glass-shadow-elevated: 0 16px 36px -6px rgba(10, 30, 50, 0.12);
 
-  /* Backward Compatibility Aliases in Light Theme */
+  /* Backward compatibility aliases */
   --color-primary: var(--omega-primary-cyan);
   --color-secondary: var(--omega-primary-water);
   --color-accent: var(--omega-warm-amber);
@@ -103,15 +96,11 @@ html[data-theme="light"],
   --color-dropdown-scrollbar-thumb-hover: rgba(0, 140, 176, 0.5);
 }
 
-/* ============================================================================
-   Authoritative Base Tokens (:root - Dark Mode Default)
-   ============================================================================ */
+/* Base tokens (:root dark default) */
 :root {
-  /* ==========================================================================
-     1. Wim Hof Method Chromatic Spectrum (Dark Mode Default)
-     ========================================================================== */
+  /* Wim Hof chromatic spectrum */
 
-  /* Deep Volcanic Basalt & Obsidian (Backgrounds & Structural Foundations) */
+  /* Structural backgrounds */
   --omega-bg-base: #0a0e13;
   --omega-bg-surface: rgba(16, 26, 38, 0.72);
   --omega-bg-surface-1: #101720;
@@ -120,7 +109,7 @@ html[data-theme="light"],
   --omega-bg-surface-translucent: rgba(16, 26, 38, 0.72);
   --omega-bg-surface-elevated: rgba(22, 34, 50, 0.82);
 
-  /* Wim Hof Glacier Cyan Spectrum (Primary / Apnea / Cold Water / Inhale) */
+  /* Glacier cyan palette */
   --omega-primary-cyan: #00f0ff;
   --omega-glacier-neon: #00f0ff;
   --omega-glacier-300: #80deea;
@@ -129,7 +118,7 @@ html[data-theme="light"],
   --omega-glacier-deep: #0088ff;
   --omega-glacier-glow: rgba(0, 240, 255, 0.35);
 
-  /* Wim Hof Deep Water & Cold Stream Spectrum (HydroCycle Cold Phase / Fluid Accents) */
+  /* Water palette */
   --omega-primary-water: #0088ff;
   --omega-water-pure: #0088ff;
   --omega-cold-blue: #00d2ff;
@@ -137,33 +126,31 @@ html[data-theme="light"],
   --omega-water-abyss: #004499;
   --omega-water-glow: rgba(0, 136, 255, 0.30);
 
-  /* Wim Hof Primal Fire Spectrum (Hot Phase / Daily Streak / Metabolic Heat) */
+  /* Warm fire palette */
   --omega-warm-amber: #ff7a00;
   --omega-fire-amber: #ff7a00;
   --omega-fire-gold: #ff9d00;
   --omega-fire-crimson: #ff5722;
   --omega-fire-glow: rgba(255, 122, 0, 0.35);
 
-  /* Alpine Recovery Green (Recovery Phase / Success / Streaks Completed) */
+  /* Recovery green palette */
   --omega-success-green: #2ecc71;
   --omega-success-emerald: #00e676;
   --omega-success-glow: rgba(46, 204, 113, 0.30);
 
-  /* Alert / Emergency / Exit Danger */
+  /* Danger palette */
   --omega-danger-red: #ff4d4f;
   --omega-danger-crimson: #e74c3c;
   --omega-danger-glow: rgba(255, 77, 79, 0.30);
 
-  /* Neutral Typography & Separators (Dark Base) */
+  /* Typography and separators */
   --omega-text-primary: #f0f6fc;
   --omega-text-secondary: #8b9bb4;
   --omega-text-tertiary: #55687d;
   --omega-text-muted: rgba(240, 246, 252, 0.55);
   --omega-divider: rgba(255, 255, 255, 0.08);
 
-  /* ==========================================================================
-     2. Android 17 Frosted Glassmorphism (Dark Theme)
-     ========================================================================== */
+  /* Frosted glassmorphism */
   --omega-glass-blur: blur(16px);
   --omega-glass-blur-deep: blur(24px) saturate(180%);
   --omega-bg-glass: rgba(255, 255, 255, 0.05);
@@ -187,9 +174,7 @@ html[data-theme="light"],
   --omega-glass-shadow-glow-cyan: 0 0 25px rgba(0, 240, 255, 0.22);
   --omega-glass-shadow-glow-amber: 0 0 25px rgba(255, 122, 0, 0.22);
 
-  /* ==========================================================================
-     3. Continuous Squircle Curvature Tokens (Android 17 / Material Expressive)
-     ========================================================================== */
+  /* Squircle curvature tokens */
   --omega-radius-squircle-sm: 12px;
   --omega-radius-squircle-md: 20px;
   --omega-radius-squircle-lg: 28px;
@@ -201,29 +186,25 @@ html[data-theme="light"],
   --omega-radius-pill: 9999px;
   --omega-radius-bubble: 50%;
 
-  /* ==========================================================================
-     4. Typography & Dimension Scaling Engine
-     ========================================================================== */
+  /* Typography and scaling tokens */
   --omega-font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --omega-font-weight-normal: 400;
   --omega-font-weight-medium: 500;
   --omega-font-weight-semibold: 600;
   --omega-font-weight-bold: 700;
 
-  /* UI Scale (Applied strictly to root html font-size, NEVER multiplied in rems) */
+  /* UI scale applied to root html font-size */
   --ui-scale: 1;
   --ui-scale-clamped: 1;
 
-  /* Layout Boundaries */
+  /* Layout boundaries */
   --omega-app-max-width-mobile: 480px;
   --omega-app-max-width-desktop: 1200px;
   --bottom-nav-base-height: 58px;
   --bottom-nav-height: calc(var(--bottom-nav-base-height) + env(safe-area-inset-bottom, 0px));
   --rail-nav-width: 80px;
 
-  /* ==========================================================================
-     5. GPU Motion & Timing Engine (90Hz / 120Hz Hardware Accelerated)
-     ========================================================================== */
+  /* Motion and timing tokens */
   --omega-duration-instant: 100ms;
   --omega-duration-fast: 200ms;
   --omega-duration-normal: 300ms;
@@ -236,9 +217,7 @@ html[data-theme="light"],
   --omega-ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
   --omega-ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* ==========================================================================
-     6. Backward Compatibility Aliases (Maps legacy sub-app vars to Wim Hof)
-     ========================================================================== */
+  /* Backward compatibility aliases */
   --color-primary: var(--omega-primary-cyan);
   --color-secondary: var(--omega-primary-water);
   --color-accent: var(--omega-warm-amber);

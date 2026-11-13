@@ -39,9 +39,8 @@ export function App() {
   const [showExitModal, setShowExitModal] = useState(false);
   const pendingTabRef = useRef<TabType | null>(null);
 
-  // Sync zoom / UI scale
   useEffect(() => {
-    // Clear buggy CSS zoom property
+    // Clear buggy CSS zoom property in favor of CSS custom property scaling.
     (document.documentElement.style as any).zoom = '';
 
     const scaleFactor = currentZoom / 100;
@@ -53,17 +52,14 @@ export function App() {
     localStorage.setItem('omega_zoom', currentZoom.toString());
   }, [currentZoom]);
 
-  // Initialize and merge translations
   useEffect(() => {
     initAllTranslations();
   }, []);
 
-  // Sync theme
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', currentTheme);
     localStorage.setItem('omega_theme', currentTheme);
 
-    // Sync theme to sub-apps configurations
     try {
       const bCfg = JSON.parse(localStorage.getItem('bubbleBreathingConfig') || '{}');
       bCfg.theme = currentTheme;
@@ -79,7 +75,6 @@ export function App() {
     window.dispatchEvent(new CustomEvent('omega-sync'));
   }, [currentTheme]);
 
-  // Sync language
   const handleLanguageChange = useCallback((lang: string) => {
     setCurrentLang(lang);
     localStorage.setItem('omega_language', lang);
@@ -118,7 +113,6 @@ export function App() {
     };
   }, []);
 
-  // Listen for sync events from sub-apps
   useEffect(() => {
     const handleSubappSync = (e: any) => {
       if (e.detail?.language) {
@@ -141,7 +135,7 @@ export function App() {
     setCurrentTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   }, []);
 
-  // Check if a sub-app is in an active session (by inspecting event bus and scoped DOM screens)
+  // Inspect event bus and scoped DOM screens to detect active sub-app sessions.
   const isSessionActive = useCallback((): boolean => {
     if (activeTab === 'breathing') {
       if (sessionStatesRef.current.bubble) return true;
@@ -165,7 +159,6 @@ export function App() {
     return false;
   }, [activeTab]);
 
-  // Switch tabs with active session protection
   const handleSelectTab = useCallback((targetTab: TabType) => {
     if (targetTab === activeTab) return;
 
@@ -197,7 +190,6 @@ export function App() {
     pendingTabRef.current = null;
   }, []);
 
-  // Keep Awake management: activate when in exercise/shower tab
   useEffect(() => {
     if (activeTab === 'breathing' || activeTab === 'hydro') {
       enableKeepAwake();
@@ -206,7 +198,7 @@ export function App() {
     }
   }, [activeTab]);
 
-  // Android Back Button handler
+  // Handle hardware back button navigation on mobile.
   useEffect(() => {
     const cleanup = registerBackButtonHandler(() => {
       if (showExitModal) {
@@ -225,7 +217,7 @@ export function App() {
         return true;
       }
 
-      // In hub root: return false so Capacitor exits the app
+      // Root tab: return false to allow native app exit.
       return false;
     });
 
@@ -238,7 +230,6 @@ export function App() {
 
   return (
     <div className="omega-app">
-      {/* Desktop Navigation Rail (>=768px) */}
       <NavigationRail
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
@@ -247,9 +238,7 @@ export function App() {
         onThemeToggle={toggleTheme}
       />
 
-      {/* View Container with GPU-accelerated Cross-Fade */}
       <main className="omega-views-container">
-        {/* Tab: Hub / Dashboard */}
         <div 
           className={`omega-view view-hub ${activeTab === 'hub' ? 'active' : 'hidden'}`}
           aria-hidden={activeTab !== 'hub'}
@@ -266,7 +255,6 @@ export function App() {
           />
         </div>
 
-        {/* Tab: Bubble-Breathing */}
         <div 
           className={`omega-view view-bubble ${activeTab === 'breathing' ? 'active' : 'hidden'}`}
           aria-hidden={activeTab !== 'breathing'}
@@ -274,7 +262,6 @@ export function App() {
           <BubbleBreathingApp />
         </div>
 
-        {/* Tab: Hydrocicle */}
         <div 
           className={`omega-view view-hydro ${activeTab === 'hydro' ? 'active' : 'hidden'}`}
           aria-hidden={activeTab !== 'hydro'}
@@ -282,7 +269,6 @@ export function App() {
           <HydrocicleApp />
         </div>
 
-        {/* Tab: Challenges (20-Day Cold Challenge) */}
         <div 
           className={`omega-view view-challenges ${activeTab === 'challenges' ? 'active' : 'hidden'}`}
           aria-hidden={activeTab !== 'challenges'}
@@ -290,7 +276,6 @@ export function App() {
           <ChallengesScreen langDict={langDict} />
         </div>
 
-        {/* Tab: Progress & Badges */}
         <div 
           className={`omega-view view-progress ${activeTab === 'progress' ? 'active' : 'hidden'}`}
           aria-hidden={activeTab !== 'progress'}
@@ -299,14 +284,12 @@ export function App() {
         </div>
       </main>
 
-      {/* Bottom Navigation */}
       <BottomNav
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
         langDict={langDict}
       />
 
-      {/* Modal on attempt to exit active session */}
       <ExitConfirmModal
         isOpen={showExitModal}
         onConfirm={handleConfirmExit}

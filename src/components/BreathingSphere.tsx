@@ -86,12 +86,7 @@ const PHASE_THEMES: Record<SpherePhase, {
   }
 };
 
-/**
- * Organic Wim Hof Rounded Hexagon Breathing Sphere Component
- * Embodies the official Wim Hof Method sacred geometry (rounded ice crystal)
- * with continuous smooth curvature, concentric luminous halos, specular glass reflection,
- * and integrated perimeter progress tracking.
- */
+/** Rounded hexagon breathing sphere with continuous curvature and perimeter progress ring. */
 export const BreathingSphere: React.FC<BreathingSphereProps> = ({
   phase,
   scale = 1.0,
@@ -145,7 +140,6 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
         role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
       >
-        {/* SVG Wim Hof Rounded Hexagon Geometry & Glow Layers */}
         <svg
           className="wimhof-hex-svg"
           viewBox="0 0 200 200"
@@ -160,27 +154,23 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
           }}
         >
           <defs>
-            {/* Linear phase gradient */}
             <linearGradient id={theme.gradId} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={isLastBreath ? '#ffc107' : theme.startColor} />
               <stop offset="100%" stopColor={isLastBreath ? '#ff5722' : theme.endColor} />
             </linearGradient>
 
-            {/* Glass specular sheen gradient */}
             <linearGradient id="wimHofGlassSheen" x1="20%" y1="0%" x2="80%" y2="100%">
               <stop offset="0%" stopColor="rgba(255, 255, 255, 0.45)" />
               <stop offset="40%" stopColor="rgba(255, 255, 255, 0.12)" />
               <stop offset="100%" stopColor="rgba(255, 255, 255, 0.0)" />
             </linearGradient>
 
-            {/* Soft luminous glow filter */}
             <filter id="wimHofHaloGlow" x="-30%" y="-30%" width="160%" height="160%">
               <feGaussianBlur stdDeviation="8" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />
             </filter>
           </defs>
 
-          {/* Layer 1: Outer Concentric Luminous Halo */}
           <path
             d={ROUNDED_HEX_HALO_PATH}
             fill={theme.glowColor}
@@ -189,7 +179,6 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
             className="wimhof-halo-ring"
           />
 
-          {/* Layer 2: Main Filled Rounded Hexagon Body */}
           <path
             d={ROUNDED_HEX_PATH}
             fill={`url(#${theme.gradId})`}
@@ -198,17 +187,14 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
             strokeLinejoin="round"
           />
 
-          {/* Layer 3: Glass Reflection Sheen */}
           <path
             d={ROUNDED_HEX_PATH}
             fill="url(#wimHofGlassSheen)"
             opacity="0.75"
           />
 
-          {/* Layer 4: Integrated Perimeter Progress Ring */}
           {clampedProgress !== undefined && (
             <>
-              {/* Progress track background */}
               <path
                 d={ROUNDED_HEX_PATH}
                 pathLength="100"
@@ -217,7 +203,6 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
                 strokeWidth="4"
                 strokeLinecap="round"
               />
-              {/* Active progress stroke */}
               <path
                 d={ROUNDED_HEX_PATH}
                 pathLength="100"
@@ -236,7 +221,6 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
           )}
         </svg>
 
-        {/* Central Content Slot */}
         <div 
           className={`breath-counter${isLastBreath ? ' last-breath' : ''}`}
           style={{ position: 'relative', zIndex: 10 }}

@@ -1,7 +1,4 @@
-/* ==========================================================================
-   Omega Responsive & Adaptive Layout (<768px Mobile vs >=768px Desktop Rail)
-   Authoritative source: ORIGINAL_REQUEST.md R3 & PROJECT.md F6
-   ========================================================================== */
+/* Responsive layout */
 
 :root {
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
@@ -16,9 +13,7 @@
   --rail-nav-width: 80px;
 }
 
-/* --------------------------------------------------------------------------
-   Mobile Default Mode (< 768px)
-   -------------------------------------------------------------------------- */
+/* Mobile mode (< 768px) */
 .navigation-rail,
 .desktop-nav-rail {
   display: none !important;
@@ -44,9 +39,7 @@
   gap: 0;
 }
 
-/* --------------------------------------------------------------------------
-   Desktop Adaptive Mode (>= 768px)
-   -------------------------------------------------------------------------- */
+/* Desktop adaptive mode (>= 768px) */
 @media (min-width: 768px) {
   .omega-app {
     flex-direction: row !important;
@@ -254,7 +247,7 @@
     overflow: hidden !important;
   }
 
-  /* Relax 480px mobile constraint to 1440px desktop bounding box */
+  /* Desktop bounding box */
   .omega-view .container,
   .hub-dashboard {
     max-width: 1440px !important;
@@ -263,7 +256,7 @@
     margin: 0 auto !important;
   }
 
-  /* Multi-column grid for dashboard */
+  /* Dashboard grid */
   .dashboard-grid.hub-cards-grid,
   .hub-cards-grid,
   .dashboard-grid {
@@ -282,7 +275,7 @@
   }
 }
 
-/* Ultra-wide display bounding (>= 1440px) */
+/* Ultra-wide display bounding */
 @media (min-width: 1440px) {
   .hub-dashboard,
   .omega-view .container {

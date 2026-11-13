@@ -1,4 +1,4 @@
-// Initialize and merge translations for Bubble-Breathing, Hydrocicle and Omega Hub
+// Multilingual dictionary and sub-app translation merger.
 
 export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
   es: {
@@ -39,7 +39,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomDesc: "Ajusta el tamaño visual de la aplicación.",
     zoomReset: "Restablecer",
     zoomClose: "Listo",
-    // 20-Day Challenge & Cold
     challengeTitle: "Reto de 20 Días de Ducha Fría",
     challengeSubtitle: "4 semanas de adaptación progresiva al agua fría",
     prepPhaseTitle: "Prepárate para entrar",
@@ -55,7 +54,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     startDayChallengeBtn: "Iniciar Día",
     resetChallengeBtn: "Reiniciar Reto",
     resetChallengeConfirm: "¿Deseas reiniciar el Reto de 20 Días al Día 1?",
-    // Retention Breakdown & History
     retentionGraphTitle: "Retención por Ronda",
     avgRetentionLabel: "Promedio",
     recentBreathingHistory: "Historial de Respiración",
@@ -63,13 +61,11 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     noBreathingHistoryYet: "No hay sesiones de respiración registradas aún.",
     expandRounds: "Ver rondas",
     collapseRounds: "Ocultar",
-    // Push-up Challenge
     pushUpTitle: "Test de Flexiones en Apnea",
     pushUpDesc: "Realiza tantas flexiones como puedas reteniendo la respiración tras exhalar.",
     pushUpCountLabel: "Flexiones realizadas",
     startPushUpBtn: "Comenzar Test",
     recordPushUpBtn: "Guardar Récord",
-    // Cold Modes
     freeShowerTitle: "Ducha Fría Libre",
     contrastTitle: "Ducha de Contraste",
     icePlungeTitle: "Baño de Hielo (Cold Plunge)",
@@ -85,7 +81,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     pacingInhale: "Inhala suavemente (4s)",
     pacingExhale: "Exhala despacio y relaja (6s)",
     pacingActiveDesc: "Ritmo 4s/6s activo para calmar el reflejo de jadeo",
-    // Sensations Check-in
     sensationTitle: "Sensaciones corporales (opcional)",
     sensation_tingling: "Hormigueo",
     sensation_lightheaded: "Cabeza ligera",
@@ -97,7 +92,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     sensation_core_control: "Control del core",
     sensation_energized: "Vigor total",
     sensation_quiet_mind: "Mente en silencio",
-    // Progress & Badges
     heatmapTitle: "Calendario de Vitalidad",
     badgesTitle: "Insignias Hexagonales",
     backupTitle: "Copia de Seguridad y Privacidad",
@@ -124,7 +118,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     badgeChallengeW1Desc: "Completaste los primeros 5 días del reto de ducha fría",
     badgeChallengeDone: "Maestro del Frío",
     badgeChallengeDoneDesc: "Completaste los 20 días del reto de ducha fría",
-    // About Modal
     aboutBtnTitle: "Acerca de Omega",
     aboutDesc: "Omega es una plataforma libre y open source diseñada para la maestría de la respiración consciente y la exposición progresiva al agua fría inspirada en el Método Wim Hof. Todo funciona 100% offline en tu dispositivo con privacidad total.",
     aboutPillar1Title: "Bubble Breathing",
@@ -175,7 +168,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomDesc: "Adjust the visual size of the application.",
     zoomReset: "Reset",
     zoomClose: "Done",
-    // 20-Day Challenge & Cold
     challengeTitle: "20-Day Cold Shower Challenge",
     challengeSubtitle: "4 weeks of progressive cold adaptation",
     prepPhaseTitle: "Get Ready to Enter",
@@ -191,7 +183,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     startDayChallengeBtn: "Start Day",
     resetChallengeBtn: "Reset Challenge",
     resetChallengeConfirm: "Do you want to reset the 20-Day Challenge back to Day 1?",
-    // Retention Breakdown & History
     retentionGraphTitle: "Round Retention Breakdown",
     avgRetentionLabel: "Average",
     recentBreathingHistory: "Breathing Sessions History",
@@ -199,13 +190,11 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     noBreathingHistoryYet: "No breathing sessions recorded yet.",
     expandRounds: "View rounds",
     collapseRounds: "Hide",
-    // Push-up Challenge
     pushUpTitle: "Apnea Push-Up Test",
     pushUpDesc: "Do as many push-ups as you can while holding your breath after exhaling.",
     pushUpCountLabel: "Push-ups completed",
     startPushUpBtn: "Start Test",
     recordPushUpBtn: "Save Record",
-    // Cold Modes
     freeShowerTitle: "Free Cold Shower",
     contrastTitle: "Contrast Shower",
     icePlungeTitle: "Ice Bath (Cold Plunge)",
@@ -221,7 +210,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     pacingInhale: "Inhale gently (4s)",
     pacingExhale: "Exhale slowly & relax (6s)",
     pacingActiveDesc: "4s/6s rhythm active to master cold shock gasp reflex",
-    // Sensations Check-in
     sensationTitle: "Bodily sensations (optional)",
     sensation_tingling: "Tingling",
     sensation_lightheaded: "Lightheaded",
@@ -233,7 +221,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     sensation_core_control: "Core control",
     sensation_energized: "Energized",
     sensation_quiet_mind: "Quiet mind",
-    // Progress & Badges
     heatmapTitle: "Vitality Calendar",
     badgesTitle: "Hexagonal Badges",
     backupTitle: "Data Backup & Privacy",
@@ -260,7 +247,6 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     badgeChallengeW1Desc: "Completed the first 5 days of the cold challenge",
     badgeChallengeDone: "Ice Master",
     badgeChallengeDoneDesc: "Completed all 20 days of the cold shower challenge",
-    // About Modal
     aboutBtnTitle: "About Omega",
     aboutDesc: "Omega is a free and open source platform crafted for conscious breathwork mastery and progressive cold exposure inspired by the Wim Hof Method. Everything runs 100% offline on your device with complete privacy.",
     aboutPillar1Title: "Bubble Breathing",
@@ -468,7 +454,6 @@ declare global {
   }
 }
 
-// Function to initialize and merge all translations safely
 export function initAllTranslations() {
   const current = window.translations || {};
   const bubble = window.bubbleTranslations || {};

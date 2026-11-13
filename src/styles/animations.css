@@ -1,9 +1,6 @@
-/**
- * Omega 90Hz/120Hz GPU Performance & Transition System (Feature F3 & F4)
- * Hardware-accelerated animations, view transitions, and modal lifecycles
- */
+/* GPU performance and transition system */
 
-/* Hardware Compositor Layer Promotion */
+/* Hardware compositor layer promotion */
 .gpu-layer {
   will-change: transform, opacity;
   transform: translate3d(0, 0, 0);
@@ -27,11 +24,9 @@
   will-change: transform, opacity;
 }
 
-/* ==========================================================================
-   1. High Refresh Rate Keyframes (90Hz / 120Hz)
-   ========================================================================== */
+/* High refresh rate keyframes */
 
-/* HydroCycle shower pulsing keyframes */
+/* Shower pulsing keyframes */
 @keyframes hydroSpherePulse {
   0%, 100% {
     transform: scale(1.0) translate3d(0, 0, 0);
@@ -52,7 +47,7 @@
   }
 }
 
-/* Wim Hof Sacred Geometry Rounded Hexagon Halo Pulse */
+/* Hexagon halo pulse */
 @keyframes wimHofHaloPulse {
   0%, 100% {
     opacity: 0.35;
@@ -72,7 +67,7 @@
   will-change: transform, opacity;
 }
 
-/* Modal enter/exit GPU keyframes */
+/* Modal enter/exit keyframes */
 @keyframes omegaModalIn {
   from {
     opacity: 0;
@@ -113,7 +108,7 @@
   }
 }
 
-/* Flame streak animation with 3D translation */
+/* Flame streak animation */
 @keyframes flameBounce {
   0%, 100% {
     transform: translateY(0) scale(1) translate3d(0, 0, 0);
@@ -123,7 +118,7 @@
   }
 }
 
-/* Submodule screen entry transition */
+/* View screen entry transition */
 @keyframes viewScreenEnter {
   0% {
     opacity: 0;
@@ -135,7 +130,7 @@
   }
 }
 
-/* Bottom navigation active indicator transition */
+/* Navigation indicator transition */
 @keyframes tabIndicatorEnter {
   from {
     opacity: 0;
@@ -147,9 +142,7 @@
   }
 }
 
-/* ==========================================================================
-   2. Zero-Reflow Progress Bar Primitives
-   ========================================================================== */
+/* Progress bar primitives */
 .gpu-progress-bar {
   position: relative;
   overflow: hidden;
@@ -173,9 +166,7 @@
   -webkit-backface-visibility: hidden;
 }
 
-/* ==========================================================================
-   3. Tab & View Transitions
-   ========================================================================== */
+/* Tab and view transitions */
 .omega-views-container {
   flex: 1 1 auto;
   position: relative;
@@ -234,9 +225,7 @@
   will-change: opacity, transform;
 }
 
-/* ==========================================================================
-   4. Modal Lifecycle Transitions (Enter / Exit)
-   ========================================================================== */
+/* Modal lifecycle transitions */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -303,9 +292,7 @@
   will-change: transform, opacity;
 }
 
-/* ==========================================================================
-   5. Accessibility: Respect Reduced Motion Preference
-   ========================================================================== */
+/* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .omega-view,
   .modal-overlay,

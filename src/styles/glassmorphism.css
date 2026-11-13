@@ -1,14 +1,8 @@
-/**
- * Omega Glassmorphism & Continuous Squircle Utilities
- * Language: Android 17 / Material Expressive + Wim Hof Method Aesthetic
- * File: src/styles/glassmorphism.css
- */
+/* Glassmorphism and squircle utilities */
 
-/* ============================================================================
-   1. Glass Containers & Panels
-   ============================================================================ */
+/* Glass containers and panels */
 
-/* Master Frosted Glass Card */
+/* Glass card */
 .omega-glass-card {
   background: var(--omega-bg-surface-translucent, rgba(16, 26, 38, 0.72));
   backdrop-filter: var(--omega-glass-blur);
@@ -24,7 +18,7 @@
               box-shadow var(--omega-duration-fast, 200ms) var(--omega-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
-/* Elevated Glass Panel / Modal Dialog Surface */
+/* Elevated glass panel and modal surface */
 .omega-glass-panel,
 .omega-glass-modal {
   background: var(--omega-bg-surface-elevated, rgba(22, 34, 50, 0.88));
@@ -39,7 +33,7 @@
   color: var(--omega-text-primary, #f0f6fc);
 }
 
-/* Luminous Rim Modifiers */
+/* Luminous rim modifiers */
 .omega-rim-cyan {
   border-color: var(--omega-border-luminous-cyan, rgba(0, 240, 255, 0.35)) !important;
   box-shadow: var(--omega-glass-shadow, 0 8px 32px 0 rgba(0, 0, 0, 0.37)),
@@ -58,9 +52,7 @@
               0 0 25px rgba(46, 204, 113, 0.22) !important;
 }
 
-/* ============================================================================
-   2. Action Buttons & Interactive Controls
-   ============================================================================ */
+/* Action buttons and controls */
 
 .omega-glass-button,
 .omega-btn {
@@ -89,7 +81,7 @@
   transform: scale(0.96);
 }
 
-/* Primary Button: Glacier Glow */
+/* Primary glacier button */
 .omega-btn-primary {
   background: linear-gradient(135deg, var(--omega-primary-cyan, #00f0ff), var(--omega-primary-water, #0088ff));
   color: #0a0e13;
@@ -102,7 +94,7 @@
   box-shadow: 0 6px 22px var(--omega-glacier-glow, rgba(0, 240, 255, 0.45));
 }
 
-/* Fire / Amber Button (Hot Phase & Streaks) */
+/* Fire amber button */
 .omega-btn-amber {
   background: linear-gradient(135deg, var(--omega-fire-gold, #ff9d00), var(--omega-warm-amber, #ff7a00));
   color: #0a0e13;
@@ -115,7 +107,7 @@
   box-shadow: 0 6px 22px var(--omega-fire-glow, rgba(255, 122, 0, 0.45));
 }
 
-/* Glass Secondary Button */
+/* Secondary glass button */
 .omega-btn-secondary {
   background: var(--omega-bg-glass, rgba(255, 255, 255, 0.06));
   backdrop-filter: var(--omega-glass-blur);
@@ -131,16 +123,14 @@
   border-color: var(--omega-border-luminous, rgba(0, 240, 255, 0.25));
 }
 
-/* Danger Button (Exit & Reset) */
+/* Danger button */
 .omega-btn-danger {
   background: linear-gradient(135deg, var(--omega-danger-red, #ff4d4f), var(--omega-danger-crimson, #e74c3c));
   color: #ffffff;
   box-shadow: 0 4px 16px var(--omega-danger-glow, rgba(255, 77, 79, 0.35));
 }
 
-/* ============================================================================
-   3. Segmented Pickers & Selectors
-   ============================================================================ */
+/* Segmented pickers */
 
 .omega-segmented-picker {
   display: flex;
@@ -172,9 +162,7 @@
   box-shadow: var(--omega-glass-shadow-glow-cyan, 0 0 20px rgba(0, 240, 255, 0.2));
 }
 
-/* ============================================================================
-   4. Range Sliders (Material Expressive Style)
-   ============================================================================ */
+/* Range sliders */
 
 .omega-slider,
 input[type="range"].omega-slider {
@@ -216,9 +204,7 @@ input[type="range"].omega-slider {
   border: 2px solid #ffffff;
 }
 
-/* ============================================================================
-   5. Modal Dialogs Architecture
-   ============================================================================ */
+/* Modal dialogs */
 
 .modal-overlay {
   position: fixed;

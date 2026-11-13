@@ -56,12 +56,10 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
           </div>
         </div>
 
-        {/* Big percentage display */}
         <div className="zoom-display-badge">
           <span className="zoom-value">{currentZoom}%</span>
         </div>
 
-        {/* Stepper +/- */}
         <div className="zoom-stepper">
           <button 
             className="zoom-step-btn" 
@@ -92,7 +90,6 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
           </button>
         </div>
 
-        {/* Preset buttons */}
         <div className="zoom-presets">
           {PRESETS.map((preset) => (
             <button
@@ -106,7 +103,6 @@ export const ZoomModal: React.FC<ZoomModalProps> = ({
           ))}
         </div>
 
-        {/* Action buttons */}
         <div className="modal-actions" style={{ marginTop: '1.25rem' }}>
           <button 
             className="modal-btn secondary" 

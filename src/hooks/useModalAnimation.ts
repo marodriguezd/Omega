@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 
-/**
- * Hook to manage smooth GPU-accelerated enter and exit animations for modal dialogs.
- * Ensures the modal remains mounted in DOM while playing exit transition.
- */
+// Modal lifecycle hook ensuring DOM presence during exit transition.
 export function useModalAnimation(isOpen: boolean, durationMs: number = 200) {
   const [mounted, setMounted] = useState<boolean>(isOpen);
   const [active, setActive] = useState<boolean>(false);
@@ -14,7 +11,7 @@ export function useModalAnimation(isOpen: boolean, durationMs: number = 200) {
 
     if (isOpen) {
       setMounted(true);
-      // Ensure DOM has mounted before applying active class for smooth enter animation
+      // Apply active transition class on next animation frame.
       if (typeof requestAnimationFrame !== 'undefined') {
         animFrame = requestAnimationFrame(() => {
           setActive(true);

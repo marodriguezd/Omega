@@ -1,13 +1,4 @@
-/**
- * Persistent key-value storage abstraction.
- *
- * All four targets (Web, Capacitor Android WebView, Electron renderer)
- * provide synchronous `localStorage`. This wrapper keeps that single
- * implementation while removing hidden assumptions:
- * - SSR / non-DOM safe (memory fallback)
- * - JSON-safe helpers with corruption tolerance
- * - QuotaExceededError swallowed to boolean, never thrown
- */
+// Persistent key-value storage abstraction with in-memory fallback.
 
 type StorageBackend = Pick<Storage, 'getItem' | 'setItem' | 'removeItem' | 'clear' | 'key' | 'length'>;
 
@@ -37,14 +28,14 @@ class MemoryBackend implements StorageBackend {
 function resolveBackend(): StorageBackend {
   try {
     if (typeof localStorage !== 'undefined' && localStorage !== null) {
-      // Probe availability (private mode / disabled storage throws on access).
+      // Probe availability for private browsing mode.
       const probe = '__omega_probe__';
       localStorage.setItem(probe, '1');
       localStorage.removeItem(probe);
       return localStorage as StorageBackend;
     }
   } catch {
-    // fall through to memory
+    // Fallback to in-memory store if localStorage throws.
   }
   return new MemoryBackend();
 }
@@ -56,7 +47,7 @@ function getBackend(): StorageBackend {
   return backend;
 }
 
-/** Test seam: force a fresh backend resolution. */
+// Reset storage backend for test isolation.
 export function __resetStorageBackend(): void {
   backend = null;
 }
@@ -85,7 +76,7 @@ export function storageRemoveItem(key: string): void {
   try {
     getBackend().removeItem(key);
   } catch {
-    // ignore
+    // Safe ignore if remove fails.
   }
 }
 
@@ -107,7 +98,7 @@ export function storageSetJson(key: string, value: unknown): boolean {
   }
 }
 
-/** Object-style adapter for call sites that prefer `platformStorage.get()`. */
+// Storage adapter object.
 export const platformStorage = {
   getItem: storageGetItem,
   setItem: storageSetItem,

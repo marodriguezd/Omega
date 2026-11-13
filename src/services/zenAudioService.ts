@@ -1,9 +1,4 @@
-/**
- * Zen Audio & Sensory Feedback Service (Milestone 3 - Wim Hof Aesthetic)
- * High-fidelity Web Audio API synthesis tuned to 432Hz natural harmonics.
- * Replaces abrasive square waves and raw beeps with meditative singing bowls
- * and smooth breath guidance cues.
- */
+// Web Audio API harmonic synthesizer tuned to 432Hz natural harmonics.
 
 import { triggerHaptic } from '../platform/haptics';
 
@@ -28,10 +23,7 @@ function getAudioContext(): AudioContext | null {
   }
 }
 
-/**
- * Creates a synthetic resonant singing bowl chime.
- * Fundamental frequency f0 + natural overtone partials + soft exponential decay.
- */
+// Resonant singing bowl synthesizer with overtone partials and exponential decay.
 export function playSingingBowl(
   fundamental: number,
   durationSec: number,
@@ -86,9 +78,7 @@ export function playSingingBowl(
   }, (durationSec + 0.1) * 1000);
 }
 
-/**
- * Frequency-ramped chime for continuous breath guidance (rising for inhale, falling for exhale)
- */
+// Frequency-ramped chime for continuous breath guidance.
 function playBreathChime(
   startFreq: number,
   endFreq: number,
@@ -129,29 +119,21 @@ function playBreathChime(
   };
 }
 
-// ============================================================================
-// Public Wim Hof Sensory Cues
-// ============================================================================
+// Wim Hof sensory acoustic cues.
 
-/**
- * Soft rising chime for inhalation start
- */
+// Inhale rising chime.
 export function playInhaleCue(volume: number, durationMs: number = 800) {
   playBreathChime(324, 432, durationMs, volume);
   triggerHaptic('light', 20);
 }
 
-/**
- * Grounding soft release chime for exhalation start
- */
+// Exhale grounding chime.
 export function playExhaleCue(volume: number, durationMs: number = 600) {
   playBreathChime(432, 288, durationMs, volume * 0.85);
   triggerHaptic('selection', 15);
 }
 
-/**
- * Resonant singing bowl chord marking the final breath before retention
- */
+// Final breath before retention chord.
 export function playLastBreathCue(volume: number) {
   playSingingBowl(216, 2.2, volume * 1.2, [
     { ratio: 1.0, gain: 1.0 },
@@ -162,9 +144,7 @@ export function playLastBreathCue(volume: number) {
   triggerHaptic('heavy', [100, 60, 180]);
 }
 
-/**
- * Meditative singing bowl strike for each elapsed minute of apnea retention
- */
+// Apnea retention minute chime.
 export function playRetentionMinuteCue(volume: number, _minuteCount: number = 1) {
   playSingingBowl(432, 2.5, volume, [
     { ratio: 1.0, gain: 1.0 },
@@ -174,9 +154,7 @@ export function playRetentionMinuteCue(volume: number, _minuteCount: number = 1)
   triggerHaptic('medium', [80, 50, 80]);
 }
 
-/**
- * Deep gong/bowl marking the start or end of the 15-second recovery breath hold
- */
+// Recovery breath hold cue.
 export function playRecoveryCue(volume: number) {
   playSingingBowl(180, 2.8, volume * 1.1, [
     { ratio: 1.0, gain: 1.0 },
@@ -186,9 +164,7 @@ export function playRecoveryCue(volume: number) {
   triggerHaptic('success', [120, 60, 120]);
 }
 
-/**
- * Smooth singing bowl chime for HydroCycle contrast shower transitions
- */
+// Contrast shower transition cue.
 export function playTransitionCue(targetPhase: 'hot' | 'cold', volume: number) {
   if (targetPhase === 'cold') {
     // Crisp glacial bell (432Hz -> 576Hz)
@@ -209,9 +185,7 @@ export function playTransitionCue(targetPhase: 'hot' | 'cold', volume: number) {
   }
 }
 
-/**
- * 3-note harmonic arpeggio for session completion fanfare
- */
+// Harmonic arpeggio fanfare for session completion.
 export function playCompletionFanfare(volume: number) {
   const notes = [432, 540, 648, 864];
   notes.forEach((freq, idx) => {
@@ -225,9 +199,7 @@ export function playCompletionFanfare(volume: number) {
   triggerHaptic('success', [100, 80, 100, 80, 250]);
 }
 
-/**
- * Soft warning chime for the final 5, 4, 3, 2, 1 countdown seconds
- */
+// Countdown warning chime.
 export function playCountdownBeep(volume: number, secondsRemaining: number) {
   const pitch = secondsRemaining === 1 ? 576 : 432;
   playSingingBowl(pitch, 0.4, volume * 0.7, [
@@ -236,10 +208,7 @@ export function playCountdownBeep(volume: number, secondsRemaining: number) {
   triggerHaptic('light', 35);
 }
 
-/**
- * Penetrating 432Hz/864Hz dual chime designed to pierce through shower noise at milestones
- * (15s, 30s, 45s, 60s, +30s) without harsh clipping.
- */
+// Water milestone chime (432Hz/864Hz) for cold shower milestones.
 export function playWaterMilestoneCue(volume: number, _milestoneSec?: number) {
   // First strike (576Hz)
   playSingingBowl(576, 1.4, volume * 1.1, [
@@ -257,9 +226,7 @@ export function playWaterMilestoneCue(volume: number, _milestoneSec?: number) {
   triggerHaptic('heavy', [120, 80, 200]);
 }
 
-/**
- * Acoustic countdown beep for the 5-second dry-hands entry buffer
- */
+// 5-second entry buffer countdown cue.
 export function playPrepCountdownCue(volume: number, secondsRemaining: number) {
   if (secondsRemaining <= 0) {
     playSingingBowl(576, 1.6, volume * 1.2, [
@@ -277,10 +244,7 @@ export function playPrepCountdownCue(volume: number, secondsRemaining: number) {
   }
 }
 
-/**
- * Celebratory 432Hz/648Hz harmonic resonance chord marking retention goal achievement
- * without interrupting the active stopwatch.
- */
+// Retention target reached celebratory harmonic chord.
 export function playTargetReachedCue(volume: number) {
   playSingingBowl(432, 2.6, volume * 1.1, [
     { ratio: 1.0, gain: 1.0 },
@@ -291,10 +255,7 @@ export function playTargetReachedCue(volume: number) {
   triggerHaptic('success', [100, 60, 100, 60, 200]);
 }
 
-/**
- * Triumphant 3-note ascending harmonic arpeggio (432Hz -> 576Hz -> 864Hz)
- * celebrating an all-time Personal Best (PB) retention hold during live apnea.
- */
+// Personal best 3-note ascending harmonic arpeggio (432Hz -> 576Hz -> 864Hz).
 export function playPersonalBestCue(volume: number) {
   const notes = [432, 576, 864];
   notes.forEach((freq, idx) => {

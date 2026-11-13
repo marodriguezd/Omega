@@ -1,17 +1,4 @@
-/**
- * Omega bundled fonts — offline-first typography.
- *
- * Outfit (variable, wght 100-900) is self-hosted so every target
- * (Android WebView, Electron DMG/MSI/AppImage, offline browsers) renders
- * identically with zero network access. Vite bundles these woff2 files
- * into dist/assets with relative URLs, which also keeps Electron
- * file:// packaging working.
- *
- * Source: Google Fonts, Outfit v15 (SIL Open Font License 1.1).
- * Subsets: latin + latin-ext (covers EN/ES/FR/DE/IT/PT/ZH-pinyin UI).
- * If glyphs outside these subsets are needed, the deterministic fallback
- * stack in tokens.css (--omega-font-family) applies.
- */
+/* Bundled Outfit variable font (OFL 1.1) for offline multiplatform typography */
 
 @font-face {
   font-family: 'Outfit';

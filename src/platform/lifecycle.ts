@@ -1,9 +1,4 @@
-/**
- * Application lifecycle / navigation abstraction.
- * - Android: Capacitor App 'backButton' listener (exit or history.back)
- * - Web/Electron: no-op registration (returns cleanup fn) — desktop
- *   window controls remain native; in-app back nav is handled by React state.
- */
+// Hardware back button registration for Capacitor Android, with no-op on desktop/web.
 import { App as CapApp } from '@capacitor/app';
 
 export type BackButtonHandler = () => boolean | Promise<boolean>;

@@ -80,7 +80,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     };
   }, []);
 
-  // Listen for global pause/exit events from Hub
   useEffect(() => {
     const handlePause = (e: any) => {
       if (e.detail?.exit) {
@@ -100,7 +99,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     };
   }, []);
 
-  // Track session state to protect navigation
+  // Emit active session state to prevent accidental tab navigation.
   useEffect(() => {
     window.dispatchEvent(new CustomEvent('omega-session-state', {
       detail: { app: 'challenge', active: isSessionActive }
@@ -111,7 +110,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
   const completedCount = storeData.challengeDays.filter(d => d.completed).length;
   const progressPercent = Math.round((completedCount / 20) * 100);
 
-  // Group days by weeks
   const weeks = [
     { number: 1, title: langDict.week1Title || 'Semana 1: Adaptación (15s)', days: storeData.challengeDays.slice(0, 5) },
     { number: 2, title: langDict.week2Title || 'Semana 2: Resiliencia (30s)', days: storeData.challengeDays.slice(5, 10) },
@@ -152,7 +150,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     disableKeepAwake();
   };
 
-  // Timer loop for challenge session
   useEffect(() => {
     if (!isSessionActive || !isPlaying) {
       if (timerRef.current) cancelAnimationFrame(timerRef.current);
@@ -203,13 +200,11 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         playWaterMilestoneCue(0.9, elapsedSec);
       }
 
-      // Final countdown beeps
       if (remaining > 0 && remaining <= 5) {
         playCountdownBeep(0.7, remaining);
       }
 
       if (remaining <= 0) {
-        // Day Challenge Finished!
         playCompletionFanfare(0.9);
         triggerHaptic('success');
         updateChallengeDay(currentDayItem.day, true, targetDuration);
@@ -252,7 +247,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     }
   };
 
-  // Active Session View
   if (isSessionActive) {
     const targetSec = currentDayItem.targetSec;
     const elapsed = targetSec - timeLeft;
@@ -303,7 +297,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
           {instructionTitle}
         </div>
 
-        {/* 4s/6s Breath Pacing Toggle Pill (Cold Stage only) */}
         {sessionStage === 'cold' && (
           <button
             type="button"
@@ -382,7 +375,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
     );
   }
 
-  // Challenge Overview & Roadmap
   return (
     <div 
       className="screen" 
@@ -395,7 +387,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         paddingRight: 'calc(1rem + env(safe-area-inset-right, 0px))' 
       }}
     >
-      {/* Header Banner */}
       <div className="glass-card streak-card" style={{ width: '100%', marginBottom: '1rem' }}>
         <div className="streak-info">
           <div className="streak-flame" style={{ fontSize: '2.4rem' }}>❄️</div>
@@ -411,7 +402,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         </div>
       </div>
 
-      {/* Selected Day Quick Action Card */}
       <div 
         className="glass-card" 
         style={{ 
@@ -462,7 +452,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         </button>
       </div>
 
-      {/* 4-Week Schedule Grid */}
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
         {weeks.map(w => (
           <div key={w.number} className="glass-card" style={{ width: '100%' }}>
@@ -516,7 +505,6 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         ))}
       </div>
 
-      {/* Reset Option */}
       <div style={{ textAlign: 'center', padding: '0.5rem' }}>
         <button
           onClick={() => {

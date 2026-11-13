@@ -3,7 +3,7 @@
 @import './animations.css';
 @import './responsive.css';
 
-/* Omega Hub Styles - Glassmorphism & Responsive Mobile Shell */
+/* Hub styles */
 
 :root {
   --ui-scale: 1;
@@ -16,7 +16,7 @@
   --bottom-nav-height: calc(var(--bottom-nav-base-height) + env(safe-area-inset-bottom, 0px));
 }
 
-/* Dynamic root font-size scaling: drives all rem units smoothly */
+/* Root font-size scaling for rem units */
 html {
   font-size: calc(clamp(13px, 3.2vmin, 16px) * var(--ui-scale-clamped, 1)) !important;
   height: 100%;
@@ -39,7 +39,7 @@ body {
   flex-direction: column;
 }
 
-/* Master App Container: flex column filling 100% viewport */
+/* Master app container */
 .omega-app {
   width: 100vw;
   height: 100%;
@@ -53,7 +53,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Main Viewport Area Container */
+/* Viewport container */
 .omega-views-container {
   flex: 1 1 auto;
   position: relative;
@@ -107,7 +107,7 @@ body {
   z-index: 1;
 }
 
-/* Sub-app container override: takes full view height, doesn't hardcode 100dvh */
+/* Sub-app container override */
 .omega-view .container {
   flex: 1 1 auto !important;
   min-height: 0 !important;
@@ -124,7 +124,7 @@ body {
   border-bottom: none !important;
 }
 
-/* Sub-app header override: convert from absolute collision layout to safe flex row */
+/* Sub-app header flex layout */
 .omega-view .header {
   display: flex !important;
   align-items: center !important;
@@ -196,7 +196,7 @@ body {
   -webkit-backface-visibility: hidden !important;
 }
 
-/* Eliminate phantom flex pseudo-elements that cause overflow bugs in sub-apps */
+/* Pseudo-elements reset */
 .omega-view .screen.active::before,
 .omega-view .screen.active::after {
   display: none !important;
@@ -205,7 +205,7 @@ body {
   flex: 0 0 0 !important;
 }
 
-/* Sub-app screens: flex container bounded strictly above the bottom bar */
+/* Sub-app screen container */
 .omega-view .screen {
   flex: 1 1 auto !important;
   min-height: 0 !important;
@@ -224,14 +224,14 @@ body {
   box-sizing: border-box !important;
 }
 
-/* Active exercise screens: single viewport fit, auto-balanced */
+/* Active exercise screens */
 .omega-view #exerciseScreen,
 .omega-view #retentionScreen,
 .omega-view #recoveryScreen {
   justify-content: space-evenly !important;
 }
 
-/* Scrollable views: pad top and bottom so banners and content never collide with status bar or bottom nav */
+/* Safe area padding for scrollable views */
 .omega-view #configScreen,
 .omega-view #statsScreen,
 .omega-view #resultsScreen,
@@ -244,7 +244,7 @@ body {
   padding-right: calc(1rem + env(safe-area-inset-right, 0px)) !important;
 }
 
-/* Hexagon responsive adaptation under zoom */
+/* Hexagon responsive adaptation */
 .omega-view .breathing-sphere-container,
 .omega-view .hexagon-container {
   margin: clamp(0.2rem, 1vh, 0.8rem) auto !important;
@@ -305,7 +305,7 @@ body {
   flex-shrink: 0 !important;
 }
 
-/* Footers & Buttons in sub-apps */
+/* Sub-app footers and buttons */
 .omega-view .exercise-footer,
 .omega-view .timer-footer {
   min-height: auto !important;
@@ -421,7 +421,7 @@ body {
   height: 4.2rem !important;
 }
 
-/* Unified Slider Group & Controls in sub-apps (Harmonized with HydroCycle) */
+/* Sub-app slider controls */
 .omega-view .slider-group {
   padding: 0 0.5rem !important;
   display: flex !important;
@@ -499,7 +499,7 @@ body {
   transition: transform 0.2s ease !important;
 }
 
-/* Dashboard View: fills available space above bottom nav and scrolls smoothly */
+/* Dashboard view */
 .hub-dashboard {
   flex: 1 1 auto;
   min-height: 0;
@@ -606,7 +606,7 @@ body {
   flex-shrink: 0;
 }
 
-/* Fallback isolation in case .lang-container is rendered in header */
+/* Header language container fallback */
 .hub-header .lang-container {
   position: relative !important;
   top: auto !important;
@@ -619,7 +619,7 @@ body {
   flex-shrink: 0 !important;
 }
 
-/* Header Action Buttons Isolation - Prevent global sub-app absolute positioning from breaking Hub Header layout */
+/* Header action buttons layout isolation */
 .hub-header-actions .hub-icon-btn,
 .hub-header-actions .theme-toggle-btn,
 .hub-header-actions .lang-btn,
@@ -674,7 +674,7 @@ body {
   transform: scale(0.92);
 }
 
-/* Hub Language Dropdown Isolation - Align right, keep inside screen, high contrast */
+/* Language dropdown alignment */
 .hub-lang-container .lang-dropdown,
 .hub-lang-dropdown {
   position: absolute !important;
@@ -728,7 +728,7 @@ body {
   font-weight: 600 !important;
 }
 
-/* Glass Card Component */
+/* Glass card */
 .glass-card {
   background: var(--color-glass-white);
   backdrop-filter: blur(16px);
@@ -741,7 +741,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Streak Banner */
+/* Streak banner */
 .streak-card {
   display: flex;
   align-items: center;
@@ -793,7 +793,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Today's Goals */
+/* Today's goals */
 .routine-title {
   font-size: 1rem;
   font-weight: 600;
@@ -872,7 +872,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Quick Start Cards: Adaptive auto-fit grid */
+/* Quick start cards grid */
 .quick-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -958,7 +958,7 @@ body {
   margin-top: auto;
 }
 
-/* Stats Metrics Grid: Adaptive grid */
+/* Stats metrics grid */
 .metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
@@ -1013,7 +1013,7 @@ body {
   text-overflow: ellipsis;
 }
 
-/* Recent Activity List */
+/* Recent activity list */
 .activity-list {
   display: flex;
   flex-direction: column;
@@ -1069,7 +1069,7 @@ body {
   color: var(--color-muted);
 }
 
-/* Empty State */
+/* Empty state */
 .empty-state {
   text-align: center;
   padding: 1.5rem 1rem;
@@ -1077,7 +1077,7 @@ body {
   font-size: 0.85rem;
 }
 
-/* Bottom Navigation Bar: clean flex child, NEVER covers content */
+/* Bottom navigation bar */
 .bottom-nav {
   position: relative;
   flex-shrink: 0;
@@ -1303,7 +1303,7 @@ html[data-theme="light"] .nav-tab.active.tab-progress {
   color: var(--color-text);
 }
 
-/* Zoom Modal & Controls */
+/* Zoom modal */
 .zoom-modal-content {
   max-width: 380px;
   text-align: left;
@@ -1444,7 +1444,7 @@ html[data-theme="light"] .nav-tab.active.tab-progress {
   color: #0a0e13;
 }
 
-/* Dashboard Zoom Quick Card */
+/* Zoom quick card */
 .zoom-quick-card {
   display: flex;
   align-items: center;

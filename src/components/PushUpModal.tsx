@@ -82,7 +82,6 @@ export const PushUpModal: React.FC<PushUpModalProps> = ({ isOpen, onClose, langD
     playCompletionFanfare(0.8);
     triggerHaptic('success');
 
-    // Save record
     recordPushUpSession({
       id: `pushup-${Date.now()}`,
       date: Date.now(),
@@ -154,7 +153,6 @@ export const PushUpModal: React.FC<PushUpModalProps> = ({ isOpen, onClose, langD
               Apnea activa: {Math.floor(seconds / 60)}:{(seconds % 60).toString().padStart(2, '0')}
             </div>
 
-            {/* Tap area to increment pushups */}
             <div
               onClick={handleIncrement}
               style={{

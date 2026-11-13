@@ -78,7 +78,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
         </div>
       )}
 
-      {/* Round Bars */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: compact ? '0.4rem' : '0.6rem' }}>
         {validTimes.map((sec, idx) => {
           const widthPct = Math.max(12, Math.round((sec / maxInSession) * 100));
@@ -87,7 +86,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
 
           return (
             <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-              {/* Round Label */}
               <div
                 style={{
                   minWidth: compact ? '26px' : '36px',
@@ -100,7 +98,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
                 R{idx + 1}
               </div>
 
-              {/* Bar track and fill */}
               <div
                 style={{
                   flex: 1,
@@ -113,7 +110,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
                   alignItems: 'center'
                 }}
               >
-                {/* Bar Fill */}
                 <div
                   style={{
                     width: `${widthPct}%`,
@@ -126,7 +122,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
                   }}
                 />
 
-                {/* Inner / Overlaid Duration Label */}
                 <span
                   style={{
                     position: 'absolute',
@@ -150,7 +145,6 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
         })}
       </div>
 
-      {/* Aggregate Footer */}
       {!compact && (
         <div
           style={{

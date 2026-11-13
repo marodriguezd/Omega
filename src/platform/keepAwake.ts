@@ -1,8 +1,4 @@
-/**
- * Keep-awake abstraction.
- * Cascade: Electron IPC (powerSaveBlocker) -> Capacitor plugin -> Web WakeLock.
- * Idempotent; safe to call repeatedly; never throws.
- */
+// Platform keep-awake cascade: Electron IPC -> Capacitor plugin -> Web WakeLock.
 import { Capacitor } from '@capacitor/core';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 
@@ -17,7 +13,7 @@ export function isKeepAwakeActive(): boolean {
 export async function enableKeepAwake(): Promise<void> {
   if (keepAwakeActive) return;
 
-  // 1. Electron IPC bridge (preload allowlist: setKeepAwake)
+  // Electron IPC bridge
   if (typeof window !== 'undefined' && window.electronAPI?.setKeepAwake) {
     try {
       await window.electronAPI.setKeepAwake(true);
@@ -28,7 +24,7 @@ export async function enableKeepAwake(): Promise<void> {
     }
   }
 
-  // 2. Capacitor native plugin (Android)
+  // Capacitor native plugin
   try {
     await KeepAwake.keepAwake();
     keepAwakeActive = true;
@@ -37,7 +33,7 @@ export async function enableKeepAwake(): Promise<void> {
     // Fall through to Web WakeLock
   }
 
-  // 3. Web Screen Wake Lock API fallback
+  // Web Screen Wake Lock API fallback
   if (
     typeof navigator !== 'undefined' &&
     'wakeLock' in navigator &&
@@ -63,21 +59,21 @@ export async function disableKeepAwake(): Promise<void> {
     try {
       await window.electronAPI.setKeepAwake(false);
     } catch {
-      // ignore
+      // Safe no-op if release fails or unsupported.
     }
   }
 
   try {
     await KeepAwake.allowSleep();
   } catch {
-    // ignore
+    // Safe no-op if release fails or unsupported.
   }
 
   if (wakeLockSentinel) {
     try {
       await wakeLockSentinel.release();
     } catch {
-      // ignore
+      // Safe no-op if release fails or unsupported.
     }
     wakeLockSentinel = null;
   }
@@ -85,13 +81,13 @@ export async function disableKeepAwake(): Promise<void> {
   keepAwakeActive = false;
 }
 
-/** Test seam — do not use in app code. */
+// Reset keep-awake state for tests.
 export function __resetKeepAwakeForTests(): void {
   wakeLockSentinel = null;
   keepAwakeActive = false;
 }
 
-/** Reference Capacitor import so bundlers keep the native branch. */
+// Prevent bundler treeshaking of Capacitor import.
 export function __capacitorRef(): boolean {
   try {
     return Capacitor.isNativePlatform();

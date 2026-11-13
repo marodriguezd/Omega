@@ -64,7 +64,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
   return (
     <div className="hub-dashboard">
-      {/* Header */}
       <header className="hub-header">
         <div className="hub-brand">
           <div className="hub-logo-badge">Ω</div>
@@ -75,7 +74,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         <div className="hub-header-actions">
-          {/* Zoom selector button */}
           <button
             className="hub-icon-btn zoom-btn"
             onClick={() => setIsZoomModalOpen(true)}
@@ -84,7 +82,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <ZoomIn size={18} />
           </button>
 
-          {/* About Modal button */}
           <button
             className="hub-icon-btn about-btn"
             onClick={() => setIsAboutModalOpen(true)}
@@ -93,7 +90,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <Info size={18} />
           </button>
 
-          {/* Language selector */}
           <div className="hub-lang-container">
             <button
               className="hub-icon-btn lang-btn"
@@ -128,7 +124,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
             )}
           </div>
 
-          {/* Theme toggle */}
           <button
             className="hub-icon-btn theme-toggle-btn"
             onClick={onThemeToggle}
@@ -139,11 +134,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </header>
 
-      {/* Dashboard Cards Multi-Column Grid */}
       <div className="dashboard-grid hub-cards-grid">
-        {/* Primary Focus Column */}
         <div className="dashboard-col dashboard-col-primary">
-          {/* Active Streak Banner */}
           <div className="glass-card streak-card">
         <div className="streak-info">
           <div className="streak-flame">🔥</div>
@@ -157,7 +149,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Today's Routine Checklist */}
       <div className="glass-card">
         <h3 className="routine-title">
           <span>{langDict.todayGoal || 'Rutina de Hoy'}</span>
@@ -166,7 +157,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
           )}
         </h3>
 
-        {/* Breathing Item */}
         <div className="routine-item" onClick={() => onNavigate('breathing')}>
           <div className="routine-item-left">
             <div className="routine-icon-box breathing">
@@ -188,7 +178,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
           )}
         </div>
 
-        {/* Hydro Item */}
         <div className="routine-item" onClick={() => onNavigate('hydro')}>
           <div className="routine-item-left">
             <div className="routine-icon-box hydro">
@@ -211,7 +200,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Quick Start Action Cards */}
       <div className="quick-cards">
         <div className="quick-card breathing-card" onClick={() => onNavigate('breathing')}>
           <div className="quick-card-top">
@@ -283,9 +271,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       </div>
         </div>
 
-        {/* Secondary Metrics & History Column */}
         <div className="dashboard-col dashboard-col-secondary">
-          {/* Zoom / Scale Quick Card */}
           <div className="zoom-quick-card" onClick={() => setIsZoomModalOpen(true)}>
         <div className="zoom-quick-left">
           <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
@@ -305,7 +291,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Aggregate Metrics */}
       <div className="metrics-grid">
         <div className="metric-box">
           <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
@@ -348,7 +333,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Recent Activity Timeline */}
       <div className="glass-card">
         <h3 className="routine-title">
           <span>{langDict.recentActivityTitle || 'Actividad Reciente'}</span>
@@ -417,7 +401,6 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
       </div>
 
-      {/* Zoom Configuration Modal */}
       <ZoomModal
         isOpen={isZoomModalOpen}
         currentZoom={currentZoom}
@@ -426,14 +409,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
         langDict={langDict}
       />
 
-      {/* Push-Up Challenge Modal */}
       <PushUpModal
         isOpen={isPushUpModalOpen}
         onClose={() => setIsPushUpModalOpen(false)}
         langDict={langDict}
       />
 
-      {/* About Omega Modal */}
       <AboutModal
         isOpen={isAboutModalOpen}
         onClose={() => setIsAboutModalOpen(false)}

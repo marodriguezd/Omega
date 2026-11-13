@@ -1,9 +1,4 @@
-/**
- * Haptic feedback abstraction.
- * - Capacitor native (Android): @capacitor/haptics
- * - Web browser: navigator.vibrate
- * - Electron / desktop: safe no-op (no vibration actuators)
- */
+// Haptic feedback abstraction for Capacitor, Web, and Electron.
 import { Capacitor } from '@capacitor/core';
 import { Haptics, ImpactStyle, NotificationType } from '@capacitor/haptics';
 import type { HapticType } from './types';
@@ -15,13 +10,13 @@ export async function triggerHaptic(
   type: HapticType = 'light',
   pattern?: number | number[],
 ): Promise<void> {
-  // 1. Electron / Desktop: safe no-op
+  // Desktop has no vibration actuators.
   if (typeof window !== 'undefined' && window.electronAPI?.isElectron) {
     return;
   }
   if (isElectron()) return;
 
-  // 2. Capacitor Native Mobile
+  // Capacitor native haptics.
   try {
     if (Capacitor.isNativePlatform()) {
       switch (type) {
@@ -49,10 +44,10 @@ export async function triggerHaptic(
       }
     }
   } catch {
-    // fall through to web vibration
+    // Fallback to web vibration.
   }
 
-  // 3. Web Browser Vibration API fallback
+  // Web browser vibration fallback.
   if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') {
     try {
       if (pattern !== undefined) {

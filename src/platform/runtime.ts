@@ -1,7 +1,4 @@
-/**
- * Runtime detection. Pure, synchronous, no side effects.
- * Order: Electron (preload bridge) > Capacitor native > Web fallback.
- */
+// Runtime detection: Electron bridge > Capacitor native > Web fallback.
 import type { PlatformInfo, RuntimeKind } from './types';
 
 export function getRuntimeKind(): RuntimeKind {
@@ -13,8 +10,7 @@ export function getRuntimeKind(): RuntimeKind {
     return 'electron';
   }
   try {
-    // Dynamic, dependency-light check: Capacitor injects window.Capacitor
-    // and getPlatform() reports native vs web without importing plugins.
+    // Detect Capacitor platform without eager plugin imports.
     const cap = (typeof window !== 'undefined' &&
       (window as unknown as Record<string, unknown>).Capacitor) as
       | { getPlatform?: () => string; isNativePlatform?: () => boolean }
@@ -26,7 +22,7 @@ export function getRuntimeKind(): RuntimeKind {
       return 'capacitor';
     }
   } catch {
-    // ignore — fall through to web
+    // Fall through to web runtime.
   }
   return 'web';
 }
