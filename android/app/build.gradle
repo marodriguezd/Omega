@@ -12,7 +12,7 @@ android {
         // fall back to 1. versionName is the product version and must stay
         // identical to package.json — never the run number.
         versionCode (System.getenv("BUILD_NUMBER") ? System.getenv("BUILD_NUMBER").toInteger() : 1)
-        versionName "1.0.2"
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
