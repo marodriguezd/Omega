@@ -6,16 +6,15 @@ Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +657
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Progress: resolved 657, reused 0, downloaded 0, added 0
-Progress: resolved 657, reused 0, downloaded 1, added 0
+Progress: resolved 657, reused 0, downloaded 3, added 0
 ✓ Lockfile passes supply-chain policies (749 entries in 3.4s)
-Progress: resolved 657, reused 0, downloaded 51, added 0
+Progress: resolved 657, reused 0, downloaded 58, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 657, reused 0, downloaded 92, added 4
-Progress: resolved 657, reused 0, downloaded 442, added 32
-Progress: resolved 657, reused 0, downloaded 657, added 252
-Progress: resolved 657, reused 0, downloaded 657, added 527
+Progress: resolved 657, reused 0, downloaded 168, added 8
+Progress: resolved 657, reused 0, downloaded 388, added 24
+Progress: resolved 657, reused 0, downloaded 657, added 368
 Progress: resolved 657, reused 0, downloaded 657, added 657, done
 .../node_modules/electron-winstaller install$ node ./script/select-7z-arch.js
 .../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
@@ -48,4 +47,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 10.8s using pnpm v11.28.11
+Done in 8.6s using pnpm v11.28.11
