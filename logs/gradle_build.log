@@ -19,8 +19,8 @@ WARNING: Using flatDir should be avoided because it doesn't support any meta-dat
 > Task :capacitor-app:mergeReleaseJniLibFolders
 > Task :capacitor-app:mergeReleaseNativeLibs NO-SOURCE
 > Task :capacitor-community-keep-awake:preBuild UP-TO-DATE
-> Task :capacitor-app:copyReleaseJniLibsProjectOnly
 > Task :capacitor-community-keep-awake:preReleaseBuild UP-TO-DATE
+> Task :capacitor-app:copyReleaseJniLibsProjectOnly
 > Task :capacitor-community-keep-awake:mergeReleaseJniLibFolders
 > Task :capacitor-community-keep-awake:mergeReleaseNativeLibs NO-SOURCE
 > Task :capacitor-cordova-android-plugins:preBuild UP-TO-DATE
@@ -49,21 +49,21 @@ WARNING: Using flatDir should be avoided because it doesn't support any meta-dat
 > Task :capacitor-community-keep-awake:processReleaseNavigationResources
 > Task :capacitor-community-keep-awake:parseReleaseLocalResources
 > Task :capacitor-android:parseReleaseLocalResources
-> Task :capacitor-android:generateReleaseRFile
 > Task :capacitor-community-keep-awake:generateReleaseRFile
+> Task :capacitor-android:generateReleaseRFile
+> Task :capacitor-community-keep-awake:javaPreCompileRelease
 
 > Task :capacitor-android:compileReleaseJavaWithJavac
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 
-> Task :capacitor-community-keep-awake:javaPreCompileRelease
 > Task :capacitor-app:generateReleaseResValues
 > Task :capacitor-app:generateReleaseResources
 > Task :capacitor-android:bundleLibCompileToJarRelease
 > Task :capacitor-app:packageReleaseResources
 > Task :capacitor-community-keep-awake:compileReleaseJavaWithJavac
-> Task :capacitor-community-keep-awake:bundleLibRuntimeToDirRelease
 > Task :capacitor-app:processReleaseNavigationResources
+> Task :capacitor-community-keep-awake:bundleLibRuntimeToDirRelease
 > Task :capacitor-app:parseReleaseLocalResources
 > Task :capacitor-app:generateReleaseRFile
 > Task :capacitor-app:javaPreCompileRelease
@@ -123,20 +123,20 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :app:desugarReleaseFileDependencies
 > Task :app:mergeReleaseStartupProfile
 > Task :app:mergeReleaseResources
-> Task :app:packageReleaseResources
 > Task :app:mergeExtDexRelease
+> Task :app:packageReleaseResources
 > Task :app:parseReleaseLocalResources
 > Task :capacitor-android:prepareReleaseArtProfile
 > Task :capacitor-app:prepareReleaseArtProfile
 > Task :capacitor-community-keep-awake:prepareReleaseArtProfile
 > Task :capacitor-cordova-android-plugins:prepareReleaseArtProfile
-> Task :capacitor-haptics:prepareReleaseArtProfile
 > Task :capacitor-android:compileReleaseLibraryResources
-> Task :app:mergeReleaseArtProfile
+> Task :capacitor-haptics:prepareReleaseArtProfile
 > Task :capacitor-app:compileReleaseLibraryResources
-> Task :capacitor-community-keep-awake:bundleLibRuntimeToJarRelease
 > Task :capacitor-community-keep-awake:compileReleaseLibraryResources
+> Task :app:mergeReleaseArtProfile
 > Task :capacitor-cordova-android-plugins:compileReleaseLibraryResources
+> Task :capacitor-community-keep-awake:bundleLibRuntimeToJarRelease
 > Task :capacitor-haptics:compileReleaseLibraryResources
 > Task :capacitor-app:bundleLibRuntimeToJarRelease
 > Task :capacitor-haptics:bundleLibRuntimeToJarRelease
@@ -145,11 +145,11 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :app:compileReleaseJavaWithJavac
 > Task :app:dexBuilderRelease
 > Task :capacitor-cordova-android-plugins:bundleLibRuntimeToJarRelease
-> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:mergeDexRelease
 > Task :app:mergeReleaseShaders
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
-> Task :app:mergeDexRelease
+> Task :app:mergeReleaseGlobalSynthetics
 > Task :capacitor-android:mergeReleaseShaders
 > Task :capacitor-android:compileReleaseShaders NO-SOURCE
 > Task :capacitor-android:generateReleaseAssets UP-TO-DATE
@@ -179,8 +179,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-android:createFullJarRelease
 > Task :capacitor-android:extractProguardFiles
 > Task :capacitor-android:generateReleaseLintModel
-> Task :capacitor-android:prepareLintJarForPublish
 > Task :capacitor-app:processReleaseJavaRes NO-SOURCE
+> Task :capacitor-android:prepareLintJarForPublish
 > Task :capacitor-app:createFullJarRelease
 > Task :capacitor-app:extractProguardFiles
 > Task :capacitor-app:generateReleaseLintModel
@@ -203,8 +203,8 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :capacitor-community-keep-awake:checkReleaseAarMetadata
 > Task :app:generateReleaseLintVitalReportModel
 > Task :capacitor-community-keep-awake:stripReleaseDebugSymbols NO-SOURCE
-> Task :capacitor-community-keep-awake:copyReleaseJniLibsProjectAndLocalJars
 > Task :capacitor-community-keep-awake:extractDeepLinksForAarRelease
+> Task :capacitor-community-keep-awake:copyReleaseJniLibsProjectAndLocalJars
 > Task :capacitor-community-keep-awake:extractReleaseAnnotations
 > Task :capacitor-community-keep-awake:mergeReleaseGeneratedProguardFiles
 > Task :capacitor-community-keep-awake:mergeReleaseConsumerProguardFiles
@@ -281,13 +281,13 @@ Note: Recompile with -Xlint:unchecked for details.
 > Task :app:lintVitalReportRelease
 > Task :app:lintVitalRelease
 > Task :capacitor-android:verifyReleaseResources
-> Task :app:packageRelease
-> Task :app:createReleaseApkListingFileRedirect
-> Task :app:assembleRelease
 > Task :capacitor-android:assembleRelease
 > Task :capacitor-app:bundleReleaseAar
 > Task :capacitor-app:mapReleaseSourceSetPaths
 > Task :capacitor-app:mergeReleaseResources
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
 > Task :capacitor-community-keep-awake:bundleReleaseAar
 > Task :capacitor-community-keep-awake:mapReleaseSourceSetPaths
 > Task :capacitor-cordova-android-plugins:bundleReleaseAar
@@ -314,5 +314,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 1m 52s
+BUILD SUCCESSFUL in 2m 19s
 244 actionable tasks: 244 executed
