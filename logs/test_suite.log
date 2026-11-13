@@ -17,7 +17,7 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T1.R2.2: Header and session progress bars must eliminate layout thrashing by avoiding width animations (0ms)
   ✔ [PASS] T1.R2.3: Golden glow and pulsating animations must avoid expensive box-shadow keyframes (0ms)
   ✔ [PASS] T1.R2.4: CSS transition and animation syntax must be valid without invalid combinations (0ms)
-  ✔ [PASS] T1.R2.5: High-precision timer loops must calculate elapsed time using timestamp deltas to prevent drift (0ms)
+  ✔ [PASS] T1.R2.5: High-precision timer loops must calculate elapsed time using timestamp deltas to prevent drift (1ms)
   ✔ [PASS] T1.R3.1: Mobile navigation shell (<768px) must render BottomNav with safe-area insets and touch targets >=44px (1ms)
   ✔ [PASS] T1.R3.2: Desktop layout (>=768px) must incorporate Navigation Rail / Sidebar (0ms)
   ✔ [PASS] T1.R3.3: Dashboard layout on viewports >=768px must utilize multi-column grid without 480px artificial clamping (0ms)
@@ -33,11 +33,11 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T2.R1.1: Extreme UI Zoom Scaling Clamp must strictly bound scale factor between 0.8 and 2.2 (1ms)
   ✔ [PASS] T2.R1.2: Volcanic basalt background and primary text must achieve WCAG 2.1 AAA contrast ratio (>= 7.0:1) (0ms)
   ✔ [PASS] T2.R1.3: Rapid high-frequency theme toggling must maintain DOM and LocalStorage state consistency (1ms)
-  ✔ [PASS] T2.R1.4: Critical CSS custom property declarations must support fallback values (1ms)
-  ✔ [PASS] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg (1ms)
+  ✔ [PASS] T2.R1.4: Critical CSS custom property declarations must support fallback values (0ms)
+  ✔ [PASS] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg (0ms)
   ✔ [PASS] T2.R2.1: Frame budget verification across high-refresh rates (60Hz, 90Hz, 120Hz, 144Hz) (1ms)
   ✔ [PASS] T2.R2.2: Apnea retention long-duration drift simulation proves timestamp delta eliminates cumulative lag (0ms)
-  ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (2ms)
+  ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (1ms)
   ✔ [PASS] T2.R2.4: Zero and negative duration timer boundary inputs must be safely clamped (0ms)
   ✔ [PASS] T2.R2.5: Dynamic typography clamp must remain bounded between 13px and 16px at extreme viewports (0ms)
   ✔ [PASS] T2.R3.1: Exact breakpoint boundary evaluation (767px mobile vs 768px desktop) (1ms)
@@ -46,13 +46,13 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T2.R3.4: Safe area insets boundary: dynamic calculation with 0px vs 60px notch (0ms)
   ✔ [PASS] T2.R3.5: Rapid window resize oscillation across 768px boundary maintains clean state transition (0ms)
   ✔ [PASS] T2.R4.1: KeepAwake native failure gracefully falls back to Web Wake Lock API (1ms)
-  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (1ms)
+  ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
   ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
   ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
-  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (24ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (14ms)
 
 ▶ Executing Tier 3: Cross-Feature Combinations...
-  ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (2ms)
+  ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (1ms)
   ✔ [PASS] T3.C2: Tab switching attempt while HydroCycle contrast shower is active prompts ExitConfirmModal (0ms)
   ✔ [PASS] T3.C3: Zoom scaling interacts harmoniously with squircle tokens and responsive layouts (0ms)
   ✔ [PASS] T3.C4: Bi-directional settings synchronization (theme and language) between Hub and sub-apps (0ms)
@@ -61,11 +61,11 @@ Project Root: /home/runner/work/Omega/Omega
 
 ▶ Executing Tier 4: Real-World Application Scenarios...
   ✔ [PASS] T4.S1: Complete Wim Hof Breathing Session Journey (Config -> Rhythm -> Retention -> Recovery -> Stats) (1ms)
-  ✔ [PASS] T4.S2: Complete HydroCycle Contrast Shower Journey with Routine Checklist 100% Completion (1ms)
+  ✔ [PASS] T4.S2: Complete HydroCycle Contrast Shower Journey with Routine Checklist 100% Completion (0ms)
   ✔ [PASS] T4.S3: Desktop Wide-Screen Session (>=768px) with Multi-Column Dashboard and Navigation Rail (0ms)
   ✔ [PASS] T4.S4: Mobile Commuter Session with Safe-Area insets, screen wake lock, and accidental exit protection (0ms)
   ✔ [PASS] T4.S5: International Multi-Device Customization Journey (Language, Theme, Zoom scaling) (0ms)
-  ✔ [PASS] T4.S6: 20-Day Cold Shower Challenge schedule and progression (2ms)
+  ✔ [PASS] T4.S6: 20-Day Cold Shower Challenge schedule and progression (1ms)
   ✔ [PASS] T4.S7: Apnea push-up test session recording and retention tracking (0ms)
   ✔ [PASS] T4.S8: Wim Hof Hexagonal badges evaluation and unlock conditions (0ms)
   ✔ [PASS] T4.S9: 100% Offline-First JSON backup export and import round-trip (0ms)
@@ -75,8 +75,8 @@ Project Root: /home/runner/work/Omega/Omega
   ✔ [PASS] T4.S13: Progress screen breathing session history and collapsible breakdown verification (0ms)
   ✔ [PASS] T4.S14: Target retention open stopwatch verification (0ms)
   ✔ [PASS] T4.S15: Water temperature logging, unit conversion, and summary formatting (1ms)
-  ✔ [PASS] T4.S16: Cold exposure 4s/6s calm breathing pacing cadence and persistence (0ms)
-  ✔ [PASS] T4.S17: Recovery breath hold duration customization (10s, 15s, 20s, 30s) (1ms)
+  ✔ [PASS] T4.S16: Cold exposure 4s/6s calm breathing pacing cadence and persistence (1ms)
+  ✔ [PASS] T4.S17: Recovery breath hold duration customization (10s, 15s, 20s, 30s) (0ms)
   ✔ [PASS] T4.S18: Real-time Personal Best detection and open-ended celebration during retention (0ms)
   ✔ [PASS] T4.S19: Clean-room physiological breathing cadence speed calculations (Lenta, Normal, Rápida, Personalizada) (0ms)
   ✔ [PASS] T4.S20: Breathwork bodily sensations multi-select check-in and persistence round-trip (0ms)
@@ -93,7 +93,7 @@ Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
 Tier 4: Real-World Application Scenarios |    21 |   21 |    0 | End-to-End User Journeys
 ----------------------------------------+-------+------+------+-----------
 Total Tests: 67 | Passed: 67 | Pending Implementation: 0
-Suite Execution Time: 0.75s
+Suite Execution Time: 0.57s
 ================================================================
 
 🎉 100% of all tests in all 4 tiers PASSED!
