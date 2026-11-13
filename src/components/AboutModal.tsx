@@ -46,28 +46,13 @@ export const AboutModal: React.FC<AboutModalProps> = ({
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', marginBottom: '1.25rem' }}>
-          <div 
-            style={{
-              width: '46px',
-              height: '46px',
-              borderRadius: '12px',
-              background: 'linear-gradient(135deg, #4ca1af, #3498db)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 4px 15px rgba(52, 152, 219, 0.4)',
-              fontWeight: 800,
-              fontSize: '1.5rem',
-              color: '#0a0e13',
-              flexShrink: 0
-            }}
-          >
-            Ω
+          <div className="zen-hex-badge" style={{ width: '46px', height: '46px' }}>
+            <img src="/assets/zen-icon.svg" alt="Zen" />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <h3 id="about-modal-title" style={{ margin: 0, fontSize: '1.25rem', fontWeight: 700 }}>
-                {langDict.omegaTitle || 'Omega'}
+                {langDict.omegaTitle || 'Zen'}
               </h3>
               <span 
                 style={{
@@ -80,7 +65,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({
                   border: '1px solid rgba(76, 161, 175, 0.35)'
                 }}
               >
-                v1.0.1
+                v1.0.0
               </span>
             </div>
             <p style={{ margin: '0.2rem 0 0', fontSize: '0.82rem', color: 'var(--color-muted, #94a3b8)' }}>

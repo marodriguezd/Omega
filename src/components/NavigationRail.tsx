@@ -28,9 +28,9 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
     >
       <div className="rail-top">
         <div 
-          className="rail-logo-badge" 
+          className="rail-logo-badge zen-hex-badge" 
           onClick={() => onSelectTab('hub')}
-          title="Omega Hub"
+          title="Zen Hub"
           role="button"
           tabIndex={0}
           onKeyDown={(e) => {
@@ -39,7 +39,7 @@ export const NavigationRail: React.FC<NavigationRailProps> = ({
             }
           }}
         >
-          Ω
+          <img src="/assets/zen-icon.svg" alt="Zen" />
         </div>
       </div>
 

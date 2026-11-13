@@ -381,6 +381,8 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
       style={{ 
         justifyContent: 'flex-start', 
         overflowY: 'auto', 
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
         paddingTop: 'calc(0.85rem + env(safe-area-inset-top, 0px))', 
         paddingBottom: '3.5rem', 
         paddingLeft: 'calc(1rem + env(safe-area-inset-left, 0px))', 
@@ -452,15 +454,15 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         </button>
       </div>
 
-      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+      <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '1.5rem' }}>
         {weeks.map(w => (
-          <div key={w.number} className="glass-card" style={{ width: '100%' }}>
-            <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.95rem', color: 'var(--omega-primary-cyan, #00f0ff)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <div key={w.number} className="glass-card" style={{ width: '100%', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '0.85rem' }}>
+            <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.92rem', color: 'var(--zen-teal-primary, #00a896)', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
               <Snowflake size={16} />
               <span>{w.title}</span>
             </h4>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.45rem' }}>
               {w.days.map(d => {
                 const isSelected = d.day === selectedDay;
                 return (
@@ -469,17 +471,18 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
                     onClick={() => setSelectedDay(d.day)}
                     style={{
                       background: d.completed 
-                        ? 'rgba(46, 204, 113, 0.18)' 
+                        ? 'linear-gradient(135deg, rgba(46, 204, 113, 0.28), rgba(0, 168, 150, 0.2))' 
                         : isSelected 
-                          ? 'rgba(255, 122, 0, 0.25)' 
-                          : 'rgba(255, 255, 255, 0.04)',
+                          ? 'rgba(255, 122, 0, 0.22)' 
+                          : 'rgba(255, 255, 255, 0.03)',
                       border: isSelected 
                         ? '2px solid var(--omega-warm-amber, #ff7a00)' 
                         : d.completed 
-                          ? '1px solid rgba(46, 204, 113, 0.5)' 
-                          : '1px solid var(--color-glass-border)',
+                          ? '1px solid rgba(46, 204, 113, 0.55)' 
+                          : '1px solid rgba(255, 255, 255, 0.06)',
+                      boxShadow: d.completed ? '0 2px 8px rgba(46, 204, 113, 0.15)' : 'none',
                       borderRadius: 'var(--omega-radius-squircle-sm, 12px)',
-                      padding: '0.6rem 0.2rem',
+                      padding: '0.55rem 0.2rem',
                       display: 'flex',
                       flexDirection: 'column',
                       alignItems: 'center',
@@ -490,12 +493,20 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
                       transition: 'all 0.2s ease'
                     }}
                   >
-                    <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>D{d.day}</span>
-                    <span style={{ fontSize: '0.65rem', color: 'var(--color-muted)' }}>{d.targetSec}s</span>
+                    <span style={{ fontSize: '0.82rem', fontWeight: 700 }}>D{d.day}</span>
+                    <span style={{ fontSize: '0.65rem', color: d.completed ? 'rgba(255, 255, 255, 0.85)' : 'var(--color-muted)' }}>{d.targetSec}s</span>
                     {d.completed ? (
-                      <CheckCircle2 size={16} color="#2ecc71" />
+                      <CheckCircle2 size={15} fill="#2ecc71" color="#0a0e13" />
                     ) : (
-                      <Circle size={16} color="var(--color-muted)" />
+                      <div 
+                        style={{ 
+                          width: 6, 
+                          height: 6, 
+                          borderRadius: '50%', 
+                          background: isSelected ? 'var(--omega-warm-amber, #ff7a00)' : 'rgba(255, 255, 255, 0.22)',
+                          margin: '4px 0 5px' 
+                        }} 
+                      />
                     )}
                   </button>
                 );
@@ -505,8 +516,9 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         ))}
       </div>
 
-      <div style={{ textAlign: 'center', padding: '0.5rem' }}>
+      <div style={{ textAlign: 'center', padding: '0.75rem 0.5rem 1.5rem' }}>
         <button
+          type="button"
           onClick={() => {
             const msg = langDict.resetChallengeConfirm || '¿Deseas reiniciar el Reto de 20 Días al Día 1?';
             const confirmed = typeof window !== 'undefined' && typeof window.confirm === 'function' ? window.confirm(msg) : true;
@@ -516,15 +528,23 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
             }
           }}
           style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--color-muted)',
-            fontSize: '0.78rem',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.45rem',
+            background: 'rgba(231, 76, 60, 0.08)',
+            border: '1px solid rgba(231, 76, 60, 0.35)',
+            color: 'rgba(255, 120, 100, 0.95)',
+            padding: '0.55rem 1.1rem',
+            borderRadius: '0.85rem',
+            fontSize: '0.82rem',
+            fontWeight: 600,
             cursor: 'pointer',
-            textDecoration: 'underline'
+            transition: 'all 0.2s ease',
+            textDecoration: 'none'
           }}
         >
-          {langDict.resetChallengeBtn || 'Reiniciar Reto al Día 1'}
+          <RotateCcw size={15} />
+          <span>{langDict.resetChallengeBtn || 'Reiniciar Reto al Día 1'}</span>
         </button>
       </div>
     </div>

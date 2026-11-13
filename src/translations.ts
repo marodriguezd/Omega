@@ -2,7 +2,7 @@
 
 export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
   es: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Hub de Bienestar y Vitalidad",
     tabHub: "Inicio",
     tabBreathing: "Respiración",
@@ -120,8 +120,8 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     badgeChallengeW1Desc: "Completaste los primeros 5 días del reto de ducha fría",
     badgeChallengeDone: "Maestro del Frío",
     badgeChallengeDoneDesc: "Completaste los 20 días del reto de ducha fría",
-    aboutBtnTitle: "Acerca de Omega",
-    aboutDesc: "Omega es una plataforma libre y open source diseñada para la maestría de la respiración consciente y la exposición progresiva al agua fría inspirada en el Método Wim Hof. Todo funciona 100% offline en tu dispositivo con privacidad total.",
+    aboutBtnTitle: "Acerca de Zen",
+    aboutDesc: "Zen es una plataforma libre y open source diseñada para la maestría de la respiración consciente y la exposición progresiva al agua fría inspirada en el Método Wim Hof. Todo funciona 100% offline en tu dispositivo con privacidad total.",
     aboutPillar1Title: "Bubble Breathing",
     aboutPillar1Desc: "Respiración profunda rítmica, apnea de retención y recuperación con geometría sagrada hexagonal.",
     aboutPillar2Title: "HydroCycle",
@@ -133,7 +133,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     aboutOfflineLabel: "100% Offline-first. Sin telemetría, sin cuentas requeridas y sin anuncios.",
   },
   en: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Wellness & Vitality Hub",
     tabHub: "Home",
     tabBreathing: "Breathing",
@@ -251,8 +251,8 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     badgeChallengeW1Desc: "Completed the first 5 days of the cold challenge",
     badgeChallengeDone: "Ice Master",
     badgeChallengeDoneDesc: "Completed all 20 days of the cold shower challenge",
-    aboutBtnTitle: "About Omega",
-    aboutDesc: "Omega is a free and open source platform crafted for conscious breathwork mastery and progressive cold exposure inspired by the Wim Hof Method. Everything runs 100% offline on your device with complete privacy.",
+    aboutBtnTitle: "About Zen",
+    aboutDesc: "Zen is a free and open source platform crafted for conscious breathwork mastery and progressive cold exposure inspired by the Wim Hof Method. Everything runs 100% offline on your device with complete privacy.",
     aboutPillar1Title: "Bubble Breathing",
     aboutPillar1Desc: "Rhythmic deep breathing, breath retention apnea, and recovery with sacred rounded hexagon geometry.",
     aboutPillar2Title: "HydroCycle",
@@ -264,7 +264,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     aboutOfflineLabel: "100% Offline-first. Zero telemetry, no accounts required, and no ads.",
   },
   fr: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Hub Bien-être & Vitalité",
     tabHub: "Accueil",
     tabBreathing: "Respiration",
@@ -301,7 +301,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomClose: "Terminé",
   },
   de: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Wellness & Vitalität Hub",
     tabHub: "Home",
     tabBreathing: "Atmung",
@@ -338,7 +338,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomClose: "Fertig",
   },
   it: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Hub Benessere & Vitalità",
     tabHub: "Home",
     tabBreathing: "Respirazione",
@@ -375,7 +375,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomClose: "Fatto",
   },
   pt: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "Hub de Bem-Estar e Vitalidade",
     tabHub: "Início",
     tabBreathing: "Respiração",
@@ -412,7 +412,7 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     zoomClose: "Pronto",
   },
   zh: {
-    omegaTitle: "Omega",
+    omegaTitle: "Zen",
     omegaSubtitle: "身心健康与活力中心",
     tabHub: "首页",
     tabBreathing: "深呼吸",

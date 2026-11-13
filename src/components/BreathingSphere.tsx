@@ -159,11 +159,17 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
               <stop offset="100%" stopColor={isLastBreath ? '#ff5722' : theme.endColor} />
             </linearGradient>
 
-            <linearGradient id="wimHofGlassSheen" x1="20%" y1="0%" x2="80%" y2="100%">
+            <linearGradient id="wimHofGlassSheen" x1="15%" y1="0%" x2="85%" y2="100%">
               <stop offset="0%" stopColor="rgba(255, 255, 255, 0.45)" />
-              <stop offset="40%" stopColor="rgba(255, 255, 255, 0.12)" />
-              <stop offset="100%" stopColor="rgba(255, 255, 255, 0.0)" />
+              <stop offset="35%" stopColor="rgba(255, 255, 255, 0.15)" />
+              <stop offset="70%" stopColor="rgba(255, 255, 255, 0.02)" />
+              <stop offset="100%" stopColor="rgba(0, 0, 0, 0.22)" />
             </linearGradient>
+
+            <radialGradient id="wimHofInnerDepth" cx="50%" cy="50%" r="50%">
+              <stop offset="60%" stopColor="rgba(0, 0, 0, 0)" />
+              <stop offset="100%" stopColor="rgba(0, 0, 0, 0.28)" />
+            </radialGradient>
 
             <filter id="wimHofHaloGlow" x="-30%" y="-30%" width="160%" height="160%">
               <feGaussianBlur stdDeviation="8" result="blur" />
@@ -172,11 +178,32 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
           </defs>
 
           <path
+            d={ROUNDED_HEX_PATH}
+            transform="matrix(1.16 0 0 1.16 -16 -16)"
+            fill="none"
+            stroke={theme.borderColor}
+            strokeWidth="1.2"
+            strokeDasharray="4 4"
+            opacity={isLastBreath ? 0.6 : isPulsing ? 0.45 : 0.22}
+            className="wimhof-ripple-outer"
+          />
+
+          <path
             d={ROUNDED_HEX_HALO_PATH}
             fill={theme.glowColor}
-            opacity={isLastBreath ? 0.85 : isPulsing ? 0.7 : 0.4}
+            opacity={isLastBreath ? 0.85 : isPulsing ? 0.7 : 0.45}
             filter="url(#wimHofHaloGlow)"
             className="wimhof-halo-ring"
+          />
+
+          <path
+            d={ROUNDED_HEX_PATH}
+            transform="matrix(1.08 0 0 1.08 -8 -8)"
+            fill="none"
+            stroke={theme.borderColor}
+            strokeWidth="1.6"
+            opacity={isLastBreath ? 0.75 : isPulsing ? 0.55 : 0.32}
+            className="wimhof-ripple-mid"
           />
 
           <path
@@ -189,8 +216,13 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
 
           <path
             d={ROUNDED_HEX_PATH}
+            fill="url(#wimHofInnerDepth)"
+          />
+
+          <path
+            d={ROUNDED_HEX_PATH}
             fill="url(#wimHofGlassSheen)"
-            opacity="0.75"
+            opacity="0.8"
           />
 
           {clampedProgress !== undefined && (
@@ -222,10 +254,58 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
         </svg>
 
         <div 
-          className={`breath-counter${isLastBreath ? ' last-breath' : ''}`}
-          style={{ position: 'relative', zIndex: 10 }}
+          style={{ 
+            position: 'relative', 
+            zIndex: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none'
+          }}
         >
-          {icon !== undefined ? icon : counter}
+          <div 
+            className={`breath-counter${isLastBreath ? ' last-breath' : ''}`}
+            style={{ 
+              fontWeight: 700,
+              fontVariantNumeric: 'tabular-nums',
+              letterSpacing: '-0.02em',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            {icon !== undefined ? icon : counter}
+          </div>
+
+          <div
+            className="sphere-phase-indicator"
+            style={{
+              marginTop: '0.2rem',
+              fontSize: '0.64rem',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'rgba(255, 255, 255, 0.85)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.3rem',
+              fontWeight: 600,
+              textShadow: '0 1px 4px rgba(0, 0, 0, 0.7)'
+            }}
+          >
+            {phase === 'hot' || phase === 'cold' ? (
+              <span>{phase === 'cold' ? 'Agua Fría' : 'Agua Caliente'}</span>
+            ) : (
+              <>
+                <span style={{ color: phase === 'breathing' ? '#ff9d00' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'breathing' ? 800 : 500 }}>Inhala</span>
+                <span style={{ opacity: 0.35 }}>•</span>
+                <span style={{ color: phase === 'retention' ? '#00f0ff' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'retention' ? 800 : 500 }}>Retén</span>
+                <span style={{ opacity: 0.35 }}>•</span>
+                <span style={{ color: phase === 'recovery' ? '#2ecc71' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'recovery' ? 800 : 500 }}>Exhala</span>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

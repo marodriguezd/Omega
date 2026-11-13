@@ -33,12 +33,12 @@
 
 Descarga el archivo APK precompilado directamente desde GitHub Releases:
 
-👉 **[Descargar Omega-1.0.1.apk (v1.0.1)](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.apk)**
+👉 **[Descargar Omega-1.0.0.apk (v1.0.0)](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)**
 
-**v1.0.1 es la versión más reciente** (incorpora refactorizaciones, optimizaciones de rendimiento y endurecimiento de la revisión de código). Las versiones de escritorio de la misma release — `Omega-1.0.1.dmg` (macOS), `Omega-1.0.1.msi` (Windows), `Omega-1.0.1.AppImage` (Linux) — están adjuntas en la [página de la release v1.0.1](https://github.com/marodriguezd/Omega/releases/tag/v1.0.1). Verifica Android con `sha256sum -c SHA256SUMS-android.txt` y escritorio con `sha256sum -c SHA256SUMS-desktop.txt`.
+**v1.0.0 es la primera versión oficial multiplataforma**. Las versiones de escritorio de la misma release — `Omega-1.0.0.dmg` (macOS), `Omega-1.0.0.msi` (Windows), `Omega-1.0.0.AppImage` (Linux) — están adjuntas en la [página de la release v1.0.0](https://github.com/marodriguezd/Omega/releases/tag/v1.0.0). Verifica Android con `sha256sum -c SHA256SUMS-android.txt` y escritorio con `sha256sum -c SHA256SUMS-desktop.txt`.
 
 ### Pasos de Instalación:
-1. Abre el enlace anterior desde el navegador de tu móvil Android y descarga `Omega-1.0.1.apk`.
+1. Abre el enlace anterior desde el navegador de tu móvil Android y descarga `Omega-1.0.0.apk`.
 2. Toca la notificación de descarga o localiza el archivo en tu carpeta de **Descargas**.
 3. Si Android te lo solicita, activa la opción **"Permitir desde esta fuente"** para tu navegador o gestor de archivos.
 4. Pulsa **Instalar** y ¡abre Omega en tu dispositivo!

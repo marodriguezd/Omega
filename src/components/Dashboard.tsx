@@ -66,9 +66,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
     <div className="hub-dashboard">
       <header className="hub-header">
         <div className="hub-brand">
-          <div className="hub-logo-badge">Ω</div>
+          <div className="hub-logo-badge zen-hex-badge">
+            <img src="/assets/zen-icon.svg" alt="Zen" />
+          </div>
           <div className="hub-brand-titles">
-            <h1>{langDict.omegaTitle || 'Omega'}</h1>
+            <h1>{langDict.omegaTitle || 'Zen'}</h1>
             <p>{langDict.omegaSubtitle || 'Hub de Bienestar y Vitalidad'}</p>
           </div>
         </div>
@@ -85,7 +87,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <button
             className="hub-icon-btn about-btn"
             onClick={() => setIsAboutModalOpen(true)}
-            title={langDict.aboutBtnTitle || 'Acerca de Omega'}
+            title={langDict.aboutBtnTitle || 'Acerca de Zen'}
           >
             <Info size={18} />
           </button>
@@ -157,7 +159,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           )}
         </h3>
 
-        <div className="routine-item" onClick={() => onNavigate('breathing')}>
+        <div className="routine-item" onClick={() => onNavigate('breathing')} role="button" tabIndex={0}>
           <div className="routine-item-left">
             <div className="routine-icon-box breathing">
               <Wind size={20} />
@@ -171,14 +173,17 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
             </div>
           </div>
-          {stats.isBreathingDoneToday ? (
-            <CheckCircle2 size={22} color="#2ecc71" />
-          ) : (
-            <Circle size={22} color="var(--color-muted)" />
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            {stats.isBreathingDoneToday ? (
+              <CheckCircle2 size={22} color="#2ecc71" />
+            ) : (
+              <Circle size={22} color="var(--color-muted)" />
+            )}
+            <ChevronRight size={16} color="var(--color-muted)" />
+          </div>
         </div>
 
-        <div className="routine-item" onClick={() => onNavigate('hydro')}>
+        <div className="routine-item" onClick={() => onNavigate('hydro')} role="button" tabIndex={0}>
           <div className="routine-item-left">
             <div className="routine-icon-box hydro">
               <Droplets size={20} />
@@ -192,11 +197,14 @@ export const Dashboard: React.FC<DashboardProps> = ({
               </div>
             </div>
           </div>
-          {stats.isHydroDoneToday ? (
-            <CheckCircle2 size={22} color="#2ecc71" />
-          ) : (
-            <Circle size={22} color="var(--color-muted)" />
-          )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            {stats.isHydroDoneToday ? (
+              <CheckCircle2 size={22} color="#2ecc71" />
+            ) : (
+              <Circle size={22} color="var(--color-muted)" />
+            )}
+            <ChevronRight size={16} color="var(--color-muted)" />
+          </div>
         </div>
       </div>
 
@@ -272,77 +280,89 @@ export const Dashboard: React.FC<DashboardProps> = ({
         </div>
 
         <div className="dashboard-col dashboard-col-secondary">
-          <div className="zoom-quick-card" onClick={() => setIsZoomModalOpen(true)}>
-        <div className="zoom-quick-left">
-          <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
-            <ZoomIn size={18} />
-          </div>
-          <div>
-            <div style={{ fontSize: '0.9rem', fontWeight: 600 }}>
-              {langDict.zoomLabel || 'Escala / Zoom'}
+          <div className="metrics-grid">
+            <div className="metric-box">
+              <div className="metric-icon" style={{ background: 'rgba(0, 168, 150, 0.2)', color: '#00a896' }}>
+                <Activity size={18} />
+              </div>
+              <div className="metric-data">
+                <h5>{stats.totalBreathingSessions}</h5>
+                <p>{langDict.totalBreathingSessions || 'Sesiones respiración'}</p>
+              </div>
             </div>
-            <div style={{ fontSize: '0.74rem', color: 'var(--color-muted)' }}>
-              {currentZoom}% {currentZoom === 150 ? '★ Recomendado' : ''}
+
+            <div className="metric-box">
+              <div className="metric-icon" style={{ background: 'rgba(255, 157, 0, 0.2)', color: '#ff9d00' }}>
+                <Timer size={18} />
+              </div>
+              <div className="metric-data">
+                <h5>{formatTimeSeconds(stats.totalRetentionSeconds)}</h5>
+                <p>{langDict.totalRetentionTime || 'Total apnea'}</p>
+              </div>
+            </div>
+
+            <div className="metric-box">
+              <div className="metric-icon" style={{ background: 'rgba(2, 128, 144, 0.2)', color: '#028090' }}>
+                <Droplets size={18} />
+              </div>
+              <div className="metric-data">
+                <h5>{stats.totalHydroSessions}</h5>
+                <p>{langDict.totalHydroSessions || 'Sesiones de ducha'}</p>
+              </div>
+            </div>
+
+            <div className="metric-box">
+              <div className="metric-icon" style={{ background: 'rgba(0, 201, 167, 0.2)', color: '#00c9a7' }}>
+                <Clock size={18} />
+              </div>
+              <div className="metric-data">
+                <h5>{formatTimeSeconds(stats.totalColdSeconds)}</h5>
+                <p>{langDict.totalColdTime || 'Total en frío'}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="zoom-quick-badge">
-          {currentZoom}%
-        </div>
-      </div>
 
-      <div className="metrics-grid">
-        <div className="metric-box">
-          <div className="metric-icon" style={{ background: 'rgba(76, 161, 175, 0.2)', color: '#4ca1af' }}>
-            <Activity size={18} />
-          </div>
-          <div className="metric-data">
-            <h5>{stats.totalBreathingSessions}</h5>
-            <p>{langDict.totalBreathingSessions || 'Sesiones respiración'}</p>
-          </div>
-        </div>
+          <div className="glass-card">
+            <h3 className="routine-title">
+              <span>{langDict.recentActivityTitle || 'Actividad Reciente'}</span>
+            </h3>
 
-        <div className="metric-box">
-          <div className="metric-icon" style={{ background: 'rgba(255, 157, 0, 0.2)', color: '#ff9d00' }}>
-            <Timer size={18} />
-          </div>
-          <div className="metric-data">
-            <h5>{formatTimeSeconds(stats.totalRetentionSeconds)}</h5>
-            <p>{langDict.totalRetentionTime || 'Total apnea'}</p>
-          </div>
-        </div>
-
-        <div className="metric-box">
-          <div className="metric-icon" style={{ background: 'rgba(52, 152, 219, 0.2)', color: '#3498db' }}>
-            <Droplets size={18} />
-          </div>
-          <div className="metric-data">
-            <h5>{stats.totalHydroSessions}</h5>
-            <p>{langDict.totalHydroSessions || 'Sesiones de ducha'}</p>
-          </div>
-        </div>
-
-        <div className="metric-box">
-          <div className="metric-icon" style={{ background: 'rgba(46, 204, 113, 0.2)', color: '#2ecc71' }}>
-            <Clock size={18} />
-          </div>
-          <div className="metric-data">
-            <h5>{formatTimeSeconds(stats.totalColdSeconds)}</h5>
-            <p>{langDict.totalColdTime || 'Total en frío'}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="glass-card">
-        <h3 className="routine-title">
-          <span>{langDict.recentActivityTitle || 'Actividad Reciente'}</span>
-        </h3>
-
-        {stats.recentActivities.length === 0 ? (
-          <div className="empty-state">
-            {langDict.noRecentActivity || 'No hay sesiones registradas todavía.'}
-          </div>
-        ) : (
+            {stats.recentActivities.length === 0 ? (
+              <div 
+                className="empty-state-card"
+                style={{ 
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '1.8rem 1rem',
+                  borderRadius: 'var(--omega-radius-squircle-sm, 12px)',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px dashed rgba(255, 255, 255, 0.08)',
+                  gap: '0.5rem',
+                  textAlign: 'center'
+                }}
+              >
+                <div 
+                  style={{
+                    width: '2.5rem',
+                    height: '2.5rem',
+                    borderRadius: '50%',
+                    background: 'rgba(0, 168, 150, 0.1)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--zen-teal-primary, #00a896)',
+                    opacity: 0.8
+                  }}
+                >
+                  <Activity size={20} />
+                </div>
+                <p style={{ margin: 0, color: 'var(--color-muted)', fontSize: '0.82rem', opacity: 0.85 }}>
+                  {langDict.noRecentActivity || 'No hay sesiones registradas todavía.'}
+                </p>
+              </div>
+            ) : (
           <div className="activity-list">
             {stats.recentActivities.map(act => (
               <div key={act.id} className="activity-item">

@@ -13,6 +13,12 @@ html[data-theme="light"],
   --omega-bg-surface-elevated: rgba(255, 255, 255, 0.92);
 
   /* Chromatic accents */
+  --zen-teal-primary: #008080;
+  --zen-teal-accent: #00a896;
+  --zen-teal-mid: #028090;
+  --zen-teal-deep: #05668d;
+  --zen-teal-glow: rgba(0, 128, 128, 0.25);
+  --zen-teal-gradient: linear-gradient(135deg, #008080, #028090);
   --omega-primary-cyan: #008cb0;
   --omega-glacier-neon: #008cb0;
   --omega-glacier-300: #0099b8;
@@ -99,6 +105,14 @@ html[data-theme="light"],
 /* Base tokens (:root dark default) */
 :root {
   /* Wim Hof chromatic spectrum */
+
+  /* Zen Teal brand identity */
+  --zen-teal-primary: #00a896;
+  --zen-teal-accent: #02c39a;
+  --zen-teal-mid: #028090;
+  --zen-teal-deep: #05668d;
+  --zen-teal-glow: rgba(0, 168, 150, 0.40);
+  --zen-teal-gradient: linear-gradient(135deg, #00a896, #028090);
 
   /* Structural backgrounds */
   --omega-bg-base: #0a0e13;

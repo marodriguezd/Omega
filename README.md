@@ -2,15 +2,17 @@
 
 <div align="center">
   <img src="public/assets/icon.svg" alt="Omega Logo" width="128" height="128">
-  <h3>Open Source Conscious Breathwork, Cold Exposure & Vitality Suite for Android</h3>
+  <h3>Open Source Multiplatform Vitality & Breathwork Suite for Android, Windows, macOS & Linux</h3>
 
   [![Build & Release Android APK](https://github.com/marodriguezd/Omega/actions/workflows/android.yml/badge.svg)](https://github.com/marodriguezd/Omega/actions/workflows/android.yml)
-  [![Latest Release](https://img.shields.io/github/v/release/marodriguezd/Omega?color=4ca1af&label=Android%20APK)](https://github.com/marodriguezd/Omega/releases/latest)
+  [![Build & Release Desktop](https://github.com/marodriguezd/Omega/actions/workflows/desktop.yml/badge.svg)](https://github.com/marodriguezd/Omega/actions/workflows/desktop.yml)
+  [![Latest Release](https://img.shields.io/github/v/release/marodriguezd/Omega?color=4ca1af&label=Release)](https://github.com/marodriguezd/Omega/releases/latest)
   [![Capacitor](https://img.shields.io/badge/Capacitor-8-119EFF?logo=capacitor&logoColor=white)](https://capacitorjs.com/)
+  [![Electron](https://img.shields.io/badge/Electron-Desktop-47848F?logo=electron&logoColor=white)](https://www.electronjs.org/)
   [![Made With](https://img.shields.io/badge/Made%20With-React%2019%20%2B%20Vite%20%2B%20TS-61DAFB?logo=react&logoColor=white)](https://react.dev/)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-  [Overview](#-overview) • [Download APK](#-download--install-on-android) • [Features](#-features) • [5-Tab Architecture](#-5-tab-suite-architecture) • [Legal & Trademarks](#%EF%B8%8F-legal-notice--trademark-disclaimer) • [License](#-license)
+  [Overview](#-overview) • [Downloads](#-multiplatform-downloads-v100) • [Features](#-features) • [Architecture](#-architecture--tech-stack) • [Legal Notice](#%EF%B8%8F-legal-notice--trademark-disclaimer) • [License](#-license)
 
   **[🇪🇸 Leer en Español](README.es.md)**
 </div>
@@ -19,52 +21,45 @@
 
 ## 🌟 Overview
 
-**Omega v1.0** is an independent, 100% Free & Open Source native Android app and vitality hub built with **Capacitor 8**, **React 19**, and **Vite**. Omega provides a privacy-first, zero-telemetry environment combining rhythmic deep breathing, breath retention apnea, progressive cold exposure routines, retention push-up endurance challenges, and gamified progress tracking.
+**Omega v1.0.0** is an independent, 100% Free and Open Source production-grade vitality and wellness application available natively across **Android**, **Windows**, **macOS**, and **Linux**. Inspired by the Wim Hof Method, sacred geometry, and 432Hz harmonic acoustic tuning, Omega delivers an offline-first, zero-telemetry private sanctuary combining:
 
-1. 🌬️ **[Bubble Breathing](https://github.com/marodriguezd/Bubble-Breathing)**: Guided rhythmic deep breathing, empty-lung retention stopwatch, and 15s recovery breath hold with organic rounded hexagon geometry.
-2. ❄️ **[HydroCycle](https://github.com/marodriguezd/Hydrocicle)**: Immersive contrast therapy (hot/cold intervals), unguided cold shower stopwatch, and ice plunge timer.
-3. 🧊 **20-Day Cold Shower Challenge**: 4 progressive weeks (15s, 30s, 45s, 60s) with 432Hz Tibetan singing bowl cues and daily verification.
-4. 💪 **Apnea Push-Up Test**: Measure muscular endurance and breath retention capacity on empty lungs with tap-to-count logging.
-5. 📊 **Vitality & Progress Screen**: 28-day activity heatmap, 10 collectible hexagonal achievement badges, and offline JSON backup/restore.
-
----
-
-## 📱 Download & Install on Android
-
-Download the pre-compiled Android APK directly from GitHub Releases:
-
-👉 **[Download Omega-1.0.3.apk (v1.0.3)](https://github.com/marodriguezd/Omega/releases/download/v1.0.3/Omega-1.0.3.apk)**
-
-**v1.0.3 is the latest release** (incorporates full code review refactorings, optimizations, and hardening). Desktop builds for the same release — `Omega-1.0.3.dmg` (macOS), `Omega-1.0.3.msi` (Windows), `Omega-1.0.3.AppImage` (Linux) — are attached to the [v1.0.3 release page](https://github.com/marodriguezd/Omega/releases/tag/v1.0.3). Verify Android downloads with `sha256sum -c SHA256SUMS-android.txt` and desktop downloads with `sha256sum -c SHA256SUMS-desktop.txt` (per-platform checksum files published next to the artifacts).
-
-### Installation Steps:
-1. Open the link above in your Android browser and download `Omega-1.0.3.apk`.
-2. Tap the download notification or locate the file in your device's **Downloads** folder.
-3. If prompted by Android, enable **"Allow from this source"** for your browser or file manager.
-4. Tap **Install** and launch Omega!
+1. 🌬️ **[Bubble Breathing](https://github.com/marodriguezd/Bubble-Breathing)**: Rhythmic deep breathing with multi-layer concentric ripple hexagons, retention apnea open stopwatch, personal best tracking, and recovery breath holds.
+2. 🧊 **[HydroCycle](https://github.com/marodriguezd/Hydrocicle)**: Contrast therapy (hot/cold intervals), cold shower tracking, water temperature logging (°C / °F), and ice plunge guidance.
+3. ❄️ **20-Day Cold Shower Challenge**: 4-week progressive cold adaptation protocol (15s, 30s, 45s, 60s) with 432Hz Tibetan bowl chimes and calendar streak tracking.
+4. 💪 **Apnea Push-Up Test**: Measure muscular endurance and oxygen efficiency during empty-lung retention with zero-lag delta timestamp timers.
+5. 📊 **Vitality & Progress Dashboard**: 28-day calendar heatmap with monthly adherence overview, 10 collectible hexagonal achievement badges with live progress bars, and offline JSON backup/restore.
 
 ---
 
-## ✨ Features
+## 🚀 Multiplatform Downloads (v1.0.0)
 
-- **Harmonic Geometry & 432Hz Soundscapes**:
-  - 🔷 **Rounded Hexagon Geometry**: Custom SVG (`R=86, cr=14`) breathing guide with continuous perimeter ring (`pathLength="100"`), glassmorphism sheen, and breathing halos.
-  - 🎵 **432Hz Synthesizer**: Algorithmic Web Audio synthesizer generating authentic Tibetan singing bowls, meditation bells, and native tactile vibration cues without external audio samples.
-- **20-Day Cold Shower Adaptation Challenge**:
-  - 4 progressive weeks (15s, 30s, 45s, 60s) with daily calendar logging.
-  - Guided **Horse Stance** (*Kiba Dachi*) reference to generate metabolic warmth naturally.
-- **Apnea Push-Up Endurance Test**:
-  - Precision stopwatch with delta timestamps to eliminate background throttling and drift.
-- **Gamified Achievements & Badges**:
-  - 28-day vitality heatmap and 10 unlockable hexagonal badges (First Breath, Fire Week, Ice Master, etc.).
-- **Privacy & Offline First**:
-  - 100% offline. Zero telemetry, no cloud accounts, no ads, and full JSON backup export/import.
-- **Fluid Responsive Shell**:
-  - Fixed 5-tab bottom navigation on mobile (`<768px`) and Navigation Rail on tablets/desktop (`>=768px`).
-  - Native Screen Keep-Awake prevents display sleep during breath holds and cold showers.
-  - Hardware back-button interceptor with session exit confirmation modal.
+Pre-compiled native binaries for all major platforms are built and published automatically via GitHub Actions:
+
+| Platform | Package Format | Direct Download Link |
+| :--- | :--- | :--- |
+| **Android** | APK (Capacitor 8) | 👉 **[Download Omega-1.0.0.apk](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)** |
+| **macOS** | DMG (Apple Silicon & Intel) | 👉 **[Download Omega-1.0.0.dmg](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.dmg)** |
+| **Windows** | MSI Installer | 👉 **[Download Omega-1.0.0.msi](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.msi)** |
+| **Linux** | Universal AppImage | 👉 **[Download Omega-1.0.0.AppImage](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.AppImage)** |
+
+> **Verification**: Checksums are provided for every artifact. Verify Android downloads with `sha256sum -c SHA256SUMS-android.txt` and desktop binaries with `sha256sum -c SHA256SUMS-desktop.txt`.
+
+---
+
+## ✨ Key Features
+
+- **Multiplatform & Responsive**:
+  - Seamless layout adapts from mobile touch screens (safe-area insets, 5-tab bottom navigation, haptics) to desktop ultrawide monitors (Navigation Rail, multi-column dashboard, scalable UI factor).
+- **Sacred Geometry & 432Hz Soundscapes**:
+  - Continuous curvature rounded hexagon visualizer with multi-ring ripple animations and live phase indicators (`Inhale • Hold • Exhale`).
+  - Native Web Audio synthesizer generating 432Hz Tibetan singing bowls and meditation chimes without external network requests or audio assets.
 - **Multilingual Support (7 Languages)**:
-  - English, Spanish, French, German, Italian, Portuguese, and Simplified Chinese.
+  - English 🇬🇧, Spanish 🇪🇸, French 🇫🇷, German 🇩🇪, Italian 🇮🇹, Portuguese 🇵🇹, and Simplified Chinese 🇨🇳.
+- **Privacy & 100% Offline-First**:
+  - No cloud accounts, zero telemetry, no third-party analytics, and bundled local typography (Outfit). Full JSON export/import for complete user data sovereignty.
+- **Native Hardware Integration**:
+  - Automatic screen wake lock (`KeepAwake` on Android / `powerSaveBlocker` on desktop) prevents screen dimming during breath retention and showers.
+  - Hardware back-button routing with safety exit confirmation modals to protect active timers.
 
 ---
 

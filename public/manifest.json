@@ -1,0 +1,23 @@
+{
+  "name": "Zen - Hub de Bienestar",
+  "short_name": "Zen",
+  "description": "Hub de respiración consciente, retención en apnea y exposición progresiva al agua fría.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e13",
+  "theme_color": "#008080",
+  "icons": [
+    {
+      "src": "/assets/zen-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/zen-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

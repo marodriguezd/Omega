@@ -61,9 +61,37 @@
   }
 }
 
+.wimhof-halo-ring {
+  animation: wimHofHaloPulse 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+}
+
 .pulsing .wimhof-halo-ring,
 .last-breath .wimhof-halo-ring {
   animation: wimHofHaloPulse 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes wimHofRippleWave {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(0.96) translate3d(0, 0, 0);
+    transform-origin: 100px 100px;
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.06) translate3d(0, 0, 0);
+    transform-origin: 100px 100px;
+  }
+}
+
+.wimhof-ripple-outer {
+  animation: wimHofRippleWave 4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: transform, opacity;
+}
+
+.wimhof-ripple-mid {
+  animation: wimHofRippleWave 3s cubic-bezier(0.4, 0, 0.2, 1) infinite reverse;
   will-change: transform, opacity;
 }
 
