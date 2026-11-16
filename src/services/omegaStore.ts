@@ -235,7 +235,49 @@ export function loadWimHofStore(): WimHofStoreData {
     safeSetJson(STORAGE_KEYS.STORE, store);
   }
 
+  evaluateAndPersistBadges(store);
   return store;
+}
+
+// Compute active habit streak from all recorded sessions in store.
+export function computeStoreStreak(store: WimHofStoreData): number {
+  const dates: Date[] = [
+    ...store.breathingHistory.map(b => new Date(b.date)),
+    ...store.coldHistory.map(c => new Date(c.date)),
+    ...store.pushUpHistory.map(p => new Date(p.date))
+  ].filter(d => !isNaN(d.getTime()));
+
+  if (dates.length === 0) return 0;
+
+  const dateSet = new Set(
+    dates.map(d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`)
+  );
+
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yesterdayStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`;
+
+  if (!dateSet.has(todayStr) && !dateSet.has(yesterdayStr)) {
+    return 0;
+  }
+
+  let streak = 0;
+  let checkDate = dateSet.has(todayStr) ? new Date(today) : new Date(yesterday);
+
+  while (true) {
+    const curStr = `${checkDate.getFullYear()}-${String(checkDate.getMonth() + 1).padStart(2, '0')}-${String(checkDate.getDate()).padStart(2, '0')}`;
+    if (dateSet.has(curStr)) {
+      streak++;
+      checkDate.setDate(checkDate.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+
+  return streak;
 }
 
 // Evaluate and unlock badges based on session metrics and streak.
@@ -277,6 +319,20 @@ export function evaluateBadges(store: WimHofStoreData, currentStreak: number): b
   return changed;
 }
 
+// Evaluate badges and immediately persist state to storage if changed.
+export function evaluateAndPersistBadges(store: WimHofStoreData, currentStreak?: number): boolean {
+  const streak = currentStreak !== undefined ? currentStreak : computeStoreStreak(store);
+  const changed = evaluateBadges(store, streak);
+  if (changed) {
+    safeSetJson(STORAGE_KEYS.BADGES, store.badges);
+    safeSetJson(STORAGE_KEYS.STORE, store);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('omega-badge-unlocked', { detail: { badges: store.badges } }));
+    }
+  }
+  return changed;
+}
+
 // Record breathing session with backward-compatible key synchronization.
 export function recordBreathingSession(session: BreathingSessionRecord): boolean {
   const store = loadWimHofStore();
@@ -301,6 +357,7 @@ export function recordBreathingSession(session: BreathingSessionRecord): boolean
   safeSetJson(STORAGE_KEYS.BUBBLE_HISTORY, legacyList);
 
   safeSetJson(STORAGE_KEYS.STORE, store);
+  evaluateAndPersistBadges(store);
   broadcastStoreUpdate();
   return true;
 }
@@ -318,6 +375,7 @@ export function updateBreathingSession(id: string, updates: Partial<BreathingSes
       Object.assign(leg, updates);
       safeSetJson(STORAGE_KEYS.BUBBLE_HISTORY, legacyList);
     }
+    evaluateAndPersistBadges(store);
     broadcastStoreUpdate();
     return true;
   }
@@ -357,6 +415,7 @@ export function recordColdSession(session: ColdSessionRecord): boolean {
   safeSetJson(STORAGE_KEYS.HYDRO_HISTORY, legacyList);
 
   safeSetJson(STORAGE_KEYS.STORE, store);
+  evaluateAndPersistBadges(store);
   broadcastStoreUpdate();
   return true;
 }
@@ -374,6 +433,7 @@ export function updateColdSession(id: string, updates: Partial<ColdSessionRecord
       Object.assign(leg, updates);
       safeSetJson(STORAGE_KEYS.HYDRO_HISTORY, legacyList);
     }
+    evaluateAndPersistBadges(store);
     broadcastStoreUpdate();
     return true;
   }
@@ -386,6 +446,7 @@ export function recordPushUpSession(record: PushUpRecord): boolean {
   store.pushUpHistory.unshift(record);
   safeSetJson(STORAGE_KEYS.PUSHUP_HISTORY, store.pushUpHistory);
   safeSetJson(STORAGE_KEYS.STORE, store);
+  evaluateAndPersistBadges(store);
   broadcastStoreUpdate();
   return true;
 }
@@ -404,6 +465,7 @@ export function updateChallengeDay(dayNumber: number, completed: boolean, actual
 
   safeSetJson(STORAGE_KEYS.CHALLENGE, store.challengeDays);
   safeSetJson(STORAGE_KEYS.STORE, store);
+  evaluateAndPersistBadges(store);
   broadcastStoreUpdate();
   return true;
 }
@@ -443,6 +505,62 @@ export function exportBackupJson(): string {
   return JSON.stringify(exportPayload, null, 2);
 }
 
+// Copy state and settings JSON to clipboard (universal offline fallback).
+export async function copyBackupJsonToClipboard(): Promise<boolean> {
+  try {
+    const jsonStr = exportBackupJson();
+    if (typeof navigator !== 'undefined' && navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      await navigator.clipboard.writeText(jsonStr);
+      return true;
+    }
+    if (typeof document !== 'undefined') {
+      const textArea = document.createElement('textarea');
+      textArea.value = jsonStr;
+      textArea.style.position = 'fixed';
+      textArea.style.opacity = '0';
+      document.body.appendChild(textArea);
+      textArea.select();
+      const success = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      return success;
+    }
+    return false;
+  } catch (err) {
+    console.error('Failed to copy backup to clipboard:', err);
+    return false;
+  }
+}
+
+// Share backup JSON via native Web Share API (mobile/Android compatible).
+export async function shareBackupJson(): Promise<boolean> {
+  try {
+    const jsonStr = exportBackupJson();
+    if (typeof navigator !== 'undefined' && typeof navigator.share === 'function') {
+      const dateStr = new Date().toISOString().split('T')[0];
+      const filename = `omega_wimhof_backup_${dateStr}.json`;
+      if (typeof File !== 'undefined' && typeof navigator.canShare === 'function') {
+        const file = new File([jsonStr], filename, { type: 'application/json' });
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: 'Omega Wim Hof Backup',
+            files: [file]
+          });
+          return true;
+        }
+      }
+      await navigator.share({
+        title: 'Omega Wim Hof Backup',
+        text: jsonStr
+      });
+      return true;
+    }
+    return false;
+  } catch (err) {
+    console.warn('Web Share API not supported or cancelled:', err);
+    return false;
+  }
+}
+
 // Trigger file download of backup JSON.
 export function triggerBackupDownload(): boolean {
   try {
@@ -464,8 +582,8 @@ export function triggerBackupDownload(): boolean {
   }
 }
 
-// Import state from JSON payload with schema normalization.
-export function importBackupJson(rawJson: string): { success: boolean; message?: string } {
+// Import state from JSON payload with schema normalization and optional merge deduplication.
+export function importBackupJson(rawJson: string, mode: 'merge' | 'overwrite' = 'merge'): { success: boolean; message?: string } {
   try {
     const parsed = JSON.parse(rawJson);
     const data = parsed.data || parsed;
@@ -504,13 +622,83 @@ export function importBackupJson(rawJson: string): { success: boolean; message?:
         sensations: Array.isArray(c.sensations) ? c.sensations.filter((s: any) => typeof s === 'string') : undefined
       }));
 
+    let finalBreathing = sanitizedBreathing;
+    let finalCold = sanitizedCold;
+    let finalPushUps = Array.isArray(data.pushUpHistory) ? data.pushUpHistory : [];
+    let finalChallenge = Array.isArray(data.challengeDays) && data.challengeDays.length === 20 ? data.challengeDays : INITIAL_CHALLENGE_DAYS;
+    let finalBadges = Array.isArray(data.badges) ? data.badges : INITIAL_BADGES;
+
+    if (mode === 'merge') {
+      const existing = loadWimHofStore();
+
+      // Merge breathing sessions deduplicating by ID or timestamp
+      const breathingMap = new Map<string, BreathingSessionRecord>();
+      existing.breathingHistory.forEach(b => breathingMap.set(String(b.id), b));
+      sanitizedBreathing.forEach(b => {
+        const id = String(b.id);
+        const dupByDate = existing.breathingHistory.some(eb => Math.abs(eb.date - b.date) < 1000);
+        if (!breathingMap.has(id) && !dupByDate) {
+          breathingMap.set(id, b);
+        }
+      });
+      finalBreathing = Array.from(breathingMap.values()).sort((a, b) => b.date - a.date);
+
+      // Merge cold sessions deduplicating by ID or timestamp
+      const coldMap = new Map<string, ColdSessionRecord>();
+      existing.coldHistory.forEach(c => coldMap.set(String(c.id), c));
+      sanitizedCold.forEach(c => {
+        const id = String(c.id);
+        const dupByDate = existing.coldHistory.some(ec => Math.abs(ec.date - c.date) < 1000);
+        if (!coldMap.has(id) && !dupByDate) {
+          coldMap.set(id, c);
+        }
+      });
+      finalCold = Array.from(coldMap.values()).sort((a, b) => b.date - a.date);
+
+      // Merge push-ups
+      const pushUpMap = new Map<string, PushUpRecord>();
+      existing.pushUpHistory.forEach(p => pushUpMap.set(String(p.id), p));
+      finalPushUps.forEach(p => {
+        const id = String(p.id);
+        if (!pushUpMap.has(id)) {
+          pushUpMap.set(id, p);
+        }
+      });
+      finalPushUps = Array.from(pushUpMap.values()).sort((a, b) => b.date - a.date);
+
+      // Merge challenge days (keep completed days)
+      finalChallenge = existing.challengeDays.map(exDay => {
+        const impDay = finalChallenge.find(d => d.day === exDay.day);
+        if (!impDay) return exDay;
+        const isCompleted = exDay.completed || impDay.completed;
+        return {
+          day: exDay.day,
+          targetSec: exDay.targetSec,
+          completed: isCompleted,
+          completedAt: exDay.completedAt || impDay.completedAt,
+          actualSec: Math.max(exDay.actualSec || 0, impDay.actualSec || 0) || undefined
+        };
+      });
+
+      // Merge badges (keep unlocked badges)
+      finalBadges = existing.badges.map(exBadge => {
+        const impBadge = finalBadges.find(b => b.id === exBadge.id);
+        const unlocked = exBadge.unlocked || (impBadge ? impBadge.unlocked : false);
+        return {
+          ...exBadge,
+          unlocked,
+          unlockedAt: exBadge.unlockedAt || (impBadge ? impBadge.unlockedAt : undefined)
+        };
+      });
+    }
+
     const store: WimHofStoreData = {
       version: 1,
-      breathingHistory: sanitizedBreathing,
-      coldHistory: sanitizedCold,
-      pushUpHistory: Array.isArray(data.pushUpHistory) ? data.pushUpHistory : [],
-      challengeDays: Array.isArray(data.challengeDays) && data.challengeDays.length === 20 ? data.challengeDays : INITIAL_CHALLENGE_DAYS,
-      badges: Array.isArray(data.badges) ? data.badges : INITIAL_BADGES
+      breathingHistory: finalBreathing,
+      coldHistory: finalCold,
+      pushUpHistory: finalPushUps,
+      challengeDays: finalChallenge,
+      badges: finalBadges
     };
 
     safeSetJson(STORAGE_KEYS.STORE, store);
@@ -531,6 +719,7 @@ export function importBackupJson(rawJson: string): { success: boolean; message?:
       if (parsed.configs.hydrocicleConfig) safeSetJson('hydrocicleConfig', parsed.configs.hydrocicleConfig);
     }
 
+    evaluateAndPersistBadges(store);
     broadcastStoreUpdate();
     return { success: true };
   } catch (err: any) {

@@ -21,7 +21,7 @@
 
 ## 🌟 Overview
 
-**Omega v1.0.0** is an independent, 100% Free and Open Source production-grade vitality and wellness application available natively across **Android**, **Windows**, **macOS**, and **Linux**. Inspired by the Wim Hof Method, sacred geometry, and 432Hz harmonic acoustic tuning, Omega delivers an offline-first, zero-telemetry private sanctuary combining:
+**Omega v1.0.1** is an independent, 100% Free and Open Source production-grade vitality and wellness application available natively across **Android**, **Windows**, **macOS**, and **Linux**. Inspired by the Wim Hof Method, sacred geometry, and 432Hz harmonic acoustic tuning, Omega delivers an offline-first, zero-telemetry private sanctuary combining:
 
 1. 🌬️ **[Bubble Breathing](https://github.com/marodriguezd/Bubble-Breathing)**: Rhythmic deep breathing with multi-layer concentric ripple hexagons, retention apnea open stopwatch, personal best tracking, and recovery breath holds.
 2. 🧊 **[HydroCycle](https://github.com/marodriguezd/Hydrocicle)**: Contrast therapy (hot/cold intervals), cold shower tracking, water temperature logging (°C / °F), and ice plunge guidance.
@@ -31,16 +31,16 @@
 
 ---
 
-## 🚀 Multiplatform Downloads (v1.0.0)
+## 🚀 Multiplatform Downloads (v1.0.1)
 
 Pre-compiled native binaries for all major platforms are built and published automatically via GitHub Actions:
 
 | Platform | Package Format | Direct Download Link |
 | :--- | :--- | :--- |
-| **Android** | APK (Capacitor 8) | 👉 **[Download Omega-1.0.0.apk](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.apk)** |
-| **macOS** | DMG (Apple Silicon & Intel) | 👉 **[Download Omega-1.0.0.dmg](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.dmg)** |
-| **Windows** | MSI Installer | 👉 **[Download Omega-1.0.0.msi](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.msi)** |
-| **Linux** | Universal AppImage | 👉 **[Download Omega-1.0.0.AppImage](https://github.com/marodriguezd/Omega/releases/download/v1.0.0/Omega-1.0.0.AppImage)** |
+| **Android** | APK (Capacitor 8) | 👉 **[Download Omega-1.0.1.apk](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.apk)** |
+| **macOS** | DMG (Apple Silicon & Intel) | 👉 **[Download Omega-1.0.1.dmg](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.dmg)** |
+| **Windows** | MSI Installer | 👉 **[Download Omega-1.0.1.msi](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.msi)** |
+| **Linux** | Universal AppImage | 👉 **[Download Omega-1.0.1.AppImage](https://github.com/marodriguezd/Omega/releases/download/v1.0.1/Omega-1.0.1.AppImage)** |
 
 > **Verification**: Checksums are provided for every artifact. Verify Android downloads with `sha256sum -c SHA256SUMS-android.txt` and desktop binaries with `sha256sum -c SHA256SUMS-desktop.txt`.
 
@@ -128,7 +128,7 @@ pnpm run android:build# assemble release APK via Gradle
 
 ### Release flow (`v*` tags)
 
-1. Tag must match the version: `node scripts/release-meta.mjs --tag=v1.0.0` fails CI otherwise (`package.json` is the single source of truth).
+1. Tag must match the version: `node scripts/release-meta.mjs --tag=v1.0.1` fails CI otherwise (`package.json` is the single source of truth).
 2. Each job runs the full gate: `build` → 4-tier tests (56) → platform tests (21) → release tests (40) → `validate`.
 3. `android.yml` (ubuntu): syncs Capacitor, assembles the APK, writes `Omega.apk` + `Omega-<version>.apk` + `SHA256SUMS-android.txt` + `manifest-android.json`. Only `v*` tag runs publish to GitHub Releases (`v*` tags require the `ANDROID_KEYSTORE_BASE64` secret); branch builds upload the APK as a CI workflow artifact for testing and never touch a Release.
 4. `desktop.yml`: three native jobs package DMG / MSI / AppImage, each with its own `SHA256SUMS.txt` + `manifest.json` workflow artifact. On tags, `release-desktop` verifies every expected artifact exists, assembles a clean allowlisted payload (`*.dmg`, `*.msi`, `*.AppImage`, `manifest-*.json`, `SHA256SUMS-desktop.txt`), and uploads exactly those files to the GitHub Release. Both workflows share one race-safe strategy (reuse-or-create with clobber-upload fallback, never delete), and platform-scoped checksum/manifest names keep concurrent publishes from overwriting each other.

@@ -1,4 +1,4 @@
-# 🌌 About Omega (Acerca de Omega) — v1.0.0
+# 🌌 About Omega (Acerca de Omega) — v1.0.1
 
 **Omega** is a comprehensive, production-grade vitality and breathwork hub inspired by the **Wim Hof Method**, sacred geometry, and modern design principles. Built with React 19, Capacitor 8, and Electron, Omega operates 100% offline with zero external network dependencies or telemetry, available across Android, Windows, macOS, and Linux.
 

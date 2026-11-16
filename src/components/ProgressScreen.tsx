@@ -15,13 +15,19 @@ import {
   ChevronDown,
   ChevronUp,
   History,
-  Lock
+  Lock,
+  Copy,
+  Check,
+  Share2
 } from 'lucide-react';
 import { 
   loadWimHofStore, 
   WimHofStoreData, 
-  evaluateBadges, 
+  evaluateBadges,
+  evaluateAndPersistBadges, 
   triggerBackupDownload, 
+  copyBackupJsonToClipboard,
+  shareBackupJson,
   importBackupJson 
 } from '../services/omegaStore';
 import { formatTimeSeconds } from '../hooks/useOmegaStats';
@@ -35,6 +41,10 @@ interface ProgressScreenProps {
 export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combinedStreak }) => {
   const [storeData, setStoreData] = useState<WimHofStoreData>(() => loadWimHofStore());
   const [importStatus, setImportStatus] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [importMode, setImportMode] = useState<'merge' | 'overwrite'>('merge');
+  const [showPasteModal, setShowPasteModal] = useState(false);
+  const [pastedJson, setPastedJson] = useState('');
   const [expandedSessionIds, setExpandedSessionIds] = useState<Record<string, boolean>>({});
   const fileInputRef = useRef<HTMLInputElement>(null);
   const importTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -48,8 +58,44 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
 
   const refreshData = () => {
     const updated = loadWimHofStore();
-    evaluateBadges(updated, combinedStreak);
+    evaluateAndPersistBadges(updated, combinedStreak);
     setStoreData(updated);
+  };
+
+  const handleCopyJson = async () => {
+    const success = await copyBackupJsonToClipboard();
+    if (success) {
+      setCopied(true);
+      setImportStatus(langDict.copySuccessMsg || '¡Copia JSON copiada al portapapeles!');
+      setTimeout(() => setCopied(false), 2500);
+      if (importTimeoutRef.current) clearTimeout(importTimeoutRef.current);
+      importTimeoutRef.current = setTimeout(() => setImportStatus(null), 3500);
+    } else {
+      setImportStatus('No se pudo copiar al portapapeles.');
+    }
+  };
+
+  const handleShareJson = async () => {
+    const shared = await shareBackupJson();
+    if (!shared) {
+      // If share was not available or cancelled, fallback to file download
+      triggerBackupDownload();
+    }
+  };
+
+  const handleDirectPasteImport = () => {
+    if (!pastedJson.trim()) return;
+    const result = importBackupJson(pastedJson.trim(), importMode);
+    if (result.success) {
+      setImportStatus(langDict.importSuccessMsg || '¡Datos restaurados con éxito!');
+      refreshData();
+      setShowPasteModal(false);
+      setPastedJson('');
+    } else {
+      setImportStatus(result.message || 'Error al importar datos JSON.');
+    }
+    if (importTimeoutRef.current) clearTimeout(importTimeoutRef.current);
+    importTimeoutRef.current = setTimeout(() => setImportStatus(null), 4000);
   };
 
   useEffect(() => {
@@ -213,7 +259,7 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
     const reader = new FileReader();
     reader.onload = (event) => {
       const text = event.target?.result as string;
-      const result = importBackupJson(text);
+      const result = importBackupJson(text, importMode);
       if (result.success) {
         setImportStatus(langDict.importSuccessMsg || '¡Datos restaurados con éxito!');
         refreshData();
@@ -663,8 +709,8 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
           <ShieldCheck size={18} color="#2ecc71" />
           <span>{langDict.backupTitle || 'Privacidad y Copias de Seguridad'}</span>
         </h4>
-        <p style={{ fontSize: '0.8rem', color: 'var(--color-muted)', margin: '0 0 1rem' }}>
-          Tus datos se guardan 100% de forma local y privada en tu dispositivo. Puedes exportar o restaurar tu historial cuando quieras.
+        <p style={{ fontSize: '0.8rem', color: 'var(--color-muted)', margin: '0 0 0.8rem' }}>
+          Tus datos se guardan 100% de forma local y privada en tu dispositivo. Puedes exportar, copiar o restaurar tu historial cuando quieras.
         </p>
 
         {importStatus && (
@@ -673,23 +719,75 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
           </div>
         )}
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.9rem', fontSize: '0.78rem' }}>
+          <span style={{ color: 'var(--color-muted)' }}>Modo de importación:</span>
+          <button
+            type="button"
+            onClick={() => setImportMode('merge')}
+            style={{
+              background: importMode === 'merge' ? 'rgba(0, 240, 255, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              border: importMode === 'merge' ? '1px solid var(--omega-primary-cyan, #00f0ff)' : '1px solid rgba(255, 255, 255, 0.1)',
+              color: importMode === 'merge' ? '#00f0ff' : 'var(--color-muted)',
+              borderRadius: '9999px',
+              padding: '0.2rem 0.6rem',
+              fontSize: '0.75rem',
+              cursor: 'pointer'
+            }}
+          >
+            {langDict.mergeOptionLabel || 'Combinar datos'}
+          </button>
+          <button
+            type="button"
+            onClick={() => setImportMode('overwrite')}
+            style={{
+              background: importMode === 'overwrite' ? 'rgba(255, 122, 0, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+              border: importMode === 'overwrite' ? '1px solid var(--omega-warm-amber, #ff7a00)' : '1px solid rgba(255, 255, 255, 0.1)',
+              color: importMode === 'overwrite' ? '#ff7a00' : 'var(--color-muted)',
+              borderRadius: '9999px',
+              padding: '0.2rem 0.6rem',
+              fontSize: '0.75rem',
+              cursor: 'pointer'
+            }}
+          >
+            {langDict.overwriteOptionLabel || 'Sobrescribir todo'}
+          </button>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: '0.6rem' }}>
           <button
             className="modal-btn secondary"
             onClick={triggerBackupDownload}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.7rem' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.65rem 0.5rem', fontSize: '0.8rem' }}
           >
-            <Download size={16} />
-            <span>{langDict.exportBackupBtn || 'Exportar (JSON)'}</span>
+            <Download size={15} />
+            <span>{langDict.exportBackupBtn || 'Descargar (JSON)'}</span>
+          </button>
+
+          <button
+            className="modal-btn secondary"
+            onClick={handleCopyJson}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.65rem 0.5rem', fontSize: '0.8rem' }}
+          >
+            {copied ? <Check size={15} color="#2ecc71" /> : <Copy size={15} />}
+            <span>{copied ? 'Copiado' : (langDict.copyBackupBtn || 'Copiar JSON')}</span>
           </button>
 
           <button
             className="modal-btn secondary"
             onClick={() => fileInputRef.current?.click()}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.7rem' }}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.65rem 0.5rem', fontSize: '0.8rem' }}
           >
-            <Upload size={16} />
-            <span>{langDict.importBackupBtn || 'Restaurar (JSON)'}</span>
+            <Upload size={15} />
+            <span>{langDict.importBackupBtn || 'Restaurar'}</span>
+          </button>
+
+          <button
+            className="modal-btn secondary"
+            onClick={() => setShowPasteModal(prev => !prev)}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.65rem 0.5rem', fontSize: '0.8rem' }}
+          >
+            <FileCheck size={15} />
+            <span>{langDict.pasteBackupBtn || 'Pegar JSON'}</span>
           </button>
 
           <input
@@ -700,6 +798,46 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
             style={{ display: 'none' }}
           />
         </div>
+
+        {showPasteModal && (
+          <div style={{ marginTop: '0.9rem', paddingTop: '0.9rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)' }}>
+            <textarea
+              value={pastedJson}
+              onChange={(e) => setPastedJson(e.target.value)}
+              placeholder="Pega aquí el contenido JSON de tu copia de seguridad..."
+              rows={4}
+              style={{
+                width: '100%',
+                background: 'rgba(0, 0, 0, 0.35)',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                borderRadius: '8px',
+                color: '#fff',
+                fontSize: '0.78rem',
+                fontFamily: 'monospace',
+                padding: '0.5rem',
+                boxSizing: 'border-box',
+                resize: 'vertical'
+              }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.5rem' }}>
+              <button
+                className="modal-btn secondary"
+                onClick={() => { setShowPasteModal(false); setPastedJson(''); }}
+                style={{ padding: '0.4rem 0.8rem', fontSize: '0.78rem' }}
+              >
+                Cancelar
+              </button>
+              <button
+                className="modal-btn primary"
+                onClick={handleDirectPasteImport}
+                disabled={!pastedJson.trim()}
+                style={{ padding: '0.4rem 0.9rem', fontSize: '0.78rem' }}
+              >
+                Importar ({importMode === 'merge' ? 'Combinar' : 'Sobrescribir'})
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

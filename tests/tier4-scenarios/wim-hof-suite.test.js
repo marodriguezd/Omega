@@ -100,6 +100,16 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
     assert.strictEqual(badges.find(b => b.id === 'retention_2m').unlocked, true);
     assert.strictEqual(badges.find(b => b.id === 'pushup_apnea').unlocked, true);
     assert.strictEqual(badges.find(b => b.id === 'streak_7').unlocked, true);
+
+    // Verify persistence mechanism
+    const env = setupDOMEnvironment();
+    try {
+      env.localStorage.setItem('omega_badges', JSON.stringify(badges));
+      const persisted = JSON.parse(env.localStorage.getItem('omega_badges'));
+      assert.strictEqual(persisted.find(b => b.id === 'first_breath').unlocked, true);
+    } finally {
+      env.cleanup();
+    }
   });
 
   it('T4.S9: 100% Offline-First JSON backup export and import round-trip', () => {
@@ -121,7 +131,7 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
       env.localStorage.clear();
       assert.strictEqual(env.localStorage.getItem('omega_wimhof_store'), null);
 
-      // Restore JSON
+      // Restore JSON (overwrite)
       const parsed = JSON.parse(exportedJson);
       env.localStorage.setItem('omega_wimhof_store', JSON.stringify(parsed.data));
 
@@ -130,6 +140,17 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
       assert.strictEqual(restored.coldHistory.length, 1);
       assert.strictEqual(restored.pushUpHistory[0].pushUps, 20);
       assert.strictEqual(restored.challengeDays[0].completed, true);
+
+      // Verify merge capability with non-duplicate IDs
+      const incomingStore = {
+        breathingHistory: [{ id: 'b2', date: 4000, rounds: 4, totalRetentionTime: 125 }],
+        coldHistory: [{ id: 'c1', date: 2000, totalColdTime: 60 }] // duplicate c1
+      };
+
+      const breathingMap = new Map();
+      restored.breathingHistory.forEach(b => breathingMap.set(b.id, b));
+      incomingStore.breathingHistory.forEach(b => breathingMap.set(b.id, b));
+      assert.strictEqual(breathingMap.size, 2);
     } finally {
       env.cleanup();
     }

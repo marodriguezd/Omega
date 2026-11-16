@@ -1,6 +1,7 @@
 // Web Audio API harmonic synthesizer tuned to 432Hz natural harmonics.
 
 import { triggerHaptic } from '../platform/haptics';
+export { triggerHaptic };
 
 let audioCtx: AudioContext | null = null;
 

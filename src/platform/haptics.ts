@@ -19,6 +19,25 @@ export async function triggerHaptic(
   // Capacitor native haptics.
   try {
     if (Capacitor.isNativePlatform()) {
+      if (pattern !== undefined) {
+        if (typeof pattern === 'number' && Number.isFinite(pattern) && pattern > 0) {
+          await Haptics.vibrate({ duration: pattern });
+          return;
+        } else if (Array.isArray(pattern) && pattern.length > 0) {
+          let delay = 0;
+          for (let i = 0; i < pattern.length; i++) {
+            const dur = pattern[i];
+            if (i % 2 === 0 && dur > 0) {
+              setTimeout(() => {
+                Haptics.vibrate({ duration: dur }).catch(() => {});
+              }, delay);
+            }
+            delay += dur;
+          }
+          return;
+        }
+      }
+
       switch (type) {
         case 'light':
           await Haptics.impact({ style: ImpactStyle.Light });

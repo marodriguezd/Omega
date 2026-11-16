@@ -112,13 +112,16 @@ export const RoundRetentionBarChart: React.FC<RoundRetentionBarChartProps> = ({
               >
                 <div
                   style={{
-                    width: `${widthPct}%`,
+                    width: '100%',
                     height: '100%',
+                    transform: `scaleX(${Math.max(0.08, widthPct / 100)})`,
+                    transformOrigin: 'left',
+                    willChange: 'transform',
                     background: isBestRound
                       ? 'linear-gradient(90deg, #00d2ff 0%, #ff7a00 100%)'
                       : 'linear-gradient(90deg, rgba(0, 210, 255, 0.45) 0%, rgba(0, 240, 255, 0.8) 100%)',
                     borderRadius: 'var(--omega-radius-squircle-sm, 6px)',
-                    transition: 'width 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+                    transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
                   }}
                 />
 
