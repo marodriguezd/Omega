@@ -1,20 +1,22 @@
 Scope: all 3 workspace projects
 [WARN] The settings in Bubble-Breathing/pnpm-workspace.yaml do not apply, because Bubble-Breathing is a project of this workspace. pnpm reads settings only from the pnpm-workspace.yaml at the workspace root. Move the settings there, or add "!Bubble-Breathing" to the root's "packages" to keep that project a separate workspace.
 ? Verifying lockfile against supply-chain policies (749 entries)...
+[WARN] Unsupported platform for @esbuild/android-arm64@0.25.12: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
+[WARN] Unsupported platform for @rollup/rollup-android-arm64@4.63.1: wanted {"cpu":["arm64"],"os":["android"],"libc":["any"]} (current: {"os":"linux","cpu":"x64","libc":"glibc"})
 Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
-Packages: +657
+Packages: +661
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 657, reused 89, downloaded 0, added 0
-Progress: resolved 657, reused 606, downloaded 0, added 0
+Progress: resolved 661, reused 428, downloaded 0, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 657, reused 657, downloaded 0, added 8
-Progress: resolved 657, reused 657, downloaded 0, added 92
-✓ Lockfile passes supply-chain policies (749 entries in 5.2s)
-Progress: resolved 657, reused 657, downloaded 0, added 326
-Progress: resolved 657, reused 657, downloaded 0, added 657, done
+Progress: resolved 661, reused 657, downloaded 4, added 108
+✓ Lockfile passes supply-chain policies (749 entries in 2.8s)
+Progress: resolved 661, reused 657, downloaded 4, added 661, done
+.../node_modules/electron-winstaller install$ node ./script/select-7z-arch.js
+.../node_modules/electron-winstaller install: Selecting 7-Zip for arch x64
+.../node_modules/electron-winstaller install: Done
 
 dependencies:
 + @capacitor-community/keep-awake 8.0.1
@@ -39,4 +41,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 8.3s using pnpm v11.28.11
+Done in 4.1s using pnpm v11.28.12
