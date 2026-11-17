@@ -427,7 +427,7 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
           </div>
           <div className="metric-data">
             <h5>{formatTimeSeconds(maxRetentionSec)}</h5>
-            <p>Récord de apnea</p>
+            <p>{langDict.bestRetentionLabel || 'Récord de apnea'}</p>
           </div>
         </div>
 
@@ -720,7 +720,7 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
         )}
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.9rem', fontSize: '0.78rem' }}>
-          <span style={{ color: 'var(--color-muted)' }}>Modo de importación:</span>
+          <span style={{ color: 'var(--color-muted)' }}>{langDict.importModeLabel || 'Modo de importación:'}</span>
           <button
             type="button"
             onClick={() => setImportMode('merge')}
@@ -769,7 +769,7 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
             style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.4rem', padding: '0.65rem 0.5rem', fontSize: '0.8rem' }}
           >
             {copied ? <Check size={15} color="#2ecc71" /> : <Copy size={15} />}
-            <span>{copied ? 'Copiado' : (langDict.copyBackupBtn || 'Copiar JSON')}</span>
+            <span>{copied ? (langDict.copiedLabel || 'Copiado') : (langDict.copyBackupBtn || 'Copiar JSON')}</span>
           </button>
 
           <button
@@ -804,7 +804,7 @@ export const ProgressScreen: React.FC<ProgressScreenProps> = ({ langDict, combin
             <textarea
               value={pastedJson}
               onChange={(e) => setPastedJson(e.target.value)}
-              placeholder="Pega aquí el contenido JSON de tu copia de seguridad..."
+              placeholder={langDict.pasteBackupPlaceholder || 'Pega aquí el contenido JSON de tu copia de seguridad...'}
               rows={4}
               style={{
                 width: '100%',

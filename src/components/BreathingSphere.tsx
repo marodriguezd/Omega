@@ -1,4 +1,5 @@
 import React from 'react';
+import { getActiveTranslation } from '../translations';
 
 export type SpherePhase = 'breathing' | 'retention' | 'recovery' | 'hot' | 'cold' | 'idle';
 
@@ -86,7 +87,7 @@ const PHASE_THEMES: Record<SpherePhase, {
   }
 };
 
-/** Rounded hexagon breathing sphere with continuous curvature and perimeter progress ring. */
+/** Organic circular breathing bubble with concentric halos and perimeter progress ring. */
 export const BreathingSphere: React.FC<BreathingSphereProps> = ({
   phase,
   scale = 1.0,
@@ -104,6 +105,7 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
   size
 }) => {
   const theme = PHASE_THEMES[phase] || PHASE_THEMES.idle;
+  const isTimeCounter = typeof counter === 'string' && counter.includes(':');
 
   const sphereStyle: React.CSSProperties = {
     transform: `scale(${scale}) translateZ(0)`,
@@ -131,7 +133,15 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
   const clampedProgress = progress !== undefined ? Math.max(0, Math.min(100, progress)) : undefined;
 
   return (
-    <div className="breathing-sphere-container hexagon-container">
+    <div
+      className="breathing-sphere-container hexagon-container"
+      style={{
+        flexDirection: 'column',
+        height: 'auto',
+        minHeight: '9.375rem',
+        gap: phase === 'hot' || phase === 'cold' ? undefined : '2.1rem'
+      }}
+    >
       <div
         id={id}
         className={sphereClasses}
@@ -265,9 +275,10 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
           }}
         >
           <div 
-            className={`breath-counter${isLastBreath ? ' last-breath' : ''}`}
+            className={`breath-counter${isLastBreath ? ' last-breath' : ''}${isTimeCounter ? ' is-timer' : ''}`}
             style={{ 
               fontWeight: 700,
+              fontSize: isTimeCounter ? '2.1rem' : undefined,
               fontVariantNumeric: 'tabular-nums',
               letterSpacing: '-0.02em',
               display: 'flex',
@@ -279,35 +290,52 @@ export const BreathingSphere: React.FC<BreathingSphereProps> = ({
             {icon !== undefined ? icon : counter}
           </div>
 
-          <div
-            className="sphere-phase-indicator"
-            style={{
-              marginTop: '0.2rem',
-              fontSize: '0.64rem',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-              color: 'rgba(255, 255, 255, 0.85)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.3rem',
-              fontWeight: 600,
-              textShadow: '0 1px 4px rgba(0, 0, 0, 0.7)'
-            }}
-          >
-            {phase === 'hot' || phase === 'cold' ? (
-              <span>{phase === 'cold' ? 'Agua Fría' : 'Agua Caliente'}</span>
-            ) : (
-              <>
-                <span style={{ color: phase === 'breathing' ? '#ff9d00' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'breathing' ? 800 : 500 }}>Inhala</span>
-                <span style={{ opacity: 0.35 }}>•</span>
-                <span style={{ color: phase === 'retention' ? '#00f0ff' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'retention' ? 800 : 500 }}>Retén</span>
-                <span style={{ opacity: 0.35 }}>•</span>
-                <span style={{ color: phase === 'recovery' ? '#2ecc71' : 'rgba(255, 255, 255, 0.45)', fontWeight: phase === 'recovery' ? 800 : 500 }}>Exhala</span>
-              </>
-            )}
-          </div>
+          {(phase === 'hot' || phase === 'cold') && (
+            <div
+              className="sphere-phase-indicator"
+              style={{
+                marginTop: '0.2rem',
+                fontSize: '0.64rem',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'rgba(255, 255, 255, 0.85)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.3rem',
+                fontWeight: 600,
+                textShadow: '0 1px 4px rgba(0, 0, 0, 0.7)'
+              }}
+            >
+              <span>{phase === 'cold' ? getActiveTranslation('coldPhase', 'Agua Fría') : getActiveTranslation('hotPhase', 'Agua Caliente')}</span>
+            </div>
+          )}
         </div>
       </div>
+
+      {phase !== 'hot' && phase !== 'cold' && (
+        <div
+          className="sphere-phase-indicator"
+          style={{
+            fontSize: '0.72rem',
+            letterSpacing: '0.09em',
+            textTransform: 'uppercase',
+            color: 'rgba(255, 255, 255, 0.75)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '0.45rem',
+            fontWeight: 600,
+            pointerEvents: 'none',
+            userSelect: 'none'
+          }}
+        >
+          <span style={{ color: phase === 'breathing' ? '#ff9d00' : 'rgba(255, 255, 255, 0.42)', fontWeight: phase === 'breathing' ? 800 : 500 }}>{getActiveTranslation('phaseBreathing', 'Respiración')}</span>
+          <span style={{ opacity: 0.35 }}>•</span>
+          <span style={{ color: phase === 'retention' ? '#00f0ff' : 'rgba(255, 255, 255, 0.42)', fontWeight: phase === 'retention' ? 800 : 500 }}>{getActiveTranslation('phaseRetention', 'Apnea')}</span>
+          <span style={{ opacity: 0.35 }}>•</span>
+          <span style={{ color: phase === 'recovery' ? '#2ecc71' : 'rgba(255, 255, 255, 0.42)', fontWeight: phase === 'recovery' ? 800 : 500 }}>{getActiveTranslation('phaseRecovery', 'Recuperación')}</span>
+        </div>
+      )}
     </div>
   );
 };

@@ -129,7 +129,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
           <button
             className="hub-icon-btn theme-toggle-btn"
             onClick={onThemeToggle}
-            title="Cambiar tema"
+            title={langDict.toggleThemeLabel || 'Cambiar tema'}
           >
             {currentTheme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
@@ -255,7 +255,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <p>{langDict.challengeSubtitle || '4 semanas de adaptación progresiva al agua fría.'}</p>
           </div>
           <div className="quick-card-action">
-            <span style={{ color: 'var(--omega-warm-amber, #ff7a00)' }}>Ver Reto</span>
+            <span style={{ color: 'var(--omega-warm-amber, #ff7a00)' }}>{langDict.viewChallengeBtn || 'Ver Reto'}</span>
             <ChevronRight size={14} />
           </div>
         </div>
@@ -272,7 +272,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
             <p>{langDict.pushUpDesc || 'Flexiones en apnea sin aire en los pulmones.'}</p>
           </div>
           <div className="quick-card-action">
-            <span style={{ color: '#ff9d00' }}>Hacer Test</span>
+            <span style={{ color: '#ff9d00' }}>{langDict.takeTestBtn || 'Hacer Test'}</span>
             <ChevronRight size={14} />
           </div>
         </div>

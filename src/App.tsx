@@ -9,6 +9,8 @@ import { enableKeepAwake, disableKeepAwake, registerBackButtonHandler } from './
 import BubbleBreathingApp from '../Bubble-Breathing/src/App';
 import HydrocicleApp from '../Hydrocicle/src/App';
 import { ChallengesScreen } from './components/ChallengesScreen';
+
+initAllTranslations();
 import { ProgressScreen } from './components/ProgressScreen';
 import { useOmegaStats } from './hooks/useOmegaStats';
 

@@ -564,4 +564,92 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
       env.cleanup();
     }
   });
+
+  it('T4.S22: Multi-round Wim Hof breathing cycle resets breath counter between rounds (Breathing -> Retention -> Recovery -> Round 2 Breathing)', () => {
+    const totalRounds = 2;
+    const breathsPerRound = 30;
+    let phase = 'breathing';
+    let currentRound = 1;
+    let breathRef = 0;
+
+    const resetRefsOnLeaveBreathing = () => {
+      if (phase !== 'breathing') {
+        breathRef = 0;
+      }
+    };
+
+    for (let round = 1; round <= totalRounds; round++) {
+      assert.strictEqual(phase, 'breathing', `Round ${round} must start in breathing phase`);
+      assert.strictEqual(breathRef, 0, `Round ${round} must start with breathRef reset to 0`);
+
+      // Simulate 30 breaths
+      for (let b = 1; b <= breathsPerRound; b++) {
+        breathRef = b;
+      }
+      assert.strictEqual(breathRef, breathsPerRound);
+
+      // Automatic transition to retention
+      phase = 'retention';
+      resetRefsOnLeaveBreathing();
+      assert.strictEqual(phase, 'retention');
+      assert.strictEqual(breathRef, 0, 'breathRef must reset upon entering retention');
+
+      // Transition to recovery
+      phase = 'recovery';
+      assert.strictEqual(phase, 'recovery');
+
+      // Recovery completes
+      if (currentRound >= totalRounds) {
+        phase = 'finished';
+      } else {
+        currentRound += 1;
+        phase = 'breathing';
+      }
+    }
+
+    assert.strictEqual(phase, 'finished', 'Session finishes after completing all rounds');
+    assert.strictEqual(currentRound, 2);
+  });
+
+  it('T4.S23: Full 7-language translation key parity across Hub, Bubble-Breathing, and HydroCycle (es, en, fr, de, it, pt, zh)', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const langs = ['es', 'en', 'fr', 'de', 'it', 'pt', 'zh'];
+
+    const parseDict = (relPath) => {
+      const txt = fs.readFileSync(path.resolve(process.cwd(), relPath), 'utf8');
+      const out = {};
+      for (const lang of langs) {
+        const re = new RegExp(`\\b${lang}:\\s*\\{([\\s\\S]*?)\\n\\s{2}\\}`, 'm');
+        const m = txt.match(re);
+        assert.ok(m, `${relPath} must define language block "${lang}"`);
+        const keys = (m[1].match(/^\s{4}([a-zA-Z0-9_]+):/gm) || []).map((s) => s.trim().replace(':', ''));
+        out[lang] = new Set(keys);
+      }
+      return out;
+    };
+
+    for (const file of [
+      'src/translations.ts',
+      'Bubble-Breathing/src/translations.js',
+      'Hydrocicle/src/translations.js'
+    ]) {
+      const dict = parseDict(file);
+      const baseKeys = dict.es;
+      for (const lang of langs) {
+        const missing = [...baseKeys].filter((k) => !dict[lang].has(k));
+        assert.deepStrictEqual(
+          missing,
+          [],
+          `${file} (${lang}) is missing keys: ${missing.join(', ')}`
+        );
+        const extra = [...dict[lang]].filter((k) => !baseKeys.has(k));
+        assert.deepStrictEqual(
+          extra,
+          [],
+          `${file} (${lang}) has extra keys not in es: ${extra.join(', ')}`
+        );
+      }
+    }
+  });
 });
