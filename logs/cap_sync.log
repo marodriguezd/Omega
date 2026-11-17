@@ -1,10 +1,10 @@
-✔ Copying web assets from dist to android/app/src/main/assets/public in 115.31ms
-✔ Creating capacitor.config.json in android/app/src/main/assets in 392.27μs
-✔ copy android in 124.02ms
-✔ Updating Android plugins in 1.24ms
+✔ Copying web assets from dist to android/app/src/main/assets/public in 104.54ms
+✔ Creating capacitor.config.json in android/app/src/main/assets in 503.05μs
+✔ copy android in 115.73ms
+✔ Updating Android plugins in 1.80ms
 [info] Found 3 Capacitor plugins for android:
        @capacitor-community/keep-awake@8.0.1
        @capacitor/app@8.1.1
        @capacitor/haptics@8.0.2
-✔ update android in 85.26ms
-[info] Sync finished in 0.218s
+✔ update android in 51.20ms
+[info] Sync finished in 0.178s
