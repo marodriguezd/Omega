@@ -1,15 +1,15 @@
-# 🤖 Omega — Agent Operating System & Repository Guidelines
+# 🤖 Zen — Agent Operating System & Repository Guidelines
 
-Welcome to **Omega**. This document provides authoritative guidelines, architectural context, and development rules for AI coding agents operating on this repository.
+Welcome to **Zen** (repository `marodriguezd/Zen`, formerly *Omega*). This document provides authoritative guidelines, architectural context, and development rules for AI coding agents operating on this repository.
 
 ---
 
 ## 🎯 1. Project Overview & Philosophy
 
-**Omega** is a production-grade, offline-first multiplatform application unifying the **Wim Hof Method** with sacred geometry, 432Hz soundscapes, and advanced vitality tracking.
+**Zen** is a production-grade, offline-first multiplatform application unifying the **Wim Hof Method** with sacred geometry, 432Hz soundscapes, and advanced vitality tracking.
 
 - **Stack**: React 19, TypeScript, Vite, Tailwind CSS / custom design tokens.
-- **Targets**: Android (Capacitor 8), Desktop (Electron for macOS, Windows, Linux), and Modern Web (PWA).
+- **Targets**: Android (Capacitor 8), Desktop (Electron for macOS, Windows, Linux), and Modern Web (PWA + GitHub Pages Demo).
 - **Submodules**:
   - [`Bubble-Breathing`](https://github.com/marodriguezd/Bubble-Breathing): Rhythmic breathing, retention open stopwatch, and recovery breath holds.
   - [`Hydrocicle`](https://github.com/marodriguezd/Hydrocicle): Contrast shower protocols, 20-day cold challenge, and water temperature tracking.
@@ -37,7 +37,7 @@ Welcome to **Omega**. This document provides authoritative guidelines, architect
 All changes must be verified against the test suites before completing a turn:
 
 ```bash
-# Functional 4-Tier Test Suite (67 tests: Features, Boundaries, Combinations, Scenarios)
+# Functional 4-Tier Test Suite (69 tests: Features, Boundaries, Combinations, Scenarios)
 rtk pnpm run test
 
 # Platform Suite (21 tests: Electron security, Capacitor config, Native APIs)
@@ -57,22 +57,23 @@ rtk pnpm run android:sync
 ## 📁 4. Repository Structure
 
 ```text
-Omega/
+Zen/ (local dir: Omega/)
 ├── .agents/               # 🔒 Local agent memory, prompt history, scratchpads (GITIGNORED)
-├── .github/workflows/     # CI/CD pipelines (android.yml, desktop.yml)
+├── .github/workflows/     # CI/CD pipelines (android.yml, desktop.yml, pages.yml)
 ├── Bubble-Breathing/      # Git submodule: Breathwork engine
 ├── Hydrocicle/            # Git submodule: Cold exposure & contrast shower engine
 ├── android/               # Capacitor 8 native Android wrapper
+├── docs/assets/           # Documentation screenshots & GIFs (kept out of dist/)
 ├── electron/              # Electron desktop wrapper (main.cjs, preload.cjs)
-├── public/                # Static assets, fonts (Outfit), soundscapes, web manifest
+├── public/                # Static assets, soundscapes, web manifest
 ├── scripts/               # Build, icon generation, manifest, and checksum tools
 ├── src/                   # Core application source code
 │   ├── components/        # Modals, navigation, charts, badge display
 │   ├── hooks/             # Custom React hooks (useOmegaStats, useTranslation)
 │   ├── platform/          # Native hardware abstraction (Haptics, KeepAwake)
 │   ├── services/          # Audio engine (zenAudioService) and persistence
-│   ├── store/             # Global state (omegaStore)
-│   └── styles/            # Design tokens, themes, glassmorphism CSS
+│   ├── styles/            # Design tokens, themes, glassmorphism CSS
+│   └── types/             # Typed WindowEventMap declarations (events.d.ts)
 ├── tests/                 # Automated test runners and suites
 ├── ABOUT.md               # User-facing project description and features
 ├── AGENTS.md              # 👈 You are here: agent instructions
@@ -86,6 +87,6 @@ Omega/
 
 - **Single Source of Truth**: `package.json` `"version"` (semver).
 - **Android Version**: [`android/app/build.gradle`](file:///android/app/build.gradle) `versionName` **must** match `package.json`.
-- **Git Tags**: Production releases trigger on `v*` tags (e.g. `v1.0.1`).
+- **Git Tags**: Production releases trigger on `v*` tags (e.g. `v1.0.3`).
 - **Concurrent CI Publishes**: Both `android.yml` and `desktop.yml` upload platform-scoped assets (`manifest-android.json`, `SHA256SUMS-android.txt` vs `manifest-*.json`, `SHA256SUMS-desktop.txt`) with race-safe clobbering to GitHub Releases.
 - **Signing**: Secrets provide production keys (`ANDROID_KEYSTORE_BASE64`); dev/ephemeral keystores are used automatically when secrets are absent. Never commit private keys or `.jks` files.
