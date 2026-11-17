@@ -7,13 +7,13 @@ Lockfile is up to date, resolution step is skipped
 Progress: resolved 1, reused 0, downloaded 0, added 0
 Packages: +661
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-Progress: resolved 661, reused 414, downloaded 0, added 0
+Progress: resolved 661, reused 453, downloaded 0, added 0
 Packages are hard linked from the content-addressable store to the virtual store.
   Content-addressable store is at: /home/runner/setup-pnpm/node_modules/.bin/store/v11
   Virtual store is at:             node_modules/.pnpm
-Progress: resolved 661, reused 657, downloaded 4, added 82
+Progress: resolved 661, reused 657, downloaded 4, added 248
 Progress: resolved 661, reused 657, downloaded 4, added 661, done
-✓ Lockfile passes supply-chain policies (749 entries in 3.1s)
+✓ Lockfile passes supply-chain policies (749 entries in 2.7s)
 .../node_modules/electron-winstaller install$ node ./script/select-7z-arch.js
 .../node_modules/electron-winstaller install: Selecting 7-Zip for arch x64
 .../node_modules/electron-winstaller install: Done
@@ -41,4 +41,4 @@ devDependencies:
 + vite 6.4.3
 + wait-on 9.5.1
 
-Done in 4.3s using pnpm v11.28.12
+Done in 3.9s using pnpm v11.28.12
