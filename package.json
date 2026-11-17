@@ -1,10 +1,10 @@
 {
-  "name": "omega",
-  "version": "1.0.2",
+  "name": "zen",
+  "version": "1.0.3",
   "private": true,
   "type": "module",
   "main": "electron/main.cjs",
-  "desktopName": "Omega",
+  "desktopName": "Zen",
   "author": "marodriguezd",
   "license": "MIT",
   "homepage": "https://github.com/marodriguezd/Omega",
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/marodriguezd/Omega.git"
   },
-  "description": "Omega — Conscious Breathwork & Cold Adaptation Hub (React + Capacitor + Electron)",
+  "description": "Zen — Conscious Breathwork & Cold Adaptation Hub (React + Capacitor + Electron)",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -63,7 +63,7 @@
   },
   "build": {
     "appId": "com.marodriguezd.omega",
-    "productName": "Omega",
+    "productName": "Zen",
     "copyright": "Copyright © 2026 marodriguezd",
     "directories": {
       "output": "release",
@@ -89,7 +89,7 @@
       ],
       "category": "public.app-category.healthcare-fitness",
       "icon": "build/icon.icns",
-      "artifactName": "Omega-${version}.${ext}"
+      "artifactName": "Zen-${version}.${ext}"
     },
     "win": {
       "target": [
@@ -101,8 +101,8 @@
         }
       ],
       "icon": "build/icon.ico",
-      "executableName": "Omega",
-      "artifactName": "Omega-${version}.${ext}"
+      "executableName": "Zen",
+      "artifactName": "Zen-${version}.${ext}"
     },
     "linux": {
       "target": [
@@ -114,16 +114,16 @@
         }
       ],
       "icon": "build/icons/512x512.png",
-      "executableName": "Omega",
+      "executableName": "Zen",
       "syncDesktopName": true,
       "category": "Health",
-      "artifactName": "Omega-${version}.${ext}"
+      "artifactName": "Zen-${version}.${ext}"
     },
     "dmg": {
-      "artifactName": "Omega-${version}.${ext}"
+      "artifactName": "Zen-${version}.${ext}"
     },
     "msi": {
-      "artifactName": "Omega-${version}.${ext}"
+      "artifactName": "Zen-${version}.${ext}"
     }
   }
 }

@@ -5,6 +5,7 @@ import { NavigationRail } from './components/NavigationRail';
 import { Dashboard } from './components/Dashboard';
 import { ExitConfirmModal } from './components/ExitConfirmModal';
 import { enableKeepAwake, disableKeepAwake, registerBackButtonHandler } from './services/nativeService';
+import { platformStorage } from './platform/storage';
 
 import BubbleBreathingApp from '../Bubble-Breathing/src/App';
 import HydrocicleApp from '../Hydrocicle/src/App';
@@ -25,13 +26,13 @@ export function App() {
   const { stats } = useOmegaStats();
   const [activeTab, setActiveTab] = useState<TabType>('hub');
   const [currentLang, setCurrentLang] = useState<string>(() => {
-    return localStorage.getItem('omega_language') || 'es';
+    return platformStorage.getItem('omega_language') || 'es';
   });
   const [currentTheme, setCurrentTheme] = useState<string>(() => {
-    return localStorage.getItem('omega_theme') || 'dark';
+    return platformStorage.getItem('omega_theme') || 'dark';
   });
   const [currentZoom, setCurrentZoom] = useState<number>(() => {
-    const saved = localStorage.getItem('omega_zoom');
+    const saved = platformStorage.getItem('omega_zoom');
     if (!saved) return 100;
     const parsed = Number(saved);
     return Number.isFinite(parsed) ? Math.min(220, Math.max(80, parsed)) : 100;
@@ -44,8 +45,12 @@ export function App() {
   const pendingTabRef = useRef<TabType | null>(null);
 
   useEffect(() => {
+    window.dispatchEvent(new CustomEvent('omega-tab-change', { detail: { tab: activeTab } }));
+  }, [activeTab]);
+
+  useEffect(() => {
     // Clear buggy CSS zoom property in favor of CSS custom property scaling.
-    (document.documentElement.style as any).zoom = '';
+    (document.documentElement.style as unknown as { zoom: string }).zoom = '';
 
     const scaleFactor = currentZoom / 100;
     document.documentElement.style.setProperty('--ui-scale', scaleFactor.toString());
@@ -53,43 +58,35 @@ export function App() {
     const clampedScale = Math.min(2.2, Math.max(0.8, scaleFactor));
     document.documentElement.style.setProperty('--ui-scale-clamped', clampedScale.toString());
 
-    localStorage.setItem('omega_zoom', currentZoom.toString());
+    platformStorage.setItem('omega_zoom', currentZoom.toString());
   }, [currentZoom]);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', currentTheme);
-    localStorage.setItem('omega_theme', currentTheme);
+    platformStorage.setItem('omega_theme', currentTheme);
 
-    try {
-      const bCfg = JSON.parse(localStorage.getItem('bubbleBreathingConfig') || '{}');
-      bCfg.theme = currentTheme;
-      localStorage.setItem('bubbleBreathingConfig', JSON.stringify(bCfg));
-    } catch (e) {}
+    const bCfg = platformStorage.getJson<Record<string, unknown>>('bubbleBreathingConfig', {});
+    bCfg.theme = currentTheme;
+    platformStorage.setJson('bubbleBreathingConfig', bCfg);
 
-    try {
-      const hCfg = JSON.parse(localStorage.getItem('hydrocicleConfig') || '{}');
-      hCfg.theme = currentTheme;
-      localStorage.setItem('hydrocicleConfig', JSON.stringify(hCfg));
-    } catch (e) {}
+    const hCfg = platformStorage.getJson<Record<string, unknown>>('hydrocicleConfig', {});
+    hCfg.theme = currentTheme;
+    platformStorage.setJson('hydrocicleConfig', hCfg);
 
     window.dispatchEvent(new CustomEvent('omega-sync'));
   }, [currentTheme]);
 
   const handleLanguageChange = useCallback((lang: string) => {
     setCurrentLang(lang);
-    localStorage.setItem('omega_language', lang);
+    platformStorage.setItem('omega_language', lang);
 
-    try {
-      const bCfg = JSON.parse(localStorage.getItem('bubbleBreathingConfig') || '{}');
-      bCfg.language = lang;
-      localStorage.setItem('bubbleBreathingConfig', JSON.stringify(bCfg));
-    } catch (e) {}
+    const bCfg = platformStorage.getJson<Record<string, unknown>>('bubbleBreathingConfig', {});
+    bCfg.language = lang;
+    platformStorage.setJson('bubbleBreathingConfig', bCfg);
 
-    try {
-      const hCfg = JSON.parse(localStorage.getItem('hydrocicleConfig') || '{}');
-      hCfg.language = lang;
-      localStorage.setItem('hydrocicleConfig', JSON.stringify(hCfg));
-    } catch (e) {}
+    const hCfg = platformStorage.getJson<Record<string, unknown>>('hydrocicleConfig', {});
+    hCfg.language = lang;
+    platformStorage.setJson('hydrocicleConfig', hCfg);
 
     window.dispatchEvent(new CustomEvent('omega-sync'));
   }, []);
@@ -102,9 +99,9 @@ export function App() {
   });
 
   useEffect(() => {
-    const handleSessionState = (e: any) => {
+    const handleSessionState = (e: CustomEvent<{ app: 'bubble' | 'hydro' | 'challenge'; active: boolean }>) => {
       if (e.detail?.app === 'bubble' || e.detail?.app === 'hydro' || e.detail?.app === 'challenge') {
-        sessionStatesRef.current[e.detail.app as 'bubble' | 'hydro' | 'challenge'] = Boolean(e.detail.active);
+        sessionStatesRef.current[e.detail.app] = Boolean(e.detail.active);
       }
     };
     window.addEventListener('omega-session-state', handleSessionState as EventListener);
@@ -114,7 +111,7 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    const handleSubappSync = (e: any) => {
+    const handleSubappSync = (e: CustomEvent<{ language?: string; theme?: string; type?: string }>) => {
       if (e.detail?.language) {
         setCurrentLang(e.detail.language);
       }
@@ -125,9 +122,9 @@ export function App() {
         window.dispatchEvent(new CustomEvent('omega-sync'));
       }
     };
-    window.addEventListener('subapp-sync', handleSubappSync);
+    window.addEventListener('subapp-sync', handleSubappSync as EventListener);
     return () => {
-      window.removeEventListener('subapp-sync', handleSubappSync);
+      window.removeEventListener('subapp-sync', handleSubappSync as EventListener);
     };
   }, []);
 

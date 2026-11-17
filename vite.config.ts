@@ -10,6 +10,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       '@bubble': path.resolve(__dirname, './Bubble-Breathing/src'),
       '@hydro': path.resolve(__dirname, './Hydrocicle/src'),
+      'react': path.resolve(__dirname, './node_modules/react'),
+      'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+      'lucide-react': path.resolve(__dirname, './node_modules/lucide-react'),
     },
   },
   server: {
@@ -19,5 +22,13 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-icons': ['lucide-react'],
+        },
+      },
+    },
   },
 });

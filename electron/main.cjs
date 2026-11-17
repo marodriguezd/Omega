@@ -29,7 +29,7 @@ function createWindow() {
     minWidth: 768,
     minHeight: 520,
     backgroundColor: '#0a0e13',
-    title: 'Omega',
+    title: 'Zen',
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.cjs'),

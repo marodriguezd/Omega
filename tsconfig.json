@@ -14,7 +14,7 @@
     "jsx": "react-jsx",
     "strict": false,
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "allowJs": true,
     "baseUrl": ".",

@@ -6,11 +6,11 @@ describe('Packaging configuration (electron-builder + Capacitor + scripts)', () 
   it('P11. electron-builder targets DMG, MSI and AppImage with stable appId', () => {
     const pkg = JSON.parse(readProjectFile('package.json') || '{}');
     assert.strictEqual(pkg?.build?.appId, 'com.marodriguezd.omega');
-    assert.strictEqual(pkg?.build?.productName, 'Omega');
+    assert.strictEqual(pkg?.build?.productName, 'Zen');
     assert.match(JSON.stringify(pkg?.build?.mac ?? {}), /dmg/i, 'mac must target dmg');
     assert.match(JSON.stringify(pkg?.build?.win ?? {}), /msi/i, 'win must target msi');
     assert.match(JSON.stringify(pkg?.build?.linux ?? {}), /AppImage/i, 'linux must target AppImage');
-    assert.match(JSON.stringify(pkg?.build ?? {}), /Omega-\$\{version\}/, 'artifacts must be named Omega-${version}');
+    assert.match(JSON.stringify(pkg?.build ?? {}), /Zen-\$\{version\}/, 'artifacts must be named Zen-${version}');
   });
 
   it('P12. Maintainable npm scripts exist for every platform flow', () => {

@@ -29,10 +29,10 @@ if (!/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(version ?? '')) {
 }
 
 const artifacts = {
-  apk: `Omega-${version}.apk`,
-  dmg: `Omega-${version}.dmg`,
-  msi: `Omega-${version}.msi`,
-  appimage: `Omega-${version}.AppImage`,
+  apk: `Zen-${version}.apk`,
+  dmg: `Zen-${version}.dmg`,
+  msi: `Zen-${version}.msi`,
+  appimage: `Zen-${version}.AppImage`,
 };
 
 const args = process.argv.slice(2);

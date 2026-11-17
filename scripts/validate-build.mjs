@@ -42,7 +42,7 @@ try {
   errors.push('package.json is not valid JSON');
 }
 check(pkg?.build?.appId === 'com.marodriguezd.omega', 'electron-builder appId must be com.marodriguezd.omega');
-check(pkg?.build?.productName === 'Omega', 'electron-builder productName must be Omega');
+check(pkg?.build?.productName === 'Zen', 'electron-builder productName must be Zen');
 check(pkg?.main === 'electron/main.cjs', 'package.json main must be electron/main.cjs');
 const macTargets = JSON.stringify(pkg?.build?.mac ?? {});
 const winTargets = JSON.stringify(pkg?.build?.win ?? {});
@@ -58,12 +58,12 @@ check(pkg?.license === 'MIT', 'package.json license must be MIT');
 check(pkg?.repository?.url === 'https://github.com/marodriguezd/Omega.git', 'package.json repository must point at marodriguezd/Omega');
 check(pkg?.homepage === 'https://github.com/marodriguezd/Omega', 'package.json homepage must be set');
 check(/^\d+\.\d+\.\d+(-[\w.]+)?$/.test(pkg?.version ?? ''), 'package.json version must be semver (single source of truth)');
-check(pkg?.build?.win?.executableName === 'Omega', 'win executableName must be Omega');
-check(pkg?.build?.linux?.executableName === 'Omega', 'linux executableName must be Omega');
+check(pkg?.build?.win?.executableName === 'Zen', 'win executableName must be Zen');
+check(pkg?.build?.linux?.executableName === 'Zen', 'linux executableName must be Zen');
 // Artifact naming must derive from ${version} on every target
 for (const section of ['mac', 'win', 'linux', 'dmg', 'msi']) {
   const name = pkg?.build?.[section]?.artifactName ?? '';
-  check(/Omega-\$\{version\}/.test(name), `build.${section}.artifactName must be Omega-\${version}.\${ext}`);
+  check(/Zen-\$\{version\}/.test(name), `build.${section}.artifactName must be Zen-\${version}.\${ext}`);
 }
 // Native icons per target (generated from public/assets/icon.png)
 check(exists('build/icon.png'), 'build/icon.png is missing (authoritative 512x512 copy)');

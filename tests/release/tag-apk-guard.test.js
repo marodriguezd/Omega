@@ -230,7 +230,7 @@ describe('Release hardening — tag builds can never publish debug APKs', () => 
     const yml = readProjectFile('.github/workflows/android.yml') || '';
     assert.match(
       yml,
-      /build-output\/Omega-\$\{VERSION\}\.apk/,
+      /build-output\/Zen-\$\{VERSION\}\.apk/,
       'published APK filename must carry the package.json version',
     );
   });

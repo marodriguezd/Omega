@@ -7,7 +7,7 @@ describe('Release hardening — metadata, naming and version truth', () => {
 
   it('R1. package.json carries full release identity (appId, names, license, repo)', () => {
     assert.strictEqual(pkg?.build?.appId, 'com.marodriguezd.omega');
-    assert.strictEqual(pkg?.build?.productName, 'Omega');
+    assert.strictEqual(pkg?.build?.productName, 'Zen');
     assert.strictEqual(pkg?.license, 'MIT');
     assert.strictEqual(pkg?.repository?.url, 'https://github.com/marodriguezd/Omega.git');
     assert.strictEqual(pkg?.homepage, 'https://github.com/marodriguezd/Omega');
@@ -18,17 +18,17 @@ describe('Release hardening — metadata, naming and version truth', () => {
     assert.match(pkg?.version ?? '', /^\d+\.\d+\.\d+(-[\w.]+)?$/, 'version must be semver');
     const cap = readProjectFile('capacitor.config.ts') || '';
     assert.match(cap, /appId:\s*['"]com\.marodriguezd\.omega['"]/, 'capacitor appId must match builder appId');
-    assert.match(cap, /appName:\s*['"]Omega['"]/, 'capacitor appName must match productName');
+    assert.match(cap, /appName:\s*['"]Zen['"]/, 'capacitor appName must match productName');
   });
 
   it('R3. every target derives artifact names from ${version}', () => {
     for (const section of ['mac', 'win', 'linux', 'dmg', 'msi']) {
       const name = pkg?.build?.[section]?.artifactName ?? '';
-      assert.match(name, /Omega-\$\{version\}/, `build.${section}.artifactName must embed version`);
+      assert.match(name, /Zen-\$\{version\}/, `build.${section}.artifactName must embed version`);
     }
-    assert.strictEqual(pkg?.build?.win?.executableName, 'Omega');
-    assert.strictEqual(pkg?.build?.linux?.executableName, 'Omega');
-    assert.strictEqual(pkg?.desktopName, 'Omega', 'root desktopName must be Omega for WM_CLASS association');
+    assert.strictEqual(pkg?.build?.win?.executableName, 'Zen');
+    assert.strictEqual(pkg?.build?.linux?.executableName, 'Zen');
+    assert.strictEqual(pkg?.desktopName, 'Zen', 'root desktopName must be Zen for WM_CLASS association');
     assert.strictEqual(pkg?.build?.linux?.syncDesktopName, true, 'linux must sync .desktop name with app_id');
   });
 
@@ -38,10 +38,10 @@ describe('Release hardening — metadata, naming and version truth', () => {
     const meta = JSON.parse(out);
     assert.strictEqual(meta.version, pkg.version);
     assert.deepStrictEqual(meta.artifacts, {
-      apk: `Omega-${pkg.version}.apk`,
-      dmg: `Omega-${pkg.version}.dmg`,
-      msi: `Omega-${pkg.version}.msi`,
-      appimage: `Omega-${pkg.version}.AppImage`,
+      apk: `Zen-${pkg.version}.apk`,
+      dmg: `Zen-${pkg.version}.dmg`,
+      msi: `Zen-${pkg.version}.msi`,
+      appimage: `Zen-${pkg.version}.AppImage`,
     });
     // Matching tag passes …
     execFileSync('node', ['scripts/release-meta.mjs', `--tag=v${pkg.version}`], { stdio: 'pipe' });
@@ -93,7 +93,7 @@ describe('Release hardening — metadata, naming and version truth', () => {
       );
       assert.match(
         text,
-        new RegExp(`releases/download/v${pkg.version}/Omega-${pkg.version}\\.apk`),
+        new RegExp(`releases/download/v${pkg.version}/Zen-${pkg.version}\\.apk`),
         `${doc} must link the pinned v${pkg.version} release asset`,
       );
     }

@@ -185,8 +185,8 @@ jobs:
             fi
             echo "Found built APK at: $APK_FILE"
             VERSION=$(node -p "require('./package.json').version")
-            cp "$APK_FILE" build-output/Omega.apk
-            cp "$APK_FILE" "build-output/Omega-${VERSION}.apk"
+            cp "$APK_FILE" build-output/Zen.apk
+            cp "$APK_FILE" "build-output/Zen-${VERSION}.apk"
             # Platform-scoped metadata names: desktop.yml publishes
             # manifest-mac/windows/linux.json + SHA256SUMS-desktop.txt to the
             # same tag concurrently, so shared names (manifest.json /
@@ -234,7 +234,7 @@ jobs:
               exit 1
               ;;
           esac
-          RELEASE_TITLE="Omega ${RELEASE_TAG}"
+          RELEASE_TITLE="Zen ${RELEASE_TAG}"
           VERSION=$(node -p "require('./package.json').version")
 
           echo "Target release tag: $RELEASE_TAG"
