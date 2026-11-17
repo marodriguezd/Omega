@@ -9,8 +9,6 @@ import { enableKeepAwake, disableKeepAwake, registerBackButtonHandler } from './
 import BubbleBreathingApp from '../Bubble-Breathing/src/App';
 import HydrocicleApp from '../Hydrocicle/src/App';
 import { ChallengesScreen } from './components/ChallengesScreen';
-
-initAllTranslations();
 import { ProgressScreen } from './components/ProgressScreen';
 import { useOmegaStats } from './hooks/useOmegaStats';
 
@@ -20,6 +18,10 @@ import './styles/responsive.css';
 import './styles/animations.css';
 
 export function App() {
+  useState(() => {
+    initAllTranslations();
+    return true;
+  });
   const { stats } = useOmegaStats();
   const [activeTab, setActiveTab] = useState<TabType>('hub');
   const [currentLang, setCurrentLang] = useState<string>(() => {
@@ -53,10 +55,6 @@ export function App() {
 
     localStorage.setItem('omega_zoom', currentZoom.toString());
   }, [currentZoom]);
-
-  useEffect(() => {
-    initAllTranslations();
-  }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', currentTheme);

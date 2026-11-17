@@ -148,6 +148,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Copiado",
     pasteBackupPlaceholder: "Pega aquí el contenido JSON de tu copia de seguridad...",
     toggleThemeLabel: "Cambiar tema",
+    challengeDayInstruction: "Dúchate con agua caliente normalmente. Al terminar, gira al agua fría y mantén la calma durante {seconds} segundos.",
+    pauseLabel: "Pausa",
+    resumeLabel: "Reanudar",
   },
   en: {
     omegaTitle: "Zen",
@@ -296,6 +299,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Copied",
     pasteBackupPlaceholder: "Paste your backup JSON content here...",
     toggleThemeLabel: "Toggle theme",
+    challengeDayInstruction: "Shower with warm water normally. When finished, switch to cold water and stay calm for {seconds} seconds.",
+    pauseLabel: "Pause",
+    resumeLabel: "Resume",
   },
   fr: {
     omegaTitle: "Zen",
@@ -444,6 +450,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Copié",
     pasteBackupPlaceholder: "Collez ici le contenu JSON de votre sauvegarde...",
     toggleThemeLabel: "Changer de thème",
+    challengeDayInstruction: "Douchez-vous normalement à l'eau chaude. Ensuite, passez à l'eau froide et restez calme pendant {seconds} secondes.",
+    pauseLabel: "Pause",
+    resumeLabel: "Reprendre",
   },
   de: {
     omegaTitle: "Zen",
@@ -592,6 +601,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Kopiert",
     pasteBackupPlaceholder: "Füge hier den JSON-Inhalt deines Backups ein...",
     toggleThemeLabel: "Design wechseln",
+    challengeDayInstruction: "Dusche normal warm. Drehe am Ende auf kaltes Wasser und bleibe {seconds} Sekunden lang ruhig.",
+    pauseLabel: "Pause",
+    resumeLabel: "Fortsetzen",
   },
   it: {
     omegaTitle: "Zen",
@@ -740,6 +752,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Copiato",
     pasteBackupPlaceholder: "Incolla qui il contenuto JSON del tuo backup...",
     toggleThemeLabel: "Cambia tema",
+    challengeDayInstruction: "Fai la doccia calda normalmente. Alla fine, passa all'acqua fredda e mantieni la calma per {seconds} secondi.",
+    pauseLabel: "Pausa",
+    resumeLabel: "Riprendi",
   },
   pt: {
     omegaTitle: "Zen",
@@ -888,6 +903,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "Copiado",
     pasteBackupPlaceholder: "Cole aqui o conteúdo JSON do seu backup...",
     toggleThemeLabel: "Alternar tema",
+    challengeDayInstruction: "Tome banho quente normalmente. Ao terminar, mude para água fria e mantenha a calma por {seconds} segundos.",
+    pauseLabel: "Pausa",
+    resumeLabel: "Retomar",
   },
   zh: {
     omegaTitle: "Zen",
@@ -1036,6 +1054,9 @@ export const HUB_TRANSLATIONS: Record<string, Record<string, string>> = {
     copiedLabel: "已复制",
     pasteBackupPlaceholder: "在此粘贴备份的 JSON 内容...",
     toggleThemeLabel: "切换主题",
+    challengeDayInstruction: "先正常洗热水澡，结束时切换到冷水并保持冷静呼吸 {seconds} 秒。",
+    pauseLabel: "暂停",
+    resumeLabel: "继续",
   }
 };
 
@@ -1066,13 +1087,18 @@ export function initAllTranslations() {
   window.translations = merged;
 }
 
-/** Resolve a translation key synchronously using the active language. */
 export function getActiveTranslation(key: string, defaultVal: string): string {
   if (typeof window === 'undefined') return defaultVal;
-  const lang = localStorage.getItem('omega_language') || 'es';
+  let lang = localStorage.getItem('omega_language');
+  if (!lang) {
+    try {
+      lang = JSON.parse(localStorage.getItem('bubbleBreathingConfig') || '{}').language;
+    } catch (_) {}
+  }
+  const activeLang = lang || 'es';
   return (
-    window.translations?.[lang]?.[key] ||
-    HUB_TRANSLATIONS[lang]?.[key] ||
+    window.translations?.[activeLang]?.[key] ||
+    HUB_TRANSLATIONS[activeLang]?.[key] ||
     HUB_TRANSLATIONS['es']?.[key] ||
     defaultVal
   );

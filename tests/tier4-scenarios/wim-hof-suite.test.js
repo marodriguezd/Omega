@@ -582,23 +582,19 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
       assert.strictEqual(phase, 'breathing', `Round ${round} must start in breathing phase`);
       assert.strictEqual(breathRef, 0, `Round ${round} must start with breathRef reset to 0`);
 
-      // Simulate 30 breaths
       for (let b = 1; b <= breathsPerRound; b++) {
         breathRef = b;
       }
       assert.strictEqual(breathRef, breathsPerRound);
 
-      // Automatic transition to retention
       phase = 'retention';
       resetRefsOnLeaveBreathing();
       assert.strictEqual(phase, 'retention');
       assert.strictEqual(breathRef, 0, 'breathRef must reset upon entering retention');
 
-      // Transition to recovery
       phase = 'recovery';
       assert.strictEqual(phase, 'recovery');
 
-      // Recovery completes
       if (currentRound >= totalRounds) {
         phase = 'finished';
       } else {

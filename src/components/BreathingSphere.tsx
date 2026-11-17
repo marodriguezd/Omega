@@ -87,7 +87,7 @@ const PHASE_THEMES: Record<SpherePhase, {
   }
 };
 
-/** Organic circular breathing bubble with concentric halos and perimeter progress ring. */
+/** Rounded hexagon breathing geometry with concentric halos and perimeter progress ring. */
 export const BreathingSphere: React.FC<BreathingSphereProps> = ({
   phase,
   scale = 1.0,

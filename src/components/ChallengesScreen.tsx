@@ -290,7 +290,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         }}
       >
         <div className="round-info" style={{ color: 'var(--omega-warm-amber, #ff7a00)', fontWeight: 700 }}>
-          {langDict.challengeTitle || 'Reto de 20 Días'} • {langDict.dayLabel || 'Día'} {currentDayItem.day}
+          {langDict.challengeTitle || 'Reto de 20 Días'} • {langDict.dayLabel === '第' ? `第 ${currentDayItem.day} 天` : `${langDict.dayLabel || 'Día'} ${currentDayItem.day}`}
         </div>
 
         <div className="instruction" style={{ color: sessionStage === 'prep' ? 'var(--omega-warm-amber, #ff7a00)' : 'var(--omega-cold-blue, #00d2ff)', fontSize: '1.3rem', fontWeight: 700, minHeight: '2rem' }}>
@@ -358,7 +358,8 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         <div className="controls-panel" style={{ marginTop: '0.8rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
           <button 
             className="control-btn" 
-            title="Cancelar"
+            title={langDict.cancelBtn || 'Cancelar'}
+            aria-label={langDict.cancelBtn || 'Cancelar'}
             onClick={stopDaySession}
           >
             <RotateCcw size={22} />
@@ -366,7 +367,8 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
           <button 
             className="control-btn primary-btn" 
             onClick={handleTogglePlayPause}
-            title={isPlaying ? 'Pausa' : 'Reanudar'}
+            title={isPlaying ? (langDict.pauseLabel || 'Pausa') : (langDict.resumeLabel || 'Reanudar')}
+            aria-label={isPlaying ? (langDict.pauseLabel || 'Pausa') : (langDict.resumeLabel || 'Reanudar')}
           >
             {isPlaying ? <Pause size={28} fill="currentColor" /> : <Play size={28} fill="currentColor" />}
           </button>
@@ -417,7 +419,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Sparkles size={20} color="var(--omega-warm-amber, #ff7a00)" />
             <h4 style={{ margin: 0, fontSize: '1.1rem' }}>
-              {langDict.dayLabel || 'Día'} {currentDayItem.day} ({currentDayItem.targetSec}s)
+              {langDict.dayLabel === '第' ? `第 ${currentDayItem.day} 天` : `${langDict.dayLabel || 'Día'} ${currentDayItem.day}`} ({currentDayItem.targetSec}s)
             </h4>
           </div>
           <span style={{ 
@@ -433,7 +435,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
         </div>
 
         <p style={{ fontSize: '0.85rem', color: 'var(--color-muted)', margin: '0.4rem 0 1rem' }}>
-          Dúchate con agua caliente normalmente. Al terminar, gira al agua fría y mantén la calma durante {currentDayItem.targetSec} segundos.
+          {(langDict.challengeDayInstruction || 'Dúchate con agua caliente normalmente. Al terminar, gira al agua fría y mantén la calma durante {seconds} segundos.').replace('{seconds}', String(currentDayItem.targetSec))}
         </p>
 
         <button 
@@ -450,7 +452,7 @@ export const ChallengesScreen: React.FC<ChallengesScreenProps> = ({ langDict }) 
           }}
         >
           <Play size={18} fill="currentColor" />
-          <span>{langDict.startDayChallengeBtn || 'Iniciar Día'} {currentDayItem.day} ({currentDayItem.targetSec}s)</span>
+          <span>{langDict.dayLabel === '第' ? `开始挑战：第 ${currentDayItem.day} 天` : `${langDict.startDayChallengeBtn || 'Iniciar Día'} ${currentDayItem.day}`} ({currentDayItem.targetSec}s)</span>
         </button>
       </div>
 
