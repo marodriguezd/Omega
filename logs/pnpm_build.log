@@ -8,8 +8,8 @@ computing gzip size...
 [2mdist/[22m[2massets/[22m[32moutfit-latin-ext-DdQaqQDo.woff2  [39m[1m[2m 14.81 kB[22m[1m[22m
 [2mdist/[22m[2massets/[22m[32moutfit-latin-Bc-8i84L.woff2      [39m[1m[2m 32.29 kB[22m[1m[22m
 [2mdist/[22m[2massets/[22m[35mindex-BBfgcuo2.css               [39m[1m[2m 90.76 kB[22m[1m[22m[2m │ gzip:  15.10 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-DdzByNDs.js                  [39m[1m[2m  0.84 kB[22m[1m[22m[2m │ gzip:   0.40 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-CVtg7cu1.js                  [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
-[2mdist/[22m[2massets/[22m[36mweb-z5fi0gcJ.js                  [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
-[2mdist/[22m[2massets/[22m[36mindex-B_2PSyaX.js                [39m[1m[2m479.96 kB[22m[1m[22m[2m │ gzip: 139.60 kB[22m
-[32m✓ built in 2.80s[39m
+[2mdist/[22m[2massets/[22m[36mweb-Cp-o6L_F.js                  [39m[1m[2m  0.84 kB[22m[1m[22m[2m │ gzip:   0.40 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-D5WFlSx4.js                  [39m[1m[2m  0.94 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
+[2mdist/[22m[2massets/[22m[36mweb-Bywbvm96.js                  [39m[1m[2m  1.16 kB[22m[1m[22m[2m │ gzip:   0.47 kB[22m
+[2mdist/[22m[2massets/[22m[36mindex-9jFABw5G.js                [39m[1m[2m481.90 kB[22m[1m[22m[2m │ gzip: 140.28 kB[22m
+[32m✓ built in 3.29s[39m
