@@ -14,4 +14,4 @@ computing gzip size...
 [2mdist/[22m[2massets/[22m[36mvendor-react-CU_pItKF.js         [39m[1m[2m  3.90 kB[22m[1m[22m[2m │ gzip:   1.52 kB[22m
 [2mdist/[22m[2massets/[22m[36mvendor-icons-B-eJ-hyq.js         [39m[1m[2m 27.32 kB[22m[1m[22m[2m │ gzip:   7.50 kB[22m
 [2mdist/[22m[2massets/[22m[36mindex-BBDuk4p4.js                [39m[1m[2m442.75 kB[22m[1m[22m[2m │ gzip: 129.88 kB[22m
-[32m✓ built in 2.07s[39m
+[32m✓ built in 2.10s[39m
