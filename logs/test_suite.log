@@ -13,7 +13,7 @@ Project Root: /home/runner/work/Zen/Zen
   ✔ [PASS] T1.R1.3: Frosted glassmorphism tokens and luminous borders must be declared (0ms)
   ✔ [PASS] T1.R1.4: Unified UI controls (buttons, modals, switches) must apply design tokens and glassmorphism (0ms)
   ✔ [PASS] T1.R1.5: Breathing sphere geometry must be organic and circular, eliminating sharp polygons (0ms)
-  ✔ [PASS] T1.R2.1: Key animated elements must restrict mutations to GPU-accelerated transform, opacity, and will-change (2ms)
+  ✔ [PASS] T1.R2.1: Key animated elements must restrict mutations to GPU-accelerated transform, opacity, and will-change (1ms)
   ✔ [PASS] T1.R2.2: Header and session progress bars must eliminate layout thrashing by avoiding width animations (0ms)
   ✔ [PASS] T1.R2.3: Golden glow and pulsating animations must avoid expensive box-shadow keyframes (0ms)
   ✔ [PASS] T1.R2.4: CSS transition and animation syntax must be valid without invalid combinations (0ms)
@@ -30,12 +30,12 @@ Project Root: /home/runner/work/Zen/Zen
   ✔ [PASS] T1.R4.5: Haptics abstraction must route to Capacitor on mobile, Web vibrate on browser, and no-op on Electron (0ms)
 
 ▶ Executing Tier 2: Boundary & Corner Cases (R1-R4)...
-  ✔ [PASS] T2.R1.1: Extreme UI Zoom Scaling Clamp must strictly bound scale factor between 0.8 and 2.2 (1ms)
+  ✔ [PASS] T2.R1.1: Extreme UI Zoom Scaling Clamp must strictly bound scale factor between 0.8 and 2.2 (0ms)
   ✔ [PASS] T2.R1.2: Volcanic basalt background and primary text must achieve WCAG 2.1 AAA contrast ratio (>= 7.0:1) (0ms)
-  ✔ [PASS] T2.R1.3: Rapid high-frequency theme toggling must maintain DOM and LocalStorage state consistency (1ms)
+  ✔ [PASS] T2.R1.3: Rapid high-frequency theme toggling must maintain DOM and LocalStorage state consistency (0ms)
   ✔ [PASS] T2.R1.4: Critical CSS custom property declarations must support fallback values (0ms)
   ✔ [PASS] T2.R1.5: Squircle tokens must maintain distinct hierarchy with non-zero dimensions across sm, md, lg (0ms)
-  ✔ [PASS] T2.R2.1: Frame budget verification across high-refresh rates (60Hz, 90Hz, 120Hz, 144Hz) (1ms)
+  ✔ [PASS] T2.R2.1: Frame budget verification across high-refresh rates (60Hz, 90Hz, 120Hz, 144Hz) (0ms)
   ✔ [PASS] T2.R2.2: Apnea retention long-duration drift simulation proves timestamp delta eliminates cumulative lag (0ms)
   ✔ [PASS] T2.R2.3: Rapid tab switching stress must not create orphaned state or modal race conditions (1ms)
   ✔ [PASS] T2.R2.4: Zero and negative duration timer boundary inputs must be safely clamped (0ms)
@@ -49,7 +49,7 @@ Project Root: /home/runner/work/Zen/Zen
   ✔ [PASS] T2.R4.2: KeepAwake completes without unhandled rejection when all wake lock mechanisms fail (0ms)
   ✔ [PASS] T2.R4.3: Corrupted LocalStorage JSON configurations must be caught and defaulted safely (1ms)
   ✔ [PASS] T2.R4.4: LocalStorage QuotaExceededError must be caught gracefully during session persistence (0ms)
-  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (12ms)
+  ✔ [PASS] T2.R4.5: Extreme streak and stats boundary values must compute accurately without NaN or overflow (8ms)
 
 ▶ Executing Tier 3: Cross-Feature Combinations...
   ✔ [PASS] T3.C1: Tab switching attempt while Bubble Breathing is active prompts ExitConfirmModal and protects timer (1ms)
@@ -70,19 +70,20 @@ Project Root: /home/runner/work/Zen/Zen
   ✔ [PASS] T4.S8: Wim Hof Hexagonal badges evaluation and unlock conditions (0ms)
   ✔ [PASS] T4.S9: 100% Offline-First JSON backup export and import round-trip (0ms)
   ✔ [PASS] T4.S10: Bi-directional backward compatibility with legacy storage keys (0ms)
-  ✔ [PASS] T4.S11: Blind cold shower guidance with 5-second preparation buffer and milestone chimes (1ms)
+  ✔ [PASS] T4.S11: Blind cold shower guidance with 5-second preparation buffer and milestone chimes (0ms)
   ✔ [PASS] T4.S12: Wim Hof round-by-round retention bar chart formatting and best round detection (0ms)
   ✔ [PASS] T4.S13: Progress screen breathing session history and collapsible breakdown verification (0ms)
   ✔ [PASS] T4.S14: Target retention open stopwatch verification (0ms)
   ✔ [PASS] T4.S15: Water temperature logging, unit conversion, and summary formatting (1ms)
-  ✔ [PASS] T4.S16: Cold exposure 4s/6s calm breathing pacing cadence and persistence (1ms)
+  ✔ [PASS] T4.S16: Cold exposure 4s/6s calm breathing pacing cadence and persistence (0ms)
   ✔ [PASS] T4.S17: Recovery breath hold duration customization (10s, 15s, 20s, 30s) (0ms)
   ✔ [PASS] T4.S18: Real-time Personal Best detection and open-ended celebration during retention (0ms)
   ✔ [PASS] T4.S19: Clean-room physiological breathing cadence speed calculations (Lenta, Normal, Rápida, Personalizada) (0ms)
   ✔ [PASS] T4.S20: Breathwork bodily sensations multi-select check-in and persistence round-trip (0ms)
   ✔ [PASS] T4.S21: Cold exposure physiological response check-in and persistence round-trip (0ms)
   ✔ [PASS] T4.S22: Multi-round Wim Hof breathing cycle resets breath counter between rounds (Breathing -> Retention -> Recovery -> Round 2 Breathing) (0ms)
-  ✔ [PASS] T4.S23: Full 7-language translation key parity across Hub, Bubble-Breathing, and HydroCycle (es, en, fr, de, it, pt, zh) (3ms)
+  ✔ [PASS] T4.S23: Full 7-language translation key parity across Hub, Bubble-Breathing, and HydroCycle (es, en, fr, de, it, pt, zh) (2ms)
+  ✔ [PASS] T4.S24: Contrast shower 5m hot / 2m cold timer targets, countdown, and duration recording (0ms)
 
 ================================================================
                       TEST EXECUTION SUMMARY                    
@@ -92,10 +93,10 @@ Tier                                    | Total | Pass | Fail | Milestones
 Tier 1: Feature Coverage (R1-R4)        |    20 |   20 |    0 | M1, M2, M3, M4
 Tier 2: Boundary & Corner Cases (R1-R4) |    20 |   20 |    0 | M1, M2, M3, M4
 Tier 3: Cross-Feature Combinations      |     6 |    6 |    0 | Integration
-Tier 4: Real-World Application Scenarios |    23 |   23 |    0 | End-to-End User Journeys
+Tier 4: Real-World Application Scenarios |    24 |   24 |    0 | End-to-End User Journeys
 ----------------------------------------+-------+------+------+-----------
-Total Tests: 69 | Passed: 69 | Pending Implementation: 0
-Suite Execution Time: 0.48s
+Total Tests: 70 | Passed: 70 | Pending Implementation: 0
+Suite Execution Time: 0.41s
 ================================================================
 
 🎉 100% of all tests in all 4 tiers PASSED!
