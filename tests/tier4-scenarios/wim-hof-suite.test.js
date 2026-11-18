@@ -648,4 +648,43 @@ describe('Tier 4: Wim Hof Method Suite End-to-End Tests', () => {
       }
     }
   });
+
+  it('T4.S24: Contrast shower 5m hot / 2m cold timer targets, countdown, and duration recording', () => {
+    const config = { hotDuration: 300, coldDuration: 120, rounds: 1 };
+    let phase = config.hotDuration > 0 ? 'hot' : 'cold';
+    let phaseTargetSec = phase === 'hot' ? config.hotDuration : config.coldDuration;
+    let timeLeft = phaseTargetSec;
+    const roundResults = [];
+
+    assert.strictEqual(phase, 'hot');
+    assert.strictEqual(phaseTargetSec, 300);
+    assert.strictEqual(timeLeft, 300);
+
+    // Simulate natural completion of hot phase (elapsed 300s)
+    const hotElapsed = 300;
+    timeLeft = Math.max(0, phaseTargetSec - hotElapsed);
+    assert.strictEqual(timeLeft, 0);
+
+    roundResults.push({ round: 1, hotDuration: phaseTargetSec, coldDuration: 0 });
+    phase = 'cold';
+    phaseTargetSec = config.coldDuration;
+    timeLeft = phaseTargetSec;
+
+    assert.strictEqual(phase, 'cold');
+    assert.strictEqual(phaseTargetSec, 120);
+    assert.strictEqual(timeLeft, 120);
+
+    // Simulate natural completion of cold phase (elapsed 120s)
+    const coldElapsed = 120;
+    timeLeft = Math.max(0, phaseTargetSec - coldElapsed);
+    assert.strictEqual(timeLeft, 0);
+    roundResults[0].coldDuration = phaseTargetSec;
+
+    const totalTime = roundResults.reduce((acc, r) => acc + r.hotDuration + r.coldDuration, 0);
+    const totalColdTime = roundResults.reduce((acc, r) => acc + r.coldDuration, 0);
+    assert.strictEqual(roundResults[0].hotDuration, 300);
+    assert.strictEqual(roundResults[0].coldDuration, 120);
+    assert.strictEqual(totalTime, 420);
+    assert.strictEqual(totalColdTime, 120);
+  });
 });

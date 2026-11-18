@@ -37,7 +37,7 @@ Welcome to **Zen** (repository `marodriguezd/Zen`, formerly *Omega*). This docum
 All changes must be verified against the test suites before completing a turn:
 
 ```bash
-# Functional 4-Tier Test Suite (69 tests: Features, Boundaries, Combinations, Scenarios)
+# Functional 4-Tier Test Suite (70 tests: Features, Boundaries, Combinations, Scenarios)
 rtk pnpm run test
 
 # Platform Suite (21 tests: Electron security, Capacitor config, Native APIs)
@@ -87,6 +87,6 @@ Zen/ (local dir: Omega/)
 
 - **Single Source of Truth**: `package.json` `"version"` (semver).
 - **Android Version**: [`android/app/build.gradle`](file:///android/app/build.gradle) `versionName` **must** match `package.json`.
-- **Git Tags**: Production releases trigger on `v*` tags (e.g. `v1.0.3`).
+- **Git Tags**: Production releases trigger on `v*` tags (e.g. `v1.0.4`).
 - **Concurrent CI Publishes**: Both `android.yml` and `desktop.yml` upload platform-scoped assets (`manifest-android.json`, `SHA256SUMS-android.txt` vs `manifest-*.json`, `SHA256SUMS-desktop.txt`) with race-safe clobbering to GitHub Releases.
 - **Signing**: Secrets provide production keys (`ANDROID_KEYSTORE_BASE64`); dev/ephemeral keystores are used automatically when secrets are absent. Never commit private keys or `.jks` files.

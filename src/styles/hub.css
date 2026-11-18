@@ -285,6 +285,12 @@ body {
   padding-right: calc(1rem + env(safe-area-inset-right, 0px)) !important;
 }
 
+.omega-view #resultsContent {
+  max-height: none !important;
+  overflow-y: visible !important;
+  padding-right: 0 !important;
+}
+
 /* Hexagon responsive adaptation */
 .omega-view .breathing-sphere-container,
 .omega-view .hexagon-container {
